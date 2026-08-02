@@ -312,6 +312,21 @@
   .form-success svg { color: var(--gold-l); flex-shrink: 0; }
   .form-success-text { font-size: 0.88rem; color: var(--gold-l); font-weight: 500; }
 
+  .form-error {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    margin-top: 12px;
+    padding: 14px 20px;
+    background: rgba(196,90,58,0.09);
+    border: 1px solid rgba(196,90,58,0.30);
+    border-radius: var(--r);
+    max-width: 430px;
+  }
+  .form-error.visible { display: flex; }
+  .form-error svg { color: #C87A5A; flex-shrink: 0; }
+  .form-error-text { font-size: 0.86rem; color: #D9987A; font-weight: 500; }
+
   /* ── Broadcast frame visual ── */
   .broadcast-frame {
     position: relative;
@@ -1584,6 +1599,18 @@
       <span class="form-success-text">
         <span data-lang="it">Sei in lista. Ti contatteremo presto.</span>
         <span data-lang="en">You're on the list. We'll be in touch.</span>
+      </span>
+    </div>
+
+    <div class="form-error" id="hero-error">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+        <line x1="8" y1="5" x2="8" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+        <circle cx="8" cy="11.2" r="0.9" fill="currentColor"/>
+      </svg>
+      <span class="form-error-text">
+        <span data-lang="it">Qualcosa è andato storto. Riprova o scrivi a hello@avarcast.com.</span>
+        <span data-lang="en">Something went wrong. Try again or email hello@avarcast.com.</span>
       </span>
     </div>
 
@@ -2952,6 +2979,17 @@
           <span data-lang="en">You'll receive a notification as soon as AVARCAST is available.</span>
         </div>
       </div>
+      <div class="form-error" id="cta-error" style="margin-left:auto;margin-right:auto;">
+        <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+          <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+          <line x1="8" y1="5" x2="8" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+          <circle cx="8" cy="11.2" r="0.9" fill="currentColor"/>
+        </svg>
+        <span class="form-error-text">
+          <span data-lang="it">Qualcosa è andato storto. Riprova o scrivi a hello@avarcast.com.</span>
+          <span data-lang="en">Something went wrong. Try again or email hello@avarcast.com.</span>
+        </span>
+      </div>
       <div class="cta-note" id="cta-note">
         <span data-lang="it">Nessun costo · Nessuno spam · Disdici quando vuoi</span>
         <span data-lang="en">No cost · No spam · Unsubscribe anytime</span>
@@ -3018,6 +3056,9 @@
   })();
 
   /* ── Waitlist form ── */
+  const WAITLIST_ENDPOINT = 'https://ekknmsbrniyajprbphvo.supabase.co/functions/v1/avarcast-waitlist';
+  const WAITLIST_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVra25tc2Jybml5YWpwcmJwaHZvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzQwMTg0OTAsImV4cCI6MjA4OTU5NDQ5MH0.KtsFbfk9_ckfs_M-x8TOOCPmrXQrokDvOjGIm1sXBJI';
+
   async function submitWaitlist(e, id) {
     e.preventDefault();
     const email = document.getElementById(id + '-email').value.trim();
@@ -3025,18 +3066,29 @@
     const form = document.getElementById(id + '-form');
     const note = document.getElementById(id + '-note');
     const succ = document.getElementById(id + '-success');
+    const err  = document.getElementById(id + '-error');
     const btn  = form.querySelector('button[type=submit]');
     btn.disabled = true;
+    if (err) err.classList.remove('visible');
     try {
-      await fetch('/api/waitlist', {
+      const res = await fetch(WAITLIST_ENDPOINT, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, lang: document.documentElement.lang })
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': 'Bearer ' + WAITLIST_ANON_KEY,
+          'apikey': WAITLIST_ANON_KEY
+        },
+        body: JSON.stringify({ email, lang: document.documentElement.lang, source: id })
       });
-    } catch (_) {}
-    form.style.display = 'none';
-    if (note) note.style.display = 'none';
-    succ.classList.add('visible');
+      const data = await res.json().catch(() => ({}));
+      if (!res.ok || !data.ok) throw new Error(data.error || 'request_failed');
+      form.style.display = 'none';
+      if (note) note.style.display = 'none';
+      succ.classList.add('visible');
+    } catch (_) {
+      if (err) err.classList.add('visible');
+      btn.disabled = false;
+    }
   }
 
   /* ── Nav scroll shadow ── */
