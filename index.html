@@ -255,8 +255,31 @@
     margin-bottom: 42px;
   }
 
-  .waitlist-form { display: flex; gap: 10px; max-width: 430px; }
+  .waitlist-form { display: flex; flex-wrap: wrap; gap: 10px; max-width: 430px; }
   @media (max-width: 480px) { .waitlist-form { flex-direction: column; } }
+
+  .wl-consent {
+    flex-basis: 100%;
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    margin-top: 2px;
+  }
+  .wl-consent input[type="checkbox"] {
+    accent-color: var(--gold);
+    width: 15px;
+    height: 15px;
+    margin-top: 1px;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+  .wl-consent label {
+    font-size: 0.72rem;
+    color: var(--t-mid);
+    line-height: 1.5;
+    cursor: pointer;
+  }
+  .wl-consent a { color: var(--gold-l); text-decoration: underline; text-underline-offset: 2px; }
 
   .wl-input {
     flex: 1;
@@ -1079,8 +1102,9 @@
     margin-bottom: 44px;
   }
 
-  .cta-form { display: flex; gap: 10px; max-width: 460px; margin: 0 auto; }
+  .cta-form { display: flex; flex-wrap: wrap; gap: 10px; max-width: 460px; margin: 0 auto; }
   @media (max-width: 480px) { .cta-form { flex-direction: column; } }
+  .cta-form .wl-consent { justify-content: center; text-align: left; }
 
   .cta-input {
     flex: 1;
@@ -1588,6 +1612,13 @@
         <span data-lang="it">Entra</span>
         <span data-lang="en">Join</span>
       </button>
+      <div class="wl-consent">
+        <input type="checkbox" id="hero-consent" required />
+        <label for="hero-consent">
+          <span data-lang="it">Ho letto e accetto la <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          <span data-lang="en">I have read and accept the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+        </label>
+      </div>
     </form>
 
     <div class="form-success" id="hero-success">
@@ -2968,6 +2999,13 @@
           <span data-lang="it">Entra nella lista</span>
           <span data-lang="en">Join the list</span>
         </button>
+        <div class="wl-consent">
+          <input type="checkbox" id="cta-consent" required />
+          <label for="cta-consent">
+            <span data-lang="it">Ho letto e accetto la <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+            <span data-lang="en">I have read and accept the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+          </label>
+        </div>
       </form>
       <div class="cta-success" id="cta-success">
         <div class="cta-success-title">
@@ -3016,7 +3054,7 @@
       </div>
     </div>
     <div style="text-align:center; font-family:var(--f-mono); font-size:0.52rem; letter-spacing:0.08em; color:var(--t-low); margin-top:16px; padding-top:12px; border-top:1px solid var(--wire);">
-      Obiriec Labs reserves the right to discontinue any service at any time. <a href="https://obirieclabs.com/terms.html" style="color:var(--t-mid);">Terms</a>
+      Obiriec Labs reserves the right to discontinue any service at any time. <a href="https://obirieclabs.com/terms.html" style="color:var(--t-mid);">Terms</a> · <a href="privacy.html" style="color:var(--t-mid);">Privacy</a>
     </div>
   </div>
 </footer>
@@ -3063,6 +3101,9 @@
     e.preventDefault();
     const email = document.getElementById(id + '-email').value.trim();
     if (!email) return;
+    const consentEl = document.getElementById(id + '-consent');
+    const consent = !consentEl || consentEl.checked;
+    if (!consent) return;
     const form = document.getElementById(id + '-form');
     const note = document.getElementById(id + '-note');
     const succ = document.getElementById(id + '-success');
@@ -3078,7 +3119,7 @@
           'Authorization': 'Bearer ' + WAITLIST_ANON_KEY,
           'apikey': WAITLIST_ANON_KEY
         },
-        body: JSON.stringify({ email, lang: document.documentElement.lang, source: id })
+        body: JSON.stringify({ email, lang: document.documentElement.lang, source: id, consent })
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'request_failed');
