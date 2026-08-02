@@ -852,6 +852,22 @@
     text-underline-offset: 2px;
   }
 
+  .sc-social-links {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    margin-top: 14px;
+  }
+  .sc-link-hint--standalone {
+    text-decoration: none;
+  }
+  .sc-link-hint--standalone:hover,
+  .sc-link-hint--standalone:focus-visible {
+    color: var(--gold-xl);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
   .bespoke-note {
     text-align: center;
     margin-top: 36px;
@@ -2790,7 +2806,7 @@
         </div>
       </a>
 
-      <!-- Card 3: Elena Vairelli (nessun canale pubblico ancora — non cliccabile) -->
+      <!-- Card 3: Elena Vairelli -->
       <div class="showcase-card">
         <div class="sc-fallback"></div>
         <img class="showcase-photo"
@@ -2812,6 +2828,16 @@
           <div class="sc-desc">
             <span data-lang="it">Una modella digitale che presenta un prodotto in più scene, con volto, voce e ambientazione sempre coerenti.</span>
             <span data-lang="en">A digital model presenting a product across multiple scenes, with a consistent face, voice and setting.</span>
+          </div>
+          <div class="sc-social-links">
+            <a class="sc-link-hint sc-link-hint--standalone" href="https://www.instagram.com/ai.elena.vairelli/" target="_blank" rel="noopener noreferrer" aria-label="Elena Vairelli su Instagram (si apre in una nuova scheda)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>Instagram</span>
+            </a>
+            <a class="sc-link-hint sc-link-hint--standalone" href="https://www.tiktok.com/@ai.elena.vairelli" target="_blank" rel="noopener noreferrer" aria-label="Elena Vairelli su TikTok (si apre in una nuova scheda)">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+              <span>TikTok</span>
+            </a>
           </div>
         </div>
       </div>
