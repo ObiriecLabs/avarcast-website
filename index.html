@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>AVARCAST — Il tuo avatar AI. I tuoi video.</title>
-  <meta name="description" content="Crea il tuo avatar AI personalizzato. Genera video professionali da testo — senza set, senza telecamere, senza riprese." />
-  <meta property="og:title" content="AVARCAST — Crea il tuo avatar AI" />
-  <meta property="og:description" content="Il tuo avatar digitale parla al posto tuo. Video, corsi, presentazioni — generati dall'AI in pochi minuti." />
+  <title>AVARCAST — Il tuo avatar AI. Realizzato per te.</title>
+  <meta name="description" content="Avatar AI su misura, realizzati dal nostro team. Video professionali per corsi, presentazioni, contenuti — senza set, senza telecamere." />
+  <meta property="og:title" content="AVARCAST — Il tuo avatar AI, realizzato per te" />
+  <meta property="og:description" content="Progettiamo e produciamo il tuo avatar digitale su misura. Video, corsi, presentazioni — a cura del nostro team." />
   <meta property="og:type" content="website" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -1121,6 +1121,14 @@
   .cta-input::placeholder { color: var(--t-low); }
   .cta-input:focus { border-color: rgba(200,149,58,0.45); }
 
+  .cta-message {
+    flex-basis: 100%;
+    resize: vertical;
+    min-height: 64px;
+    font-family: var(--f-sans);
+    line-height: 1.5;
+  }
+
   .cta-btn {
     padding: 14px 28px;
     background: var(--gold);
@@ -1578,8 +1586,8 @@
     </div>
     <a href="#cta" class="nav-waitlist">
       <span class="live-dot"></span>
-      <span data-lang="it">Lista d'attesa</span>
-      <span data-lang="en">Waitlist</span>
+      <span data-lang="it">Richiedi preventivo</span>
+      <span data-lang="en">Get a quote</span>
     </a>
   </div>
 </nav>
@@ -1590,18 +1598,18 @@
   <div class="hero-copy">
     <div class="hero-badge fade-up">
       <span class="live-dot"></span>
-      <span data-lang="it">Accesso anticipato aperto</span>
-      <span data-lang="en">Early access open</span>
+      <span data-lang="it">Accettiamo nuovi progetti</span>
+      <span data-lang="en">Now accepting new projects</span>
     </div>
 
     <h1 class="hero-h1 fade-up delay-1">
-      <span data-lang-block="it">Il tuo avatar AI.<br><em class="gold-text">I tuoi video.</em><br>Zero riprese.</span>
-      <span data-lang-block="en">Your AI avatar.<br><em class="gold-text">Your videos.</em><br>Zero filming.</span>
+      <span data-lang-block="it">Il tuo avatar AI.<br><em class="gold-text">Realizzato per te.</em><br>Zero riprese.</span>
+      <span data-lang-block="en">Your AI avatar.<br><em class="gold-text">Made for you.</em><br>Zero filming.</span>
     </h1>
 
     <p class="hero-sub fade-up delay-2">
-      <span data-lang="it">Crea il tuo avatar digitale personalizzato. Genera video professionali da testo — corsi, presentazioni, contenuti — senza set, senza telecamere, senza perdere tempo.</span>
-      <span data-lang="en">Create your personal AI avatar. Generate professional videos from text — courses, presentations, content — no studio, no cameras, no wasted time.</span>
+      <span data-lang="it">Progettiamo e realizziamo il tuo avatar digitale su misura: video professionali per corsi, presentazioni, contenuti — sceneggiatura, generazione AI e post-produzione a cura del nostro team.</span>
+      <span data-lang="en">We design and produce your digital avatar, made to order: professional videos for courses, presentations, content — script, AI generation and post-production handled by our team.</span>
     </p>
 
     <form class="waitlist-form fade-up delay-3" id="hero-form" onsubmit="submitWaitlist(event,'hero')">
@@ -1609,8 +1617,8 @@
         data-placeholder-it="La tua email" data-placeholder-en="Your email"
         placeholder="La tua email" autocomplete="email" />
       <button class="wl-btn" type="submit">
-        <span data-lang="it">Entra</span>
-        <span data-lang="en">Join</span>
+        <span data-lang="it">Richiedi</span>
+        <span data-lang="en">Request</span>
       </button>
       <div class="wl-consent">
         <input type="checkbox" id="hero-consent" required />
@@ -1628,8 +1636,8 @@
           stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <span class="form-success-text">
-        <span data-lang="it">Sei in lista. Ti contatteremo presto.</span>
-        <span data-lang="en">You're on the list. We'll be in touch.</span>
+        <span data-lang="it">Richiesta ricevuta. Ti contatteremo entro 48h.</span>
+        <span data-lang="en">Request received. We'll get back to you within 48h.</span>
       </span>
     </div>
 
@@ -1646,8 +1654,8 @@
     </div>
 
     <p class="form-note fade-up delay-4" id="hero-note">
-      <span data-lang="it">Nessuna carta di credito · Accesso gratuito</span>
-      <span data-lang="en">No credit card · Free access</span>
+      <span data-lang="it">Risposta entro 48h · Nessun impegno</span>
+      <span data-lang="en">Response within 48h · No obligation</span>
     </p>
   </div>
 
@@ -1686,9 +1694,12 @@
               <span data-lang="it">Il tuo Avatar</span>
               <span data-lang="en">Your Avatar</span>
             </div>
-            <div class="bc-sub">GENERAZIONE IN CORSO · AI</div>
+            <div class="bc-sub">
+              <span data-lang="it">PRODUZIONE SU MISURA · AI</span>
+              <span data-lang="en">MADE TO ORDER · AI</span>
+            </div>
           </div>
-          <div class="bc-freq">D-ID POWERED</div>
+          <div class="bc-freq">OBIRIEC LABS</div>
         </div>
       </div>
     </div>
@@ -1704,10 +1715,10 @@
       <span class="mq-sep">·</span> <strong>CLONAZIONE VOCALE</strong>
       <span class="mq-sep">·</span> NESSUNA TELECAMERA
       <span class="mq-sep">·</span> <strong>AVARCAST</strong>
-      <span class="mq-sep">·</span> 120+ LINGUE
+      <span class="mq-sep">·</span> PRODUZIONE SU MISURA
       <span class="mq-sep">·</span> <strong>LIP-SYNC PERFETTO</strong>
       <span class="mq-sep">·</span> NESSUN SET
-      <span class="mq-sep">·</span> <strong>VIDEO IN MINUTI</strong>
+      <span class="mq-sep">·</span> <strong>REALIZZATO PER TE</strong>
       <span class="mq-sep">·</span> IL TUO VOLTO DIGITALE
       <span class="mq-sep">·</span>
     </div>
@@ -1717,10 +1728,10 @@
       <span class="mq-sep">·</span> <strong>CLONAZIONE VOCALE</strong>
       <span class="mq-sep">·</span> NESSUNA TELECAMERA
       <span class="mq-sep">·</span> <strong>AVARCAST</strong>
-      <span class="mq-sep">·</span> 120+ LINGUE
+      <span class="mq-sep">·</span> PRODUZIONE SU MISURA
       <span class="mq-sep">·</span> <strong>LIP-SYNC PERFETTO</strong>
       <span class="mq-sep">·</span> NESSUN SET
-      <span class="mq-sep">·</span> <strong>VIDEO IN MINUTI</strong>
+      <span class="mq-sep">·</span> <strong>REALIZZATO PER TE</strong>
       <span class="mq-sep">·</span> IL TUO VOLTO DIGITALE
       <span class="mq-sep">·</span>
     </div>
@@ -1886,8 +1897,8 @@
     </div>
 
     <p class="personas-note">
-      <span data-lang="it">Avatar generati da testo — nessun set, nessuna telecamera, nessuna produzione.</span>
-      <span data-lang="en">Text-generated avatars — no studio, no camera, no production.</span>
+      <span data-lang="it">Avatar realizzati su misura — nessun set, nessuna telecamera, nessuna produzione tradizionale.</span>
+      <span data-lang="en">Avatars made to order — no studio, no camera, no traditional production.</span>
     </p>
   </div>
 </section>
@@ -2114,8 +2125,8 @@
     </div>
 
     <p class="video-demo-note">
-      <span data-lang="it">Demo reali · Voice cloning D-ID API · Lip-sync perfetto · 120+ lingue disponibili</span>
-      <span data-lang="en">Real demos · D-ID API voice cloning · Perfect lip-sync · 120+ languages available</span>
+      <span data-lang="it">Demo reali · Voice cloning · Lip-sync perfetto · Multilingua su richiesta</span>
+      <span data-lang="en">Real demos · Voice cloning · Perfect lip-sync · Multilingual on request</span>
     </p>
   </div>
 </section>
@@ -2702,12 +2713,12 @@
         <span data-lang="en">Custom productions</span>
       </div>
       <h2 class="sec-title">
-        <span data-lang-block="it">Oltre l'avatar singolo:<br>produzioni firmate Obiriec Labs.</span>
-        <span data-lang-block="en">Beyond the single avatar:<br>productions by Obiriec Labs.</span>
+        <span data-lang-block="it">Cosa realizziamo,<br>firmato Obiriec Labs.</span>
+        <span data-lang-block="en">What we make,<br>by Obiriec Labs.</span>
       </h2>
       <p class="sec-sub">
-        <span data-lang="it">Per progetti che vanno oltre una scena: personaggio ricorrente, narrazione multi-episodio, montaggio e color grading curati dal team dietro AVARCAST.</span>
-        <span data-lang="en">For projects that need more than one scene: a recurring character, multi-episode storytelling, editing and color grading handled by the team behind AVARCAST.</span>
+        <span data-lang="it">Dalla scena singola alla serie multi-episodio: personaggio coerente, narrazione, montaggio e color grading curati dal team dietro AVARCAST.</span>
+        <span data-lang="en">From a single scene to a multi-episode series: a consistent character, storytelling, editing and color grading handled by the team behind AVARCAST.</span>
       </p>
       <p class="bespoke-disclaimer">
         <span data-lang="it">Kairos, The Jade Lorven Show ed Elena Vairelli sono produzioni proprietarie di Obiriec Labs e AVARCAST, mostrate come esempio del lavoro realizzabile su commissione.</span>
@@ -2819,12 +2830,12 @@
   <div class="wrap">
     <div class="ch-header">
       <div class="sec-label">
-        <span data-lang="it">La piattaforma</span>
-        <span data-lang="en">The platform</span>
+        <span data-lang="it">Come lavoriamo</span>
+        <span data-lang="en">How we work</span>
       </div>
       <h2 class="sec-title">
-        <span data-lang-block="it">Un avatar.<br>Possibilità infinite.</span>
-        <span data-lang-block="en">One avatar.<br>Infinite possibilities.</span>
+        <span data-lang-block="it">Non un tool.<br>Un team.</span>
+        <span data-lang-block="en">Not a tool.<br>A team.</span>
       </h2>
     </div>
 
@@ -2840,12 +2851,12 @@
           </svg>
         </div>
         <div class="ch-title">
-          <span data-lang="it">Avatar Personalizzato</span>
-          <span data-lang="en">Custom Avatar</span>
+          <span data-lang="it">Character Design & Continuità</span>
+          <span data-lang="en">Character Design & Continuity</span>
         </div>
         <div class="ch-desc">
-          <span data-lang="it">Carica una tua foto o un breve video. La nostra AI — basata su tecnologia D-ID — genera il tuo avatar digitale: volto realistico, voce clonata, espressioni naturali.</span>
-          <span data-lang="en">Upload a photo or a short video clip. Our AI — powered by D-ID technology — creates your digital avatar: realistic face, cloned voice, natural expressions.</span>
+          <span data-lang="it">Costruiamo il tuo avatar da una tua foto o descrizione: volto, voce clonata, espressioni ed espressioni coerenti in ogni scena, con controllo manuale su ogni dettaglio.</span>
+          <span data-lang="en">We build your avatar from a photo or a brief: face, cloned voice, consistent expressions across every scene, with manual control over every detail.</span>
         </div>
       </div>
 
@@ -2862,12 +2873,12 @@
           </svg>
         </div>
         <div class="ch-title">
-          <span data-lang="it">Testo → Video</span>
-          <span data-lang="en">Text → Video</span>
+          <span data-lang="it">Sceneggiatura e Regia</span>
+          <span data-lang="en">Script and Direction</span>
         </div>
         <div class="ch-desc">
-          <span data-lang="it">Scrivi o incolla il tuo script. L'avatar lo legge in video con lip-sync perfetto. Video professionale pronto in pochi minuti — senza riprese, senza montaggio.</span>
-          <span data-lang="en">Write or paste your script. The avatar reads it on video with perfect lip-sync. Professional video ready in minutes — no filming, no editing.</span>
+          <span data-lang="it">Dal tuo brief scriviamo script, shot list e prompt. Generiamo, selezioniamo e rigeneriamo finché ogni scena è approvabile — non pubblichiamo il primo tentativo.</span>
+          <span data-lang="en">From your brief we write the script, shot list and prompts. We generate, select and regenerate until every scene is approval-ready — we don't ship the first attempt.</span>
         </div>
       </div>
 
@@ -2877,18 +2888,19 @@
         <div class="ch-icon">
           <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <circle cx="12" cy="12" r="10"/>
-            <line x1="2" y1="12" x2="22" y2="12"/>
-            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+            <line x1="4" y1="21" x2="4" y2="14"/><line x1="4" y1="10" x2="4" y2="3"/>
+            <line x1="12" y1="21" x2="12" y2="12"/><line x1="12" y1="8" x2="12" y2="3"/>
+            <line x1="20" y1="21" x2="20" y2="16"/><line x1="20" y1="12" x2="20" y2="3"/>
+            <line x1="1" y1="14" x2="7" y2="14"/><line x1="9" y1="8" x2="15" y2="8"/><line x1="17" y1="16" x2="23" y2="16"/>
           </svg>
         </div>
         <div class="ch-title">
-          <span data-lang="it">120+ Lingue</span>
-          <span data-lang="en">120+ Languages</span>
+          <span data-lang="it">Montaggio, Audio e Color</span>
+          <span data-lang="en">Editing, Audio and Color</span>
         </div>
         <div class="ch-desc">
-          <span data-lang="it">Un avatar, ogni mercato. Il tuo avatar parla italiano, inglese, spagnolo, francese e oltre 120 lingue con lip-sync nativo. Un solo contenuto, localizzazione automatica.</span>
-          <span data-lang="en">One avatar, every market. Your avatar speaks Italian, English, Spanish, French and 120+ languages with native lip-sync. One piece of content, automatic localisation.</span>
+          <span data-lang="it">Montaggio in Final Cut Pro, musica e sound design, color grading dedicato. Ricevi un master pronto per la tua destinazione — social, sito, broadcast.</span>
+          <span data-lang="en">Editing in Final Cut Pro, music and sound design, dedicated color grading. You receive a master ready for your destination — social, web, broadcast.</span>
         </div>
       </div>
     </div>
@@ -2905,12 +2917,12 @@
           <span data-lang="en">How it works</span>
         </div>
         <h2 class="sec-title" style="margin-bottom:14px;">
-          <span data-lang-block="it">Tre passi.<br>Il tuo avatar è pronto.</span>
-          <span data-lang-block="en">Three steps.<br>Your avatar is ready.</span>
+          <span data-lang-block="it">Tre passi.<br>Il tuo progetto prende forma.</span>
+          <span data-lang-block="en">Three steps.<br>Your project takes shape.</span>
         </h2>
         <p class="sec-sub" style="margin-bottom:40px;">
-          <span data-lang="it">Il processo è semplice. Il risultato è professionale.</span>
-          <span data-lang="en">The process is simple. The result is professional.</span>
+          <span data-lang="it">Il processo è guidato dal nostro team. Il risultato è approvato da te prima della consegna.</span>
+          <span data-lang="en">The process is led by our team. The result is approved by you before delivery.</span>
         </p>
 
         <div class="steps">
@@ -2918,12 +2930,12 @@
             <div class="step-n">01</div>
             <div>
               <div class="step-title">
-                <span data-lang="it">Carica</span>
-                <span data-lang="en">Upload</span>
+                <span data-lang="it">Raccontaci il progetto</span>
+                <span data-lang="en">Tell us about it</span>
               </div>
               <div class="step-desc">
-                <span data-lang="it">Carica una tua foto o un breve video di te stesso. Bastano 30 secondi di ripresa. Niente set, niente luci, niente attrezzatura speciale.</span>
-                <span data-lang="en">Upload a photo or a short video of yourself. Just 30 seconds of footage. No set, no lights, no special equipment.</span>
+                <span data-lang="it">Richiedi un preventivo: cosa vuoi realizzare, per quale canale, con che tono. Ti rispondiamo entro 48h con una proposta e un prezzo.</span>
+                <span data-lang="en">Request a quote: what you want to make, for which channel, with what tone. We reply within 48h with a proposal and a price.</span>
               </div>
             </div>
           </div>
@@ -2931,12 +2943,12 @@
             <div class="step-n">02</div>
             <div>
               <div class="step-title">
-                <span data-lang="it">Genera il tuo Avatar</span>
-                <span data-lang="en">Generate your Avatar</span>
+                <span data-lang="it">Costruiamo il tuo avatar</span>
+                <span data-lang="en">We build your avatar</span>
               </div>
               <div class="step-desc">
-                <span data-lang="it">La nostra AI addestra il tuo avatar personalizzato: volto realistico, voce clonata, lip-sync preciso. In pochi minuti il tuo gemello digitale è operativo.</span>
-                <span data-lang="en">Our AI trains your custom avatar: realistic face, cloned voice, precise lip-sync. In minutes your digital twin is ready to work.</span>
+                <span data-lang="it">Da una tua foto o descrizione realizziamo il character design: volto, voce clonata, coerenza in ogni scena. Approvi il personaggio prima di procedere.</span>
+                <span data-lang="en">From a photo or a brief we build the character design: face, cloned voice, consistency across every scene. You approve the character before we proceed.</span>
               </div>
             </div>
           </div>
@@ -2944,12 +2956,12 @@
             <div class="step-n">03</div>
             <div>
               <div class="step-title">
-                <span data-lang="it">Genera il Video</span>
-                <span data-lang="en">Generate the Video</span>
+                <span data-lang="it">Produzione e consegna</span>
+                <span data-lang="en">Production and delivery</span>
               </div>
               <div class="step-desc">
-                <span data-lang="it">Scrivi o incolla il tuo script. Il tuo avatar genera il video in pochi minuti. Pronto per YouTube, LinkedIn, corsi online, presentazioni aziendali.</span>
-                <span data-lang="en">Write or paste your script. Your avatar generates the video in minutes. Ready for YouTube, LinkedIn, online courses, corporate presentations.</span>
+                <span data-lang="it">Generiamo, selezioniamo, montiamo e coloriamo. Ricevi un master pronto per YouTube, LinkedIn, corsi online, presentazioni aziendali.</span>
+                <span data-lang="en">We generate, select, edit and color grade. You receive a master ready for YouTube, LinkedIn, online courses, corporate presentations.</span>
               </div>
             </div>
           </div>
@@ -2984,20 +2996,23 @@
         <span data-lang="en">Early access</span>
       </div>
       <h2 class="cta-title">
-        <span data-lang-block="it">Pronto a creare il tuo<br><em class="gold-text">avatar AI?</em></span>
-        <span data-lang-block="en">Ready to create your<br><em class="gold-text">AI avatar?</em></span>
+        <span data-lang-block="it">Pronto a realizzare il tuo<br><em class="gold-text">progetto?</em></span>
+        <span data-lang-block="en">Ready to make your<br><em class="gold-text">project?</em></span>
       </h2>
       <p class="cta-sub">
-        <span data-lang="it">Entra in lista d'attesa. Ricevi l'accesso anticipato e genera i tuoi primi video con AVARCAST prima di tutti gli altri.</span>
-        <span data-lang="en">Join the waitlist. Get early access and generate your first videos with AVARCAST before everyone else.</span>
+        <span data-lang="it">Raccontaci cosa vuoi realizzare. Ti rispondiamo entro 48h con una proposta su misura e un preventivo.</span>
+        <span data-lang="en">Tell us what you want to make. We reply within 48h with a tailored proposal and a quote.</span>
       </p>
       <form class="cta-form" id="cta-form" onsubmit="submitWaitlist(event,'cta')">
         <input class="cta-input" id="cta-email" type="email" required
           data-placeholder-it="La tua email" data-placeholder-en="Your email"
           placeholder="La tua email" autocomplete="email" />
+        <textarea class="cta-input cta-message" id="cta-message" rows="3"
+          data-placeholder-it="Cosa vuoi realizzare? (opzionale)" data-placeholder-en="What do you want to make? (optional)"
+          placeholder="Cosa vuoi realizzare? (opzionale)"></textarea>
         <button class="cta-btn" type="submit">
-          <span data-lang="it">Entra nella lista</span>
-          <span data-lang="en">Join the list</span>
+          <span data-lang="it">Richiedi un preventivo</span>
+          <span data-lang="en">Request a quote</span>
         </button>
         <div class="wl-consent">
           <input type="checkbox" id="cta-consent" required />
@@ -3009,12 +3024,12 @@
       </form>
       <div class="cta-success" id="cta-success">
         <div class="cta-success-title">
-          <span data-lang="it">Sei dentro.</span>
-          <span data-lang="en">You're in.</span>
+          <span data-lang="it">Richiesta ricevuta.</span>
+          <span data-lang="en">Request received.</span>
         </div>
         <div class="cta-success-sub">
-          <span data-lang="it">Riceverai una notifica non appena AVARCAST sarà disponibile.</span>
-          <span data-lang="en">You'll receive a notification as soon as AVARCAST is available.</span>
+          <span data-lang="it">Ti contatteremo entro 48h con una proposta.</span>
+          <span data-lang="en">We'll contact you within 48h with a proposal.</span>
         </div>
       </div>
       <div class="form-error" id="cta-error" style="margin-left:auto;margin-right:auto;">
@@ -3029,8 +3044,8 @@
         </span>
       </div>
       <div class="cta-note" id="cta-note">
-        <span data-lang="it">Nessun costo · Nessuno spam · Disdici quando vuoi</span>
-        <span data-lang="en">No cost · No spam · Unsubscribe anytime</span>
+        <span data-lang="it">Preventivo gratuito · Nessun impegno · Risposta entro 48h</span>
+        <span data-lang="en">Free quote · No obligation · Response within 48h</span>
       </div>
     </div>
   </div>
@@ -3046,7 +3061,7 @@
           © 2026 AVARCAST — <a href="https://obirieclabs.com" target="_blank" rel="noopener">OBIRIEC LABS</a>
         </div>
         <div class="footer-line" style="font-size:0.54rem; letter-spacing:0.12em; margin-top:2px;">
-          AVATAR AI GENERATIVO · POWERED BY D-ID · 2026
+          AVATAR AI GENERATIVO · PRODUZIONE SU MISURA · 2026
         </div>
       </div>
       <div class="footer-right">
@@ -3104,6 +3119,8 @@
     const consentEl = document.getElementById(id + '-consent');
     const consent = !consentEl || consentEl.checked;
     if (!consent) return;
+    const messageEl = document.getElementById(id + '-message');
+    const message = messageEl ? messageEl.value.trim() : '';
     const form = document.getElementById(id + '-form');
     const note = document.getElementById(id + '-note');
     const succ = document.getElementById(id + '-success');
@@ -3119,7 +3136,7 @@
           'Authorization': 'Bearer ' + WAITLIST_ANON_KEY,
           'apikey': WAITLIST_ANON_KEY
         },
-        body: JSON.stringify({ email, lang: document.documentElement.lang, source: id, consent })
+        body: JSON.stringify({ email, lang: document.documentElement.lang, source: id, consent, message })
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok || !data.ok) throw new Error(data.error || 'request_failed');
