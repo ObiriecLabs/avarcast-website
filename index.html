@@ -1,0 +1,3131 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AVARCAST — Il tuo avatar AI. I tuoi video.</title>
+  <meta name="description" content="Crea il tuo avatar AI personalizzato. Genera video professionali da testo — senza set, senza telecamere, senza riprese." />
+  <meta property="og:title" content="AVARCAST — Crea il tuo avatar AI" />
+  <meta property="og:description" content="Il tuo avatar digitale parla al posto tuo. Video, corsi, presentazioni — generati dall'AI in pochi minuti." />
+  <meta property="og:type" content="website" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  RESET                                                       ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  img, svg, video { display: block; max-width: 100%; }
+  button, input { font-family: inherit; }
+  a { color: inherit; text-decoration: none; }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  DESIGN TOKENS                                               ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  :root {
+    --bg:        #050508;
+    --surface:   #0C0B14;
+    --surface2:  #131121;
+    --surface3:  #1A182B;
+    --wire:      rgba(255,255,255,0.055);
+    --wire-gold: rgba(200,149,58,0.30);
+    --gold:      #C8953A;
+    --gold-l:    #DDA94E;
+    --gold-xl:   #F0C46A;
+    --gold-glow: rgba(200,149,58,0.14);
+    --t-hi:      #EDE7DA;
+    --t-mid:     #7A7390;
+    --t-low:     #36334A;
+    --f-sans:    'Manrope', sans-serif;
+    --f-mono:    'DM Mono', monospace;
+    --gap:       clamp(60px, 8vw, 100px);
+    --gutter:    clamp(20px, 4vw, 48px);
+    --r:         10px;
+    --r-lg:      18px;
+    --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+    --tx:        0.22s;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  BASE                                                        ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  html { scroll-behavior: smooth; }
+  body {
+    background: var(--bg);
+    color: var(--t-hi);
+    font-family: var(--f-sans);
+    font-weight: 400;
+    line-height: 1.65;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Film grain */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='256' height='256'%3E%3Cfilter id='g'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.72' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23g)'/%3E%3C/svg%3E");
+    opacity: 0.028;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  ::-webkit-scrollbar { width: 5px; }
+  ::-webkit-scrollbar-track { background: var(--bg); }
+  ::-webkit-scrollbar-thumb { background: var(--surface3); border-radius: 3px; }
+
+  .wrap { max-width: 1160px; margin: 0 auto; padding: 0 var(--gutter); }
+
+  /* ── i18n ── */
+  [data-lang]       { display: none; }
+  [data-lang-block] { display: none; }
+  body.lang-it [data-lang="it"]       { display: unset; }
+  body.lang-en [data-lang="en"]       { display: unset; }
+  body.lang-it [data-lang-block="it"] { display: block; }
+  body.lang-en [data-lang-block="en"] { display: block; }
+
+  /* ── Animations ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(22px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .fade-up   { animation: fadeUp 0.7s var(--ease) both; }
+  .delay-1   { animation-delay: 0.10s; }
+  .delay-2   { animation-delay: 0.22s; }
+  .delay-3   { animation-delay: 0.36s; }
+  .delay-4   { animation-delay: 0.50s; }
+  .delay-5   { animation-delay: 0.64s; }
+
+  @keyframes pulse-dot {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50%       { opacity: 0.3; transform: scale(0.6); }
+  }
+
+  /* ── Gold gradient text ── */
+  .gold-text {
+    background: linear-gradient(135deg, var(--gold-l) 0%, var(--gold-xl) 55%, #F5D9A8 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    /* Prevent italic slant from clipping the background gradient */
+    padding-right: 0.14em;
+    margin-right: -0.14em;
+    display: inline-block;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  NAVIGATION                                                  ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #nav {
+    position: fixed;
+    top: 0; left: 0; right: 0;
+    z-index: 200;
+    height: 62px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 var(--gutter);
+    background: rgba(5,5,8,0.82);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--wire);
+    transition: box-shadow var(--tx) var(--ease);
+  }
+  #nav.scrolled { box-shadow: 0 1px 48px rgba(0,0,0,0.6); }
+
+  .nav-logo {
+    font-family: var(--f-sans);
+    font-weight: 800;
+    font-size: 1.05rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+  }
+  .nav-logo .sep { color: var(--gold-l); }
+
+  .nav-right { display: flex; align-items: center; gap: 14px; }
+
+  .lang-switch {
+    display: flex;
+    gap: 2px;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    border-radius: 8px;
+    padding: 3px;
+  }
+  .lang-btn {
+    padding: 4px 11px;
+    border: none;
+    background: transparent;
+    color: var(--t-mid);
+    font-family: var(--f-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.09em;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all var(--tx) var(--ease);
+  }
+  .lang-btn.active { background: var(--gold); color: #080808; font-weight: 600; }
+
+  .nav-waitlist {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 8px 18px;
+    border: 1px solid var(--wire-gold);
+    color: var(--gold-l);
+    font-size: 0.78rem;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all var(--tx) var(--ease);
+  }
+  .nav-waitlist:hover { background: var(--gold-glow); border-color: var(--gold-l); }
+
+  .live-dot {
+    width: 6px; height: 6px;
+    background: var(--gold);
+    border-radius: 50%;
+    animation: pulse-dot 2s ease-in-out infinite;
+    flex-shrink: 0;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  HERO                                                        ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #hero {
+    min-height: 100svh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    align-items: center;
+    gap: 60px;
+    padding: 100px var(--gutter) 80px;
+    max-width: 1160px;
+    margin: 0 auto;
+    position: relative;
+  }
+  #hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background:
+      radial-gradient(ellipse 55% 40% at 75% 45%, rgba(200,149,58,0.06) 0%, transparent 70%),
+      radial-gradient(ellipse 38% 55% at 14% 65%, rgba(85,53,232,0.055) 0%, transparent 60%);
+    pointer-events: none;
+    z-index: 0;
+  }
+  .hero-copy    { position: relative; z-index: 1; }
+  .hero-visual  { position: relative; z-index: 1; }
+
+  .hero-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 5px 14px;
+    background: var(--surface2);
+    border: 1px solid var(--wire-gold);
+    border-radius: 100px;
+    font-family: var(--f-mono);
+    font-size: 0.67rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--gold-l);
+    margin-bottom: 30px;
+  }
+
+  .hero-h1 {
+    font-family: var(--f-sans);
+    font-weight: 800;
+    font-size: clamp(2.5rem, 5.2vw, 4.4rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--t-hi);
+    margin-bottom: 26px;
+  }
+
+  .hero-sub {
+    font-size: 1.05rem;
+    font-weight: 400;
+    color: var(--t-mid);
+    line-height: 1.72;
+    max-width: 420px;
+    margin-bottom: 42px;
+  }
+
+  .waitlist-form { display: flex; gap: 10px; max-width: 430px; }
+  @media (max-width: 480px) { .waitlist-form { flex-direction: column; } }
+
+  .wl-input {
+    flex: 1;
+    padding: 13px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    border-radius: var(--r);
+    color: var(--t-hi);
+    font-family: var(--f-sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--tx) var(--ease);
+  }
+  .wl-input::placeholder { color: var(--t-low); }
+  .wl-input:focus { border-color: rgba(200,149,58,0.45); }
+
+  .wl-btn {
+    padding: 13px 24px;
+    background: var(--gold);
+    color: #080808;
+    border: none;
+    border-radius: var(--r);
+    font-family: var(--f-sans);
+    font-size: 0.86rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--tx) var(--ease);
+  }
+  .wl-btn:hover { background: var(--gold-l); transform: translateY(-1px); }
+  .wl-btn:disabled { opacity: 0.55; cursor: not-allowed; transform: none; }
+
+  .form-note {
+    margin-top: 12px;
+    font-family: var(--f-mono);
+    font-size: 0.65rem;
+    color: var(--t-low);
+    letter-spacing: 0.07em;
+  }
+
+  .form-success {
+    display: none;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 20px;
+    background: rgba(200,149,58,0.09);
+    border: 1px solid var(--wire-gold);
+    border-radius: var(--r);
+    max-width: 430px;
+  }
+  .form-success.visible { display: flex; }
+  .form-success svg { color: var(--gold-l); flex-shrink: 0; }
+  .form-success-text { font-size: 0.88rem; color: var(--gold-l); font-weight: 500; }
+
+  /* ── Broadcast frame visual ── */
+  .broadcast-frame {
+    position: relative;
+    width: 100%;
+    max-width: 420px;
+    aspect-ratio: 4/3;
+    background: var(--surface);
+    border: 1px solid rgba(200,149,58,0.32);
+    border-radius: 16px;
+    overflow: hidden;
+    margin: 0 auto;
+  }
+
+  /* Photo fills frame */
+  .bc-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center 18%;
+    border-radius: 15px;
+    filter: brightness(0.82) contrast(1.08);
+  }
+
+  /* Fallback gradient when photo is unavailable */
+  .bc-photo-fallback {
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 30%, rgba(200,149,58,0.18) 0%, rgba(5,5,8,0.9) 70%),
+                linear-gradient(180deg, var(--surface2) 0%, var(--bg) 100%);
+    border-radius: 15px;
+  }
+
+  /* Broadcast scan-line overlay */
+  .bc-scanlines {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      0deg,
+      transparent,
+      transparent 2px,
+      rgba(0,0,0,0.06) 2px,
+      rgba(0,0,0,0.06) 4px
+    );
+    pointer-events: none;
+    z-index: 2;
+    border-radius: 15px;
+  }
+
+  /* Gradient vignette overlay */
+  .bc-vignette {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg,
+        rgba(5,5,8,0.52) 0%,
+        transparent 28%,
+        transparent 62%,
+        rgba(5,5,8,0.85) 100%
+      );
+    z-index: 3;
+    border-radius: 15px;
+  }
+
+  /* Circuit-board corner marks */
+  .bc-corner {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    border-color: var(--gold-xl);
+    border-style: solid;
+    z-index: 5;
+  }
+  .bc-tl { top: -1px; left: -1px; border-width: 2px 0 0 2px; border-radius: 6px 0 0 0; }
+  .bc-tr { top: -1px; right: -1px; border-width: 2px 2px 0 0; border-radius: 0 6px 0 0; }
+  .bc-bl { bottom: -1px; left: -1px; border-width: 0 0 2px 2px; border-radius: 0 0 0 6px; }
+  .bc-br { bottom: -1px; right: -1px; border-width: 0 2px 2px 0; border-radius: 0 0 6px 0; }
+
+  /* Text overlay on frame */
+  .bc-hud {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 16px 20px;
+    z-index: 4;
+  }
+
+  .bc-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  .bc-channel {
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold-xl);
+    text-shadow: 0 0 12px rgba(200,149,58,0.6);
+  }
+  .bc-live {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--f-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.75);
+  }
+  .bc-live-dot {
+    width: 5px; height: 5px;
+    background: #E05050;
+    border-radius: 50%;
+    animation: pulse-dot 1.3s ease-in-out infinite;
+  }
+
+  .bc-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+  }
+  .bc-label {
+    font-family: var(--f-sans);
+    font-weight: 700;
+    font-size: 0.88rem;
+    letter-spacing: -0.01em;
+    color: rgba(255,255,255,0.92);
+  }
+  .bc-sub {
+    font-family: var(--f-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.45);
+    margin-top: 3px;
+  }
+  .bc-freq {
+    font-family: var(--f-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.08em;
+    color: rgba(200,149,58,0.7);
+    text-align: right;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  MARQUEE                                                     ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #marquee {
+    border-top: 1px solid var(--wire);
+    border-bottom: 1px solid var(--wire);
+    background: var(--surface);
+    padding: 14px 0;
+    overflow: hidden;
+    position: relative;
+    z-index: 1;
+  }
+  .marquee-track {
+    display: flex;
+    width: max-content;
+    animation: marquee-scroll 32s linear infinite;
+  }
+  .marquee-track:hover { animation-play-state: paused; }
+  @keyframes marquee-scroll {
+    from { transform: translateX(0); }
+    to   { transform: translateX(-50%); }
+  }
+  .mq-item {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    padding: 0 28px;
+    font-family: var(--f-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--t-mid);
+    white-space: nowrap;
+  }
+  .mq-sep { color: var(--gold); }
+  .mq-item strong { color: var(--t-hi); font-weight: 500; font-family: var(--f-mono); }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  SECTIONS — SHARED                                           ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  section {
+    padding: var(--gap) 0;
+    position: relative;
+    z-index: 1;
+    border-top: 1px solid var(--wire);
+  }
+
+  .sec-label {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--f-mono);
+    font-size: 0.67rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 18px;
+  }
+  .sec-label::before {
+    content: '';
+    display: block;
+    width: 22px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .sec-title {
+    font-family: var(--f-sans);
+    font-weight: 800;
+    font-size: clamp(1.75rem, 3.6vw, 2.9rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    color: var(--t-hi);
+  }
+
+  .sec-sub {
+    margin-top: 16px;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: var(--t-mid);
+    line-height: 1.75;
+    max-width: 500px;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  USE CASES — 20 cards                                        ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #use-cases {
+    padding: var(--gap) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--wire);
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .uc-header {
+    text-align: center;
+    margin-bottom: 52px;
+  }
+
+  .uc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+  }
+  @media (max-width: 1000px) { .uc-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 660px)  { .uc-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
+  @media (max-width: 420px)  { .uc-grid { grid-template-columns: 1fr; } }
+
+  .uc-card {
+    position: relative;
+    padding: 20px 18px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    border-radius: var(--r);
+    transition: transform var(--tx) var(--ease),
+                border-color var(--tx) var(--ease),
+                box-shadow var(--tx) var(--ease);
+    cursor: default;
+  }
+  .uc-card:hover {
+    transform: translateY(-3px);
+    border-color: rgba(200,149,58,0.30);
+    box-shadow: 0 10px 32px rgba(200,149,58,0.10);
+  }
+
+  .uc-num {
+    font-family: var(--f-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+    color: var(--gold);
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .uc-num::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: var(--wire-gold);
+    opacity: 0.5;
+  }
+
+  .uc-icon {
+    width: 32px;
+    height: 32px;
+    border-radius: 8px;
+    background: var(--surface3);
+    border: 1px solid var(--wire);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    flex-shrink: 0;
+  }
+  .uc-icon svg {
+    width: 16px;
+    height: 16px;
+    fill: var(--gold-l);
+  }
+
+  .uc-title {
+    font-family: var(--f-sans);
+    font-weight: 700;
+    font-size: 0.80rem;
+    color: var(--t-hi);
+    margin-bottom: 6px;
+    line-height: 1.3;
+  }
+
+  .uc-desc {
+    font-family: var(--f-sans);
+    font-size: 0.72rem;
+    color: var(--t-mid);
+    line-height: 1.55;
+  }
+
+  .uc-footer-note {
+    text-align: center;
+    margin-top: 36px;
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.09em;
+    color: var(--t-mid);
+    max-width: 640px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  SHOWCASE — Photo cards                                      ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #showcase { }
+
+  .showcase-header { margin-bottom: 48px; }
+
+  .showcase-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+  }
+  @media (max-width: 700px) { .showcase-grid { grid-template-columns: 1fr; } }
+  @media (min-width: 701px) and (max-width: 960px) {
+    .showcase-grid { grid-template-columns: repeat(2, 1fr); }
+    .showcase-card:last-child { grid-column: 1 / -1; max-width: 50%; margin: 0 auto; width: 100%; }
+  }
+
+  .showcase-card {
+    display: block;
+    position: relative;
+    aspect-ratio: 3/4;
+    border-radius: var(--r-lg);
+    overflow: hidden;
+    background: var(--surface2);
+    cursor: default;
+  }
+
+  .showcase-photo {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center top;
+    transition: transform 0.6s var(--ease);
+    filter: brightness(0.78) contrast(1.05) saturate(0.9);
+  }
+  .showcase-card:hover .showcase-photo { transform: scale(1.04); }
+
+  /* Fallback gradient */
+  .sc-fallback {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, var(--surface3) 0%, var(--surface2) 100%);
+  }
+
+  .showcase-gradient {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      0deg,
+      rgba(5,5,8,0.95) 0%,
+      rgba(5,5,8,0.55) 45%,
+      rgba(5,5,8,0.10) 100%
+    );
+    z-index: 2;
+  }
+
+  .showcase-content {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 28px 24px;
+    z-index: 3;
+  }
+
+  .sc-tag {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 10px;
+    padding: 3px 9px;
+    background: rgba(200,149,58,0.12);
+    border: 1px solid rgba(200,149,58,0.22);
+    border-radius: 4px;
+  }
+
+  .sc-title {
+    font-family: var(--f-sans);
+    font-weight: 700;
+    font-size: 1.15rem;
+    letter-spacing: -0.02em;
+    color: #fff;
+    margin-bottom: 8px;
+    line-height: 1.25;
+  }
+
+  .sc-desc {
+    font-size: 0.84rem;
+    font-weight: 400;
+    color: rgba(255,255,255,0.60);
+    line-height: 1.65;
+  }
+
+  /* Top label on card */
+  .sc-badge {
+    position: absolute;
+    top: 18px;
+    right: 18px;
+    z-index: 4;
+    font-family: var(--f-mono);
+    font-size: 0.58rem;
+    letter-spacing: 0.12em;
+    padding: 4px 9px;
+    background: rgba(5,5,8,0.70);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 5px;
+    color: rgba(255,255,255,0.55);
+    backdrop-filter: blur(8px);
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  BESPOKE — Produzioni su commissione                         ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #bespoke {
+    background: var(--surface);
+    border-top: 1px solid var(--wire);
+    border-bottom: 1px solid var(--wire);
+  }
+
+  /* Badge dorato: distingue "su commissione" dal badge neutro CASE 0x sopra */
+  .sc-badge--custom {
+    background: rgba(200,149,58,0.16);
+    border-color: rgba(200,149,58,0.38);
+    color: var(--gold-xl);
+  }
+
+  .bespoke-disclaimer {
+    margin-top: 14px;
+    font-size: 0.78rem;
+    color: var(--t-mid);
+    line-height: 1.6;
+    max-width: 560px;
+  }
+
+  /* Card come link esterno: cursore, hover sul link-hint, focus visibile */
+  a.showcase-card { cursor: pointer; }
+  a.showcase-card:focus-visible {
+    outline: 2px solid var(--gold-l);
+    outline-offset: 3px;
+  }
+
+  .sc-link-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    margin-top: 14px;
+    font-family: var(--f-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.03em;
+    color: var(--gold-l);
+  }
+  .sc-link-hint svg { width: 11px; height: 11px; flex-shrink: 0; }
+  a.showcase-card:hover .sc-link-hint,
+  a.showcase-card:focus-visible .sc-link-hint {
+    color: var(--gold-xl);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .bespoke-note {
+    text-align: center;
+    margin-top: 36px;
+    font-family: var(--f-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.04em;
+    color: var(--t-mid);
+  }
+  .bespoke-note a {
+    color: var(--gold-l);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  FEATURES — CHANNELS                                         ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  .ch-header { margin-bottom: 52px; }
+
+  .ch-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1px;
+    background: var(--wire);
+    border-radius: var(--r-lg);
+    overflow: hidden;
+  }
+  @media (max-width: 740px) { .ch-grid { grid-template-columns: 1fr; } }
+
+  .ch-card {
+    background: var(--surface);
+    padding: 38px 32px 44px;
+    position: relative;
+    overflow: hidden;
+    transition: background var(--tx) var(--ease);
+  }
+  .ch-card:hover { background: var(--surface2); }
+
+  .ch-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse 80% 60% at 20% 20%, var(--gold-glow) 0%, transparent 70%);
+    opacity: 0;
+    transition: opacity var(--tx) var(--ease);
+  }
+  .ch-card:hover::before { opacity: 1; }
+
+  .ch-card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, var(--gold) 0%, var(--gold-xl) 50%, transparent 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform 0.35s var(--ease);
+  }
+  .ch-card:hover::after { transform: scaleX(1); }
+
+  .ch-tag {
+    display: inline-flex;
+    font-family: var(--f-mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+  }
+  .ch-tag-badge {
+    padding: 2px 7px;
+    background: rgba(200,149,58,0.10);
+    border: 1px solid rgba(200,149,58,0.22);
+    border-radius: 4px;
+  }
+
+  .ch-icon {
+    width: 42px; height: 42px;
+    border: 1px solid var(--wire-gold);
+    border-radius: 10px;
+    background: rgba(200,149,58,0.06);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--gold-l);
+    margin-bottom: 20px;
+  }
+
+  .ch-title {
+    font-family: var(--f-sans);
+    font-weight: 700;
+    font-size: 1.10rem;
+    letter-spacing: -0.02em;
+    color: var(--t-hi);
+    margin-bottom: 12px;
+  }
+
+  .ch-desc {
+    font-size: 0.87rem;
+    font-weight: 400;
+    color: var(--t-mid);
+    line-height: 1.72;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  HOW IT WORKS                                                ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  .how-layout {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: center;
+  }
+  @media (max-width: 760px) {
+    .how-layout { grid-template-columns: 1fr; gap: 48px; }
+    .how-visual  { order: -1; }
+  }
+
+  .steps { display: flex; flex-direction: column; }
+  .step {
+    display: grid;
+    grid-template-columns: 52px 1fr;
+    gap: 20px;
+    padding: 28px 0;
+    border-bottom: 1px solid var(--wire);
+  }
+  .step:last-child { border-bottom: none; }
+
+  .step-n {
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.10em;
+    color: var(--gold);
+    padding-top: 3px;
+  }
+  .step-title {
+    font-family: var(--f-sans);
+    font-weight: 700;
+    font-size: 1rem;
+    letter-spacing: -0.015em;
+    color: var(--t-hi);
+    margin-bottom: 8px;
+  }
+  .step-desc {
+    font-size: 0.86rem;
+    font-weight: 400;
+    color: var(--t-mid);
+    line-height: 1.72;
+  }
+
+  /* Signal visual */
+  .signal-vis {
+    position: relative;
+    width: 100%;
+    max-width: 300px;
+    aspect-ratio: 1;
+    margin: 0 auto;
+  }
+  @keyframes ring-pulse {
+    0%   { transform: translate(-50%,-50%) scale(0.9);  opacity: 0.75; }
+    100% { transform: translate(-50%,-50%) scale(1.07); opacity: 0; }
+  }
+  .sv-ring {
+    position: absolute;
+    border-radius: 50%;
+    border: 1px solid;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+  }
+  .sv-r1 { width: 22%; height: 22%; border-color: rgba(200,149,58,0.92); }
+  .sv-r2 { width: 40%; height: 40%; border-color: rgba(200,149,58,0.46);
+            animation: ring-pulse 3.2s ease-out infinite; }
+  .sv-r3 { width: 62%; height: 62%; border-color: rgba(200,149,58,0.22);
+            animation: ring-pulse 3.2s ease-out 0.9s infinite; }
+  .sv-r4 { width: 84%; height: 84%; border-color: rgba(200,149,58,0.10);
+            animation: ring-pulse 3.2s ease-out 1.8s infinite; }
+  .sv-core {
+    position: absolute;
+    top: 50%; left: 50%;
+    transform: translate(-50%,-50%);
+    min-width: 52px; min-height: 52px;
+    background: radial-gradient(circle, var(--gold-xl) 0%, var(--gold) 60%, transparent 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--f-mono);
+    font-size: 0.50rem;
+    letter-spacing: 0.08em;
+    color: #080808;
+    font-weight: 600;
+  }
+  .sv-labels { position: absolute; inset: 0; pointer-events: none; }
+  .sv-lbl {
+    position: absolute;
+    font-family: var(--f-mono);
+    font-size: 0.57rem;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--t-low);
+  }
+  .sv-lbl-1 { top: 12%; left: 68%; }
+  .sv-lbl-2 { bottom: 12%; right: 65%; }
+  .sv-lbl-3 { top: 68%; left: 74%; }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  CTA                                                         ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #cta { text-align: center; }
+
+  .cta-wrap { max-width: 600px; margin: 0 auto; }
+
+  .cta-eyebrow {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-family: var(--f-mono);
+    font-size: 0.67rem;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 22px;
+  }
+  .cta-eyebrow::before, .cta-eyebrow::after {
+    content: '';
+    display: block;
+    width: 26px;
+    height: 1px;
+    background: var(--gold);
+  }
+
+  .cta-title {
+    font-family: var(--f-sans);
+    font-weight: 800;
+    font-size: clamp(2rem, 4.8vw, 3.6rem);
+    line-height: 1.06;
+    letter-spacing: -0.03em;
+    color: var(--t-hi);
+    margin-bottom: 18px;
+  }
+
+  .cta-sub {
+    font-size: 1rem;
+    font-weight: 400;
+    color: var(--t-mid);
+    line-height: 1.72;
+    margin-bottom: 44px;
+  }
+
+  .cta-form { display: flex; gap: 10px; max-width: 460px; margin: 0 auto; }
+  @media (max-width: 480px) { .cta-form { flex-direction: column; } }
+
+  .cta-input {
+    flex: 1;
+    padding: 14px 18px;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    border-radius: var(--r);
+    color: var(--t-hi);
+    font-family: var(--f-sans);
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color var(--tx) var(--ease);
+  }
+  .cta-input::placeholder { color: var(--t-low); }
+  .cta-input:focus { border-color: rgba(200,149,58,0.45); }
+
+  .cta-btn {
+    padding: 14px 28px;
+    background: var(--gold);
+    color: #080808;
+    border: none;
+    border-radius: var(--r);
+    font-family: var(--f-sans);
+    font-size: 0.88rem;
+    font-weight: 700;
+    letter-spacing: 0.02em;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: all var(--tx) var(--ease);
+  }
+  .cta-btn:hover { background: var(--gold-l); transform: translateY(-1px); }
+
+  .cta-note {
+    margin-top: 14px;
+    font-family: var(--f-mono);
+    font-size: 0.63rem;
+    color: var(--t-low);
+    letter-spacing: 0.08em;
+  }
+
+  .cta-success {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+    padding: 28px 36px;
+    background: rgba(200,149,58,0.07);
+    border: 1px solid var(--wire-gold);
+    border-radius: var(--r-lg);
+    max-width: 460px;
+    margin: 0 auto;
+  }
+  .cta-success.visible { display: flex; }
+  .cta-success-title {
+    font-family: var(--f-sans);
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--gold-l);
+    letter-spacing: -0.02em;
+  }
+  .cta-success-sub {
+    font-size: 0.86rem;
+    font-weight: 400;
+    color: var(--t-mid);
+    text-align: center;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  FOOTER                                                      ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  footer {
+    border-top: 1px solid var(--wire);
+    padding: 38px 0;
+    z-index: 1;
+    position: relative;
+  }
+  .footer-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
+  .footer-logo {
+    font-family: var(--f-sans);
+    font-weight: 800;
+    font-size: 0.92rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--t-mid);
+  }
+  .footer-logo .sep { color: var(--gold); }
+  .footer-center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+  }
+  .footer-line {
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.08em;
+    color: var(--t-low);
+  }
+  .footer-line a { color: var(--t-mid); transition: color var(--tx) var(--ease); }
+  .footer-line a:hover { color: var(--gold); }
+  .footer-right {
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.08em;
+    color: var(--t-low);
+    text-align: right;
+  }
+  .footer-right a { color: var(--t-mid); transition: color var(--tx) var(--ease); }
+  .footer-right a:hover { color: var(--gold); }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  PERSONAS GALLERY                                            ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #personas {
+    padding: var(--gap) 0;
+    background: var(--surface);
+    border-top: 1px solid var(--wire);
+    border-bottom: 1px solid var(--wire);
+  }
+
+  .personas-header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .personas-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+  }
+  @media (max-width: 960px) { .personas-grid { grid-template-columns: repeat(3, 1fr); } }
+  @media (max-width: 540px)  { .personas-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .persona-card {
+    position: relative;
+    border-radius: var(--r);
+    overflow: hidden;
+    aspect-ratio: 3 / 4;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    transition: transform var(--tx) var(--ease), box-shadow var(--tx) var(--ease);
+  }
+  .persona-card:hover {
+    transform: translateY(-5px) scale(1.02);
+    box-shadow: 0 14px 44px rgba(200,149,58,0.20), 0 0 0 1px rgba(200,149,58,0.35);
+  }
+
+  .persona-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top center;
+    display: block;
+    transition: transform 0.55s var(--ease);
+  }
+  .persona-card:hover .persona-photo { transform: scale(1.06); }
+
+  .persona-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5,5,8,0.90) 0%, rgba(5,5,8,0.22) 55%, transparent 100%);
+    transition: opacity var(--tx) var(--ease);
+  }
+
+  .persona-status {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 4;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-family: var(--f-mono);
+    font-size: 0.46rem;
+    letter-spacing: 0.11em;
+    color: rgba(255,255,255,0.50);
+    background: rgba(5,5,8,0.68);
+    padding: 3px 7px;
+    border-radius: 4px;
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--wire);
+  }
+  .persona-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    animation: pers-pulse 2.4s ease-in-out infinite;
+  }
+  @keyframes pers-pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.25; } }
+
+  .persona-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 14px 13px;
+    z-index: 3;
+  }
+  .persona-role {
+    font-family: var(--f-mono);
+    font-size: 0.50rem;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 3px;
+  }
+  .persona-name {
+    font-family: var(--f-sans);
+    font-size: 0.70rem;
+    font-weight: 600;
+    color: var(--t-hi);
+    line-height: 1.3;
+  }
+
+  .personas-note {
+    text-align: center;
+    margin-top: 22px;
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.10em;
+    color: var(--t-mid);
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  VIDEO DEMO SECTION                                          ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  #video-demo {
+    padding: var(--gap) 0;
+  }
+  .video-demo-header {
+    text-align: center;
+    margin-bottom: 44px;
+  }
+
+  .video-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  .video-grid-3 {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 12px;
+    margin-bottom: 40px;
+  }
+  @media (max-width: 960px) {
+    .video-grid   { grid-template-columns: repeat(2, 1fr); }
+    .video-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  }
+  @media (max-width: 640px) {
+    .video-grid   { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .video-grid-3 { grid-template-columns: 1fr 1fr 1fr; gap: 8px; }
+  }
+  @media (max-width: 480px) {
+    .video-grid   { grid-template-columns: 1fr 1fr; gap: 8px; }
+    .video-grid-3 { grid-template-columns: 1fr 1fr; gap: 8px; }
+  }
+
+  .video-row-label {
+    font-family: var(--f-mono);
+    font-size: 0.52rem;
+    letter-spacing: 0.16em;
+    color: var(--t-mid);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    padding-left: 2px;
+  }
+
+  .video-card {
+    position: relative;
+    border-radius: var(--r);
+    overflow: hidden;
+    aspect-ratio: 9 / 16;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    cursor: pointer;
+    transition: transform var(--tx) var(--ease), box-shadow var(--tx) var(--ease);
+  }
+  .video-card:hover {
+    transform: translateY(-4px) scale(1.015);
+    box-shadow: 0 12px 40px rgba(200,149,58,0.18), 0 0 0 1px rgba(200,149,58,0.30);
+  }
+
+  .video-card video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  .video-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to top, rgba(5,5,8,0.88) 0%, rgba(5,5,8,0.18) 50%, transparent 100%);
+    pointer-events: none;
+  }
+
+  .video-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    z-index: 4;
+    font-family: var(--f-mono);
+    font-size: 0.44rem;
+    letter-spacing: 0.12em;
+    color: rgba(255,255,255,0.55);
+    background: rgba(5,5,8,0.72);
+    padding: 3px 8px;
+    border-radius: 4px;
+    backdrop-filter: blur(6px);
+    border: 1px solid var(--wire);
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .video-badge.voice-badge {
+    background: rgba(200,149,58,0.22);
+    border-color: rgba(200,149,58,0.45);
+    color: var(--gold-l);
+  }
+  .voice-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    animation: pers-pulse 1.8s ease-in-out infinite;
+  }
+
+  /* ── Hover-to-hear hint ── */
+  .video-hover-hint {
+    position: absolute;
+    bottom: 46px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 6;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 5px 10px;
+    background: rgba(5,5,8,0.78);
+    border: 1px solid rgba(200,149,58,0.35);
+    border-radius: 20px;
+    backdrop-filter: blur(8px);
+    font-family: var(--f-mono);
+    font-size: 0.42rem;
+    letter-spacing: 0.13em;
+    color: rgba(200,149,58,0.80);
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.20s var(--ease);
+    pointer-events: none;
+  }
+  .video-hover-hint-dot {
+    width: 5px;
+    height: 5px;
+    border-radius: 50%;
+    background: var(--gold);
+    flex-shrink: 0;
+    animation: pers-pulse 2s ease-in-out infinite;
+  }
+
+  /* idle: hint visible — on hover: hint fades, border glows, sound waves appear */
+  .video-card.audio-active .video-hover-hint  { opacity: 0; }
+  .video-card.audio-active {
+    box-shadow: 0 0 0 2px var(--gold), 0 16px 48px rgba(200,149,58,0.28);
+  }
+
+  /* Sound wave bars — visible only during playback */
+  .video-sound-wave {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    z-index: 6;
+    display: flex;
+    align-items: flex-end;
+    gap: 2px;
+    height: 16px;
+    opacity: 0;
+    transition: opacity 0.20s var(--ease);
+    pointer-events: none;
+  }
+  .video-card.audio-active .video-sound-wave { opacity: 1; }
+
+  .vsw-bar {
+    width: 3px;
+    border-radius: 2px;
+    background: var(--gold-l);
+    animation: vsw-bounce 0.9s ease-in-out infinite alternate;
+    transform-origin: bottom;
+  }
+  .vsw-bar:nth-child(1) { height: 6px;  animation-delay: 0.00s; }
+  .vsw-bar:nth-child(2) { height: 12px; animation-delay: 0.18s; }
+  .vsw-bar:nth-child(3) { height: 9px;  animation-delay: 0.09s; }
+  .vsw-bar:nth-child(4) { height: 14px; animation-delay: 0.27s; }
+  .vsw-bar:nth-child(5) { height: 7px;  animation-delay: 0.14s; }
+
+  @keyframes vsw-bounce {
+    from { transform: scaleY(0.30); opacity: 0.55; }
+    to   { transform: scaleY(1.00); opacity: 1.00; }
+  }
+
+  .video-info {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 12px 12px 14px;
+    z-index: 3;
+  }
+  .video-type {
+    font-family: var(--f-mono);
+    font-size: 0.48rem;
+    letter-spacing: 0.14em;
+    color: var(--gold);
+    text-transform: uppercase;
+    margin-bottom: 2px;
+  }
+  .video-label {
+    font-family: var(--f-sans);
+    font-size: 0.65rem;
+    font-weight: 600;
+    color: var(--t-hi);
+    line-height: 1.3;
+  }
+
+  .video-demo-note {
+    text-align: center;
+    font-family: var(--f-mono);
+    font-size: 0.60rem;
+    letter-spacing: 0.10em;
+    color: var(--t-mid);
+    margin-top: 24px;
+  }
+
+  /* ╔══════════════════════════════════════════════════════════════╗
+     ║  RESPONSIVE — Hero stacking                                  ║
+     ╚══════════════════════════════════════════════════════════════╝ */
+  @media (max-width: 800px) {
+    #hero {
+      grid-template-columns: 1fr;
+      min-height: auto;
+      padding-top: 110px;
+      padding-bottom: 60px;
+      gap: 48px;
+    }
+    .hero-visual { order: -1; }
+  }
+
+  </style>
+</head>
+
+<body class="lang-it">
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav id="nav">
+  <span class="nav-logo">AVAR<span class="sep">·</span>CAST</span>
+  <div class="nav-right">
+    <div class="lang-switch">
+      <button class="lang-btn" onclick="setLang('it')">IT</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="#cta" class="nav-waitlist">
+      <span class="live-dot"></span>
+      <span data-lang="it">Lista d'attesa</span>
+      <span data-lang="en">Waitlist</span>
+    </a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<div id="hero">
+  <!-- Copy -->
+  <div class="hero-copy">
+    <div class="hero-badge fade-up">
+      <span class="live-dot"></span>
+      <span data-lang="it">Accesso anticipato aperto</span>
+      <span data-lang="en">Early access open</span>
+    </div>
+
+    <h1 class="hero-h1 fade-up delay-1">
+      <span data-lang-block="it">Il tuo avatar AI.<br><em class="gold-text">I tuoi video.</em><br>Zero riprese.</span>
+      <span data-lang-block="en">Your AI avatar.<br><em class="gold-text">Your videos.</em><br>Zero filming.</span>
+    </h1>
+
+    <p class="hero-sub fade-up delay-2">
+      <span data-lang="it">Crea il tuo avatar digitale personalizzato. Genera video professionali da testo — corsi, presentazioni, contenuti — senza set, senza telecamere, senza perdere tempo.</span>
+      <span data-lang="en">Create your personal AI avatar. Generate professional videos from text — courses, presentations, content — no studio, no cameras, no wasted time.</span>
+    </p>
+
+    <form class="waitlist-form fade-up delay-3" id="hero-form" onsubmit="submitWaitlist(event,'hero')">
+      <input class="wl-input" id="hero-email" type="email" required
+        data-placeholder-it="La tua email" data-placeholder-en="Your email"
+        placeholder="La tua email" autocomplete="email" />
+      <button class="wl-btn" type="submit">
+        <span data-lang="it">Entra</span>
+        <span data-lang="en">Join</span>
+      </button>
+    </form>
+
+    <div class="form-success" id="hero-success">
+      <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+        <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+        <polyline points="5,8.5 7,10.5 11,6" stroke="currentColor" stroke-width="1.5"
+          stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+      <span class="form-success-text">
+        <span data-lang="it">Sei in lista. Ti contatteremo presto.</span>
+        <span data-lang="en">You're on the list. We'll be in touch.</span>
+      </span>
+    </div>
+
+    <p class="form-note fade-up delay-4" id="hero-note">
+      <span data-lang="it">Nessuna carta di credito · Accesso gratuito</span>
+      <span data-lang="en">No credit card · Free access</span>
+    </p>
+  </div>
+
+  <!-- Broadcast frame with real photo -->
+  <div class="hero-visual fade-up delay-3">
+    <div class="broadcast-frame">
+      <!-- Fallback gradient (shows if photo fails) -->
+      <div class="bc-photo-fallback"></div>
+
+      <!-- Avatar portrait — AVARCAST hero -->
+      <img class="bc-photo"
+        src="assets/img/Foto/M/Pers8.jpg"
+        alt="Avatar AVARCAST — Corporate broadcast portrait"
+        loading="eager"
+        onerror="this.style.display='none'" />
+
+      <!-- Broadcast effects -->
+      <div class="bc-scanlines"></div>
+      <div class="bc-vignette"></div>
+
+      <!-- Circuit-board corners -->
+      <div class="bc-corner bc-tl"></div>
+      <div class="bc-corner bc-tr"></div>
+      <div class="bc-corner bc-bl"></div>
+      <div class="bc-corner bc-br"></div>
+
+      <!-- HUD overlay -->
+      <div class="bc-hud">
+        <div class="bc-top">
+          <div class="bc-channel">AVATAR · AVARCAST</div>
+          <div class="bc-live"><span class="bc-live-dot"></span>AI</div>
+        </div>
+        <div class="bc-bottom">
+          <div>
+            <div class="bc-label">
+              <span data-lang="it">Il tuo Avatar</span>
+              <span data-lang="en">Your Avatar</span>
+            </div>
+            <div class="bc-sub">GENERAZIONE IN CORSO · AI</div>
+          </div>
+          <div class="bc-freq">D-ID POWERED</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ MARQUEE ═══════════════════ -->
+<div id="marquee">
+  <div class="marquee-track">
+    <div class="mq-item">
+      <strong>AVATAR AI</strong>
+      <span class="mq-sep">·</span> TESTO → VIDEO
+      <span class="mq-sep">·</span> <strong>CLONAZIONE VOCALE</strong>
+      <span class="mq-sep">·</span> NESSUNA TELECAMERA
+      <span class="mq-sep">·</span> <strong>AVARCAST</strong>
+      <span class="mq-sep">·</span> 120+ LINGUE
+      <span class="mq-sep">·</span> <strong>LIP-SYNC PERFETTO</strong>
+      <span class="mq-sep">·</span> NESSUN SET
+      <span class="mq-sep">·</span> <strong>VIDEO IN MINUTI</strong>
+      <span class="mq-sep">·</span> IL TUO VOLTO DIGITALE
+      <span class="mq-sep">·</span>
+    </div>
+    <div class="mq-item" aria-hidden="true">
+      <strong>AVATAR AI</strong>
+      <span class="mq-sep">·</span> TESTO → VIDEO
+      <span class="mq-sep">·</span> <strong>CLONAZIONE VOCALE</strong>
+      <span class="mq-sep">·</span> NESSUNA TELECAMERA
+      <span class="mq-sep">·</span> <strong>AVARCAST</strong>
+      <span class="mq-sep">·</span> 120+ LINGUE
+      <span class="mq-sep">·</span> <strong>LIP-SYNC PERFETTO</strong>
+      <span class="mq-sep">·</span> NESSUN SET
+      <span class="mq-sep">·</span> <strong>VIDEO IN MINUTI</strong>
+      <span class="mq-sep">·</span> IL TUO VOLTO DIGITALE
+      <span class="mq-sep">·</span>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PERSONAS GALLERY ═══════════════════ -->
+<section id="personas">
+  <div class="wrap">
+    <div class="personas-header">
+      <div class="sec-label">
+        <span data-lang="it">Esempi di avatar</span>
+        <span data-lang="en">Avatar examples</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Ogni professione.<br>Ogni voce. Il tuo avatar.</span>
+        <span data-lang-block="en">Every profession.<br>Every voice. Your avatar.</span>
+      </h2>
+    </div>
+
+    <div class="personas-grid">
+
+      <!-- W 1 — Presenter -->
+      <div class="persona-card fade-up delay-1">
+        <img class="persona-photo" src="assets/img/Foto/W/1380b6e327f919e7319eeb5cab05a34c0952cd084bb044333503e2a8edec17c4.png" alt="Avatar Presentatrice AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">PRESENTER</div>
+          <div class="persona-name">
+            <span data-lang="it">Presentatrice</span>
+            <span data-lang="en">Presenter</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M 1 — CEO -->
+      <div class="persona-card fade-up delay-2">
+        <img class="persona-photo" src="assets/img/Foto/M/4aa25fade82e2449bd0f2e66b810a2b0af3d313493d24c5723587737ca416d8d.png" alt="Avatar CEO AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">CEO</div>
+          <div class="persona-name">
+            <span data-lang="it">Amministratore Delegato</span>
+            <span data-lang="en">Chief Executive</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W 2 — Manager -->
+      <div class="persona-card fade-up delay-3">
+        <img class="persona-photo" src="assets/img/Foto/W/bc22a84d22227de0d04cb4fdf2005c879eb241c4c2cb06f82ebaa2090c77417e.png" alt="Avatar Manager AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">MANAGER</div>
+          <div class="persona-name">
+            <span data-lang="it">Project Manager</span>
+            <span data-lang="en">Project Manager</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M 2 — Consultant -->
+      <div class="persona-card fade-up delay-4">
+        <img class="persona-photo" src="assets/img/Foto/M/5f6734547c80dd971a4a049856b85db26b6ac3bee88eb81f4ef51e81050c829c.png" alt="Avatar Consultant AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">CONSULTANT</div>
+          <div class="persona-name">
+            <span data-lang="it">Business Consultant</span>
+            <span data-lang="en">Business Consultant</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W 3 — Coach -->
+      <div class="persona-card fade-up delay-5">
+        <img class="persona-photo" src="assets/img/Foto/W/2719f7546fd02596c42fa8a1feded8bc7324dcdb85d4204779e4abd9c7a929a1.png" alt="Avatar Coach AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">COACH</div>
+          <div class="persona-name">
+            <span data-lang="it">Business Coach</span>
+            <span data-lang="en">Business Coach</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M 3 — Analyst -->
+      <div class="persona-card fade-up delay-1">
+        <img class="persona-photo" src="assets/img/Foto/M/db366087c2aad853bdb5a5869a848a4ef12a34a89129d3af163e9762fef597b3.png" alt="Avatar Analyst AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">ANALYST</div>
+          <div class="persona-name">
+            <span data-lang="it">Financial Analyst</span>
+            <span data-lang="en">Financial Analyst</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W 4 — Sales -->
+      <div class="persona-card fade-up delay-2">
+        <img class="persona-photo" src="assets/img/Foto/W/39c37a0101642247e4d39224dfd0e274a61cd86c8b76cff5bf66a2b7b3f15406.png" alt="Avatar Sales AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">SALES</div>
+          <div class="persona-name">
+            <span data-lang="it">Sales Director</span>
+            <span data-lang="en">Sales Director</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M 4 — Executive -->
+      <div class="persona-card fade-up delay-3">
+        <img class="persona-photo" src="assets/img/Foto/M/Pers8.jpg" alt="Avatar Executive AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">EXECUTIVE</div>
+          <div class="persona-name">
+            <span data-lang="it">Direttore Generale</span>
+            <span data-lang="en">General Director</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W 5 — Marketing -->
+      <div class="persona-card fade-up delay-4">
+        <img class="persona-photo" src="assets/img/Foto/W/218e2c6249df2c108ae3cd1890c8aa35fca682b60e46a92ee0af0d4d5f448ce4.png" alt="Avatar Marketing AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">MARKETING</div>
+          <div class="persona-name">
+            <span data-lang="it">Marketing Manager</span>
+            <span data-lang="en">Marketing Manager</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M 5 — Speaker -->
+      <div class="persona-card fade-up delay-5">
+        <img class="persona-photo" src="assets/img/Foto/M/Pers9.jpg" alt="Avatar Speaker AVARCAST" loading="lazy" onerror="this.style.display='none'" />
+        <div class="persona-overlay"></div>
+        <div class="persona-status"><span class="persona-dot"></span>ACTIVE</div>
+        <div class="persona-info">
+          <div class="persona-role">SPEAKER</div>
+          <div class="persona-name">
+            <span data-lang="it">Corporate Speaker</span>
+            <span data-lang="en">Corporate Speaker</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="personas-note">
+      <span data-lang="it">Avatar generati da testo — nessun set, nessuna telecamera, nessuna produzione.</span>
+      <span data-lang="en">Text-generated avatars — no studio, no camera, no production.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════ VIDEO DEMO ═══════════════════ -->
+<section id="video-demo">
+  <div class="wrap">
+    <div class="video-demo-header">
+      <div class="sec-label">
+        <span data-lang="it">Avatar in azione</span>
+        <span data-lang="en">Avatars in action</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Ascolta cosa dice<br>il tuo avatar AI.</span>
+        <span data-lang-block="en">Hear what your<br>AI avatar says.</span>
+      </h2>
+    </div>
+
+    <!-- Row M — 3 avatar maschili con frasi reali -->
+    <p class="video-row-label">
+      <span data-lang="it">Avatar maschili · Frasi reali · Tocca l'icona audio per sentire</span>
+      <span data-lang="en">Male avatars · Real phrases · Hover to hear</span>
+    </p>
+    <div class="video-grid-3">
+
+      <!-- M · 01 -->
+      <div class="video-card fade-up delay-1" data-voice-card>
+        <video id="vid-m-1" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/M/vid_M_Voice_ITA_01.mp4"
+          data-src-en="assets/img/video/M/vid_M_Voice_ENG_01.mp4">
+          <source src="assets/img/video/M/vid_M_Voice_ITA_01.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">CEO · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Il tuo avatar parla al posto tuo."</span>
+            <span data-lang="en">"Your avatar speaks for you."</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M · 02 -->
+      <div class="video-card fade-up delay-2" data-voice-card>
+        <video id="vid-m-2" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/M/vid_M_Voice_ITA_02.mp4"
+          data-src-en="assets/img/video/M/vid_M_Voice_ENG_02.mp4">
+          <source src="assets/img/video/M/vid_M_Voice_ITA_02.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">SPEAKER · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Scala la tua comunicazione."</span>
+            <span data-lang="en">"Scale your communication."</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- M · 03 -->
+      <div class="video-card fade-up delay-3" data-voice-card>
+        <video id="vid-m-3" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/M/vid_M_Voice_ITA_03.mp4"
+          data-src-en="assets/img/video/M/vid_M_Voice_ENG_03.mp4">
+          <source src="assets/img/video/M/vid_M_Voice_ITA_03.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">EXECUTIVE · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Zero riprese. Solo il tuo avatar."</span>
+            <span data-lang="en">"Zero filming. Just your avatar."</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Row W — 4 avatar femminili con frasi reali -->
+    <p class="video-row-label" style="margin-top: 28px;">
+      <span data-lang="it">Avatar femminili · Frasi reali · Passa il mouse per sentire</span>
+      <span data-lang="en">Female avatars · Real phrases · Hover to hear</span>
+    </p>
+    <div class="video-grid">
+
+      <!-- W · 01 -->
+      <div class="video-card fade-up delay-1" data-voice-card>
+        <video id="vid-w-1" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/W/vid_W_Voice_ITA_01.mp4"
+          data-src-en="assets/img/video/W/vid_W_Voice_ENG_01.mp4">
+          <source src="assets/img/video/W/vid_W_Voice_ITA_01.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">PRESENTER · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Ogni giorno, in ogni lingua."</span>
+            <span data-lang="en">"Every day, in any language."</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W · 02 -->
+      <div class="video-card fade-up delay-2" data-voice-card>
+        <video id="vid-w-2" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/W/vid_W_Voice_ITA_02.mp4"
+          data-src-en="assets/img/video/W/vid_W_Voice_ENG_02.mp4">
+          <source src="assets/img/video/W/vid_W_Voice_ITA_02.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">COACH · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Video professionali in tre minuti."</span>
+            <span data-lang="en">"Professional video in three minutes."</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W · 03 -->
+      <div class="video-card fade-up delay-3" data-voice-card>
+        <video id="vid-w-3" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/W/vid_W_Voice_ITA_03.mp4"
+          data-src-en="assets/img/video/W/vid_W_Voice_ENG_03.mp4">
+          <source src="assets/img/video/W/vid_W_Voice_ITA_03.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">MARKETING · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Il tuo avatar lavora per te."</span>
+            <span data-lang="en">"Your avatar works for you."</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- W · 04 -->
+      <div class="video-card fade-up delay-4" data-voice-card>
+        <video id="vid-w-4" autoplay muted loop playsinline preload="none"
+          data-src-it="assets/img/video/W/vid_W_Voice_ITA_04.mp4"
+          data-src-en="assets/img/video/W/vid_W_Voice_ENG_04.mp4">
+          <source src="assets/img/video/W/vid_W_Voice_ITA_04.mp4" type="video/mp4" />
+        </video>
+        <div class="video-overlay"></div>
+        <div class="video-badge voice-badge"><span class="voice-dot"></span>VOICE CLONE</div>
+        <div class="video-sound-wave">
+          <div class="vsw-bar"></div><div class="vsw-bar"></div><div class="vsw-bar"></div>
+          <div class="vsw-bar"></div><div class="vsw-bar"></div>
+        </div>
+        <div class="video-hover-hint">
+          <span class="video-hover-hint-dot"></span>
+          <span data-lang="it">PASSA IL MOUSE PER SENTIRE</span>
+          <span data-lang="en">HOVER TO HEAR</span>
+        </div>
+        <div class="video-info">
+          <div class="video-type">SALES · VOICE CLONE</div>
+          <div class="video-label">
+            <span data-lang="it">"Più clienti, senza girare un secondo."</span>
+            <span data-lang="en">"More clients, without filming."</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="video-demo-note">
+      <span data-lang="it">Demo reali · Voice cloning D-ID API · Lip-sync perfetto · 120+ lingue disponibili</span>
+      <span data-lang="en">Real demos · D-ID API voice cloning · Perfect lip-sync · 120+ languages available</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════ USE CASES ═══════════════════ -->
+<section id="use-cases">
+  <div class="wrap">
+
+    <div class="uc-header">
+      <div class="sec-label">
+        <span data-lang="it">Casi d'uso</span>
+        <span data-lang="en">Use cases</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Dove vive<br>il tuo avatar AI.</span>
+        <span data-lang-block="en">Where your<br>AI avatar lives.</span>
+      </h2>
+    </div>
+
+    <div class="uc-grid">
+
+      <!-- 01 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">01</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Identità online</span>
+          <span data-lang="en">Online identity</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Rappresentati su siti, community, social, gaming e newsletter con coerenza visiva e continuità di brand.</span>
+          <span data-lang="en">Represent yourself across sites, communities, social, gaming and newsletters with visual coherence and brand continuity.</span>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">02</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.25C18 3.2 16.8 2 15.25 2c-1.42 0-2.5.96-3.25 2.08C11.25 2.96 10.17 2 8.75 2 7.2 2 6 3.2 6 4.75c0 .37.11.81.18 1.25H4c-1.11 0-2 .89-2 2v13c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-4.75-2.5c.69 0 1.25.56 1.25 1.25S15.94 6 15.25 6c-.69 0-1.75-1-2.75-2.25.5-.81 1.28-1.25 2.75-1.25zm-6.5 0c1.47 0 2.25.44 2.75 1.25C10.5 6 9.44 7 8.75 7 8.06 7 7.5 6.44 7.5 5.75S7.06 4.5 7.75 4.5zM20 21H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.26 1 1.26L15.38 12 17 10.83 14.92 8H20v8z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Personal branding</span>
+          <span data-lang="en">Personal branding</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Il tuo volto ufficiale su LinkedIn, portfolio, press kit, bio autore, firma email e speaker page.</span>
+          <span data-lang="en">Your official face on LinkedIn, portfolio, press kit, author bio, email signature and speaker page.</span>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">03</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Marketing e contenuti</span>
+          <span data-lang="en">Marketing & content</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Spot, ads, demo prodotto, funnel video, FAQ, launch video e contenuti localizzati in più lingue — senza set.</span>
+          <span data-lang="en">Ads, product demos, video funnels, FAQs, launch videos and multilingual content — no studio needed.</span>
+        </div>
+      </div>
+
+      <!-- 04 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">04</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Customer support</span>
+          <span data-lang="en">Customer support</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Receptionist virtuale, help desk, guida all'acquisto, assistente prenotazioni e brand ambassador digitale.</span>
+          <span data-lang="en">Virtual receptionist, help desk, shopping guide, booking assistant and digital brand ambassador.</span>
+        </div>
+      </div>
+
+      <!-- 05 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">05</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Formazione aziendale</span>
+          <span data-lang="en">Corporate training</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Onboarding, training compliance, corsi HR, SOP video, simulazioni e coaching e-learning a scala.</span>
+          <span data-lang="en">Onboarding, compliance training, HR courses, SOP videos, simulations and e-learning coaching at scale.</span>
+        </div>
+      </div>
+
+      <!-- 06 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">06</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Istruzione</span>
+          <span data-lang="en">Education</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Docente virtuale, tutor 24/7, moduli e-learning, spiegazioni di lezioni e microlearning on demand.</span>
+          <span data-lang="en">Virtual teacher, 24/7 tutor, e-learning modules, lesson explanations and on-demand microlearning.</span>
+        </div>
+      </div>
+
+      <!-- 07 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">07</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Sales e pre-sales</span>
+          <span data-lang="en">Sales & pre-sales</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Demo personalizzate, presentazioni commerciali, qualificazione lead e follow-up asincroni su misura.</span>
+          <span data-lang="en">Personalised demos, sales presentations, lead qualification and tailored asynchronous follow-ups.</span>
+        </div>
+      </div>
+
+      <!-- 08 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">08</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Corporate communication</span>
+          <span data-lang="en">Corporate communication</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Messaggi CEO, briefing interni, policy update, town hall asincroni e annunci HR in più lingue.</span>
+          <span data-lang="en">CEO messages, internal briefings, policy updates, async town halls and HR announcements in multiple languages.</span>
+        </div>
+      </div>
+
+      <!-- 09 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">09</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Meeting e spazi immersivi</span>
+          <span data-lang="en">Meetings & immersive spaces</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Partecipazione a meeting, fiere virtuali, networking, eventi enterprise e workshop in ambienti 3D.</span>
+          <span data-lang="en">Participation in meetings, virtual fairs, networking, enterprise events and 3D environment workshops.</span>
+        </div>
+      </div>
+
+      <!-- 10 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">10</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5S16.33 15 15.5 15zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 10 18.5 10s1.5.67 1.5 1.5S19.33 12 18.5 12z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Gaming e metaverse</span>
+          <span data-lang="en">Gaming & metaverse</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">NPC conversazionali, digital humans, VTuber, streamer virtuali, personaggi narrativi e performer.</span>
+          <span data-lang="en">Conversational NPCs, digital humans, VTubers, virtual streamers, narrative characters and performers.</span>
+        </div>
+      </div>
+
+      <!-- 11 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">11</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">E-commerce e retail</span>
+          <span data-lang="en">E-commerce & retail</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Personal shopper, consulente prodotto, host live shopping, guida taglie e commesso virtuale.</span>
+          <span data-lang="en">Personal shopper, product consultant, live shopping host, size guide and virtual sales assistant.</span>
+        </div>
+      </div>
+
+      <!-- 12 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">12</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Sanità e patient care</span>
+          <span data-lang="en">Healthcare & patient care</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Prenotazioni, triage informativo, promemoria, orientamento paziente e comunicazioni pre/post visita.</span>
+          <span data-lang="en">Bookings, informational triage, reminders, patient orientation and pre/post-visit communications.</span>
+        </div>
+      </div>
+
+      <!-- 13 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">13</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Accessibilità e inclusione</span>
+          <span data-lang="en">Accessibility & inclusion</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Video multilingua, presenza per chi non vuole la telecamera, contenuti on demand per tutti.</span>
+          <span data-lang="en">Multilingual video, presence for those who avoid cameras, on-demand content accessible to everyone.</span>
+        </div>
+      </div>
+
+      <!-- 14 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">14</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Creator economy</span>
+          <span data-lang="en">Creator economy</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Host di canale, narratore, testimonial, alter ego digitale e personaggio ricorrente per format in serie.</span>
+          <span data-lang="en">Channel host, narrator, testimonial, digital alter ego and recurring character for serial content formats.</span>
+        </div>
+      </div>
+
+      <!-- 15 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">15</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 3l-1.67 1.67L18.67 3 17 4.67 15.33 3l-1.66 1.67L12 3l-1.67 1.67L8.67 3 7 4.67 5.33 3 3.67 4.67 2 3v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V3zM11 17H7v-2h4v2zm6 0h-4v-2h4v2zm1-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Media e informazione</span>
+          <span data-lang="en">Media & news</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Anchor virtuale, presentatore di rubriche, narratore di articoli, host per format e news verticali.</span>
+          <span data-lang="en">Virtual anchor, segment presenter, article narrator, host for vertical news and editorial formats.</span>
+        </div>
+      </div>
+
+      <!-- 16 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">16</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 6h-1V4c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h1v1c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM3 15V4h14v11H3zm17 5H6v-1h11c1.1 0 2-.9 2-2V8h1v12z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Recruiting & employer branding</span>
+          <span data-lang="en">Recruiting & employer branding</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Presentazione azienda, spiegazione ruoli aperti, onboarding pre-assunzione e FAQ HR su career page.</span>
+          <span data-lang="en">Company presentation, open role explanation, pre-hire onboarding and HR FAQs on career pages.</span>
+        </div>
+      </div>
+
+      <!-- 17 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">17</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Turismo e hospitality</span>
+          <span data-lang="en">Tourism & hospitality</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Concierge digitale, guida museale, host hotel, receptionist su kiosk e digital signage interattivo.</span>
+          <span data-lang="en">Digital concierge, museum guide, hotel host, kiosk receptionist and interactive digital signage.</span>
+        </div>
+      </div>
+
+      <!-- 18 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">18</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Finanza e servizi regolati</span>
+          <span data-lang="en">Finance & regulated services</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Accoglienza cliente, spiegazione prodotti finanziari, supporto antifrode e front-office digitale.</span>
+          <span data-lang="en">Client onboarding, financial product explanation, fraud support and digital front-office.</span>
+        </div>
+      </div>
+
+      <!-- 19 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">19</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M14.5 2.5c0 1.5-1.5 7-1.5 7h-2C10.5 9.5 9 4 9 2.5 9 1.12 10.12 0 11.5 0S14.5 1.12 14.5 2.5zM11.5 11c-1.38 0-2.5 1.12-2.5 2.5S10.12 16 11.5 16s2.5-1.12 2.5-2.5S12.88 11 11.5 11zM18.85 9l-5.2 3.32c.08.36.15.73.15 1.18 0 2.49-2.01 4.5-4.5 4.5-1.58 0-2.96-.82-3.77-2.06L3 19l1.5 3h14l1.5-3-1.15-10z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Simulazione e soft skills</span>
+          <span data-lang="en">Simulation & soft skills</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Training per vendite, negoziazione, colloqui e customer service con interlocutori simulati e ripetibili.</span>
+          <span data-lang="en">Training for sales, negotiation, interviews and customer service with repeatable simulated counterparts.</span>
+        </div>
+      </div>
+
+      <!-- 20 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">20</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Digital twin della persona</span>
+          <span data-lang="en">Personal digital twin</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">La tua versione persistente: parla con la tua voce, replica il tuo tono e lavora in modo asincrono.</span>
+          <span data-lang="en">Your persistent version: speaks with your voice, replicates your tone and works asynchronously for you.</span>
+        </div>
+      </div>
+
+      <!-- 21 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">21</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 1 9 9v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h1v-2a7 7 0 1 0-14 0v2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 9-9z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Video Podcast</span>
+          <span data-lang="en">Video Podcast</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Lancia il tuo podcast video senza camera, studio o luci. L'avatar parla con la tua voce, ogni episodio pubblicabile in ore. Compatibile con YouTube, Spotify, Apple Podcasts.</span>
+          <span data-lang="en">Launch your video podcast without a camera, studio or lighting. The avatar speaks with your voice, every episode publishable in hours. Compatible with YouTube, Spotify, Apple Podcasts.</span>
+        </div>
+      </div>
+
+      <!-- 22 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">22</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">YouTube Faceless</span>
+          <span data-lang="en">YouTube Faceless Channel</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Canale YouTube completamente gestito dall'avatar. Zero comparsa in camera. Script → voce clonata → video pubblicato. Monetizzabile dal primo giorno.</span>
+          <span data-lang="en">YouTube channel fully managed by the avatar. Zero on-camera appearance. Script → cloned voice → published video. Monetizable from day one.</span>
+        </div>
+      </div>
+
+      <!-- 23 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">23</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2.5c1.03 0 1.87.73 1.98 1.68.04.37-.23.82-.63.82h-.53c-.28 0-.52-.19-.56-.46C12.2 8.25 12.11 8 12 8s-.2.25-.26.54c-.04.27-.28.46-.56.46h-.53c-.4 0-.67-.45-.63-.82C10.13 7.23 10.97 6.5 12 6.5zM19 17H5v-1.5h14V17zm0-3H5v-1.5h14V14zm0-3h-5V9.5h5V11z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Newsletter → Video</span>
+          <span data-lang="en">Newsletter → Video</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Ogni newsletter scritta diventa anche un video. L'avatar legge, commenta e distribuisce il contenuto su YouTube, LinkedIn e social — ampliando il pubblico raggiungibile.</span>
+          <span data-lang="en">Every written newsletter becomes a video too. The avatar reads, comments and distributes the content on YouTube, LinkedIn and social — expanding your reachable audience.</span>
+        </div>
+      </div>
+
+      <!-- 24 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">24</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L1 18l1.5 1.5 6-6 5 5L23.5 8.5zM16 4c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM4 8c0 1.1-.9 2-2 2S0 9.1 0 8s.9-2 2-2 2 .9 2 2z"/><path d="M20 2H4v2h16V2zm0 18H4v2h16v-2z"/><path d="M22 7H2v2h20V7z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">News Anchor AI</span>
+          <span data-lang="en">AI News Anchor</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Avatar come conduttore del tuo notiziario digitale. Flash news, aggiornamenti quotidiani, rassegna stampa — senza redazione video, senza studio, senza costi fissi.</span>
+          <span data-lang="en">Avatar as anchor of your digital newscast. Breaking news, daily updates, press roundups — no video crew, no studio, no fixed costs.</span>
+        </div>
+      </div>
+
+      <!-- 25 -->
+      <div class="uc-card fade-up delay-1">
+        <div class="uc-num">25</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 11H7v-2h4v2zm6 0h-4v-2h4v2zm0-4H7V7h10v2z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Talk Show e Format Intervista</span>
+          <span data-lang="en">Talk Show & Interview Format</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Avatar come co-host, moderatore o ospite fisso del tuo format. Intro, domande, commenti: una presenza costante e scalabile senza dipendere da ospiti umani in ogni puntata.</span>
+          <span data-lang="en">Avatar as co-host, moderator or regular guest of your format. Intro, questions, commentary: a consistent, scalable presence that doesn't depend on human guests in every episode.</span>
+        </div>
+      </div>
+
+      <!-- 26 -->
+      <div class="uc-card fade-up delay-2">
+        <div class="uc-num">26</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Webinar Host</span>
+          <span data-lang="en">Webinar Host</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Avatar come host professionale di webinar, summit online e virtual event. Apertura, presentazione relatori, chiusura e replay — tutto con faccia e voce coerenti, senza sovraccaricare il team.</span>
+          <span data-lang="en">Avatar as professional host for webinars, online summits and virtual events. Opening, speaker introductions, closing and replay — all with consistent face and voice, without overloading your team.</span>
+        </div>
+      </div>
+
+      <!-- 27 -->
+      <div class="uc-card fade-up delay-3">
+        <div class="uc-num">27</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Documentario e Video-saggio</span>
+          <span data-lang="en">Documentary & Video Essay</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Avatar come voce narrante e volto di documentari, video-saggi e long-form content. Storytelling approfondito con una presenza visiva costante e riproducibile su qualsiasi piattaforma.</span>
+          <span data-lang="en">Avatar as narrator and face of documentaries, video essays and long-form content. In-depth storytelling with consistent visual presence, reproducible on any platform.</span>
+        </div>
+      </div>
+
+      <!-- 28 -->
+      <div class="uc-card fade-up delay-4">
+        <div class="uc-num">28</div>
+        <div class="uc-icon">
+          <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zm-7 6.5c-2.49 0-4.5-2.01-4.5-4.5S7.51 8 10 8s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7c-1.38 0-2.5 1.12-2.5 2.5S8.62 15 10 15s2.5-1.12 2.5-2.5S11.38 10 10 10z"/></svg>
+        </div>
+        <div class="uc-title">
+          <span data-lang="it">Live Streaming Avatar</span>
+          <span data-lang="en">Live Streaming Avatar</span>
+        </div>
+        <div class="uc-desc">
+          <span data-lang="it">Presenza virtuale in stream live su Twitch, YouTube Live, Instagram e TikTok. L'avatar anima la sessione, interagisce con la chat e mantiene il canale attivo anche in assenza del creator.</span>
+          <span data-lang="en">Virtual presence in live streams on Twitch, YouTube Live, Instagram and TikTok. The avatar animates the session, interacts with chat and keeps the channel active even when the creator is away.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="uc-footer-note">
+      <span data-lang="it">28 scenari operativi oggi. Nei prossimi anni diventerà la componente standard di ogni brand, media company, creator e presenza digitale professionale.</span>
+      <span data-lang="en">28 operational scenarios today. In the coming years it will become the standard component of every brand, media company, creator and professional digital presence.</span>
+    </p>
+
+  </div>
+</section>
+
+<!-- ═══════════════════ SHOWCASE ═══════════════════ -->
+<section id="showcase">
+  <div class="wrap">
+    <div class="showcase-header">
+      <div class="sec-label">
+        <span data-lang="it">Chi usa AVARCAST</span>
+        <span data-lang="en">Who uses AVARCAST</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Il tuo avatar lavora<br>mentre tu sei altrove.</span>
+        <span data-lang-block="en">Your avatar works<br>while you're elsewhere.</span>
+      </h2>
+    </div>
+
+    <div class="showcase-grid">
+
+      <!-- Card 1: Creator -->
+      <div class="showcase-card">
+        <div class="sc-fallback"></div>
+        <img class="showcase-photo"
+          src="assets/img/Foto/M/Pers7.jpg"
+          alt="Creator & Influencer AVARCAST"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="showcase-gradient"></div>
+        <div class="sc-badge">CASE 01</div>
+        <div class="showcase-content">
+          <div class="sc-tag">
+            <span data-lang="it">Creator & Influencer</span>
+            <span data-lang="en">Creator & Influencer</span>
+          </div>
+          <div class="sc-title">
+            <span data-lang-block="it">Contenuti ogni giorno.<br>Senza set.</span>
+            <span data-lang-block="en">Content every day.<br>No studio.</span>
+          </div>
+          <div class="sc-desc">
+            <span data-lang="it">Il tuo avatar porta avanti il brand mentre ti dedichi alla strategia.</span>
+            <span data-lang="en">Your avatar carries the brand forward while you focus on strategy.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 2: CEO / Professional -->
+      <div class="showcase-card">
+        <div class="sc-fallback"></div>
+        <img class="showcase-photo"
+          src="assets/img/Foto/M/Pers11.jpg"
+          alt="CEO e Imprenditore AVARCAST"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="showcase-gradient"></div>
+        <div class="sc-badge">CASE 02</div>
+        <div class="showcase-content">
+          <div class="sc-tag">
+            <span data-lang="it">CEO & Imprenditore</span>
+            <span data-lang="en">CEO & Entrepreneur</span>
+          </div>
+          <div class="sc-title">
+            <span data-lang-block="it">Presenza personale<br>scalabile.</span>
+            <span data-lang-block="en">Scalable personal<br>presence.</span>
+          </div>
+          <div class="sc-desc">
+            <span data-lang="it">Messaggi aziendali, video di vendita, update — senza perdere ore in riprese.</span>
+            <span data-lang="en">Company messages, sales videos, updates — without losing hours filming.</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Card 3: Formatore -->
+      <div class="showcase-card">
+        <div class="sc-fallback"></div>
+        <img class="showcase-photo"
+          src="assets/img/Foto/W/Pers10.jpg"
+          alt="Formatore e Docente AVARCAST"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="showcase-gradient"></div>
+        <div class="sc-badge">CASE 03</div>
+        <div class="showcase-content">
+          <div class="sc-tag">
+            <span data-lang="it">Formatori & Docenti</span>
+            <span data-lang="en">Trainers & Educators</span>
+          </div>
+          <div class="sc-title">
+            <span data-lang-block="it">Corsi video senza<br>riprese extra.</span>
+            <span data-lang-block="en">Video courses without<br>extra filming.</span>
+          </div>
+          <div class="sc-desc">
+            <span data-lang="it">Trasforma ogni tuo contenuto in un corso presentato dal tuo avatar.</span>
+            <span data-lang="en">Transform every piece of content into a course presented by your avatar.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ BESPOKE ═══════════════════ -->
+<section id="bespoke">
+  <div class="wrap">
+    <div class="showcase-header">
+      <div class="sec-label">
+        <span data-lang="it">Produzioni su misura</span>
+        <span data-lang="en">Custom productions</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Oltre l'avatar singolo:<br>produzioni firmate Obiriec Labs.</span>
+        <span data-lang-block="en">Beyond the single avatar:<br>productions by Obiriec Labs.</span>
+      </h2>
+      <p class="sec-sub">
+        <span data-lang="it">Per progetti che vanno oltre una scena: personaggio ricorrente, narrazione multi-episodio, montaggio e color grading curati dal team dietro AVARCAST.</span>
+        <span data-lang="en">For projects that need more than one scene: a recurring character, multi-episode storytelling, editing and color grading handled by the team behind AVARCAST.</span>
+      </p>
+      <p class="bespoke-disclaimer">
+        <span data-lang="it">Kairos, The Jade Lorven Show ed Elena Vairelli sono produzioni proprietarie di Obiriec Labs e AVARCAST, mostrate come esempio del lavoro realizzabile su commissione.</span>
+        <span data-lang="en">Kairos, The Jade Lorven Show and Elena Vairelli are proprietary productions by Obiriec Labs and AVARCAST, shown as an example of the work possible on commission.</span>
+      </p>
+    </div>
+
+    <div class="showcase-grid">
+
+      <!-- Card 1: Professor Kairos Chronopóros -->
+      <a class="showcase-card" href="https://www.youtube.com/@Prof.KairosChronopóros" target="_blank" rel="noopener noreferrer" aria-label="Guarda Professor Kairos Chronopóros su YouTube (si apre in una nuova scheda)">
+        <div class="sc-fallback"></div>
+        <img class="showcase-photo"
+          src="assets/img/showcase/kairos.jpg"
+          alt="Professor Kairos Chronopóros — serie documentaristica AVARCAST"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="showcase-gradient"></div>
+        <div class="sc-badge sc-badge--custom">
+          <span data-lang="it">Su commissione</span>
+          <span data-lang="en">Made to order</span>
+        </div>
+        <div class="showcase-content">
+          <div class="sc-tag">
+            <span data-lang="it">Serie documentaristica</span>
+            <span data-lang="en">Documentary series</span>
+          </div>
+          <div class="sc-title">Professor Kairos Chronopóros</div>
+          <div class="sc-desc">
+            <span data-lang="it">Un divulgatore che viaggia nel tempo, episodio dopo episodio, con lo stesso volto e la stessa voce in ogni scena.</span>
+            <span data-lang="en">A time-traveling science communicator, episode after episode, with the same face and voice in every scene.</span>
+          </div>
+          <div class="sc-link-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-lang="it">Guarda su YouTube</span>
+            <span data-lang="en">Watch on YouTube</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 2: The Jade Lorven Show -->
+      <a class="showcase-card" href="https://www.youtube.com/@TheJadeLorvenShow" target="_blank" rel="noopener noreferrer" aria-label="Guarda The Jade Lorven Show su YouTube (si apre in una nuova scheda)">
+        <div class="sc-fallback"></div>
+        <img class="showcase-photo"
+          src="assets/img/showcase/jade-lorven.jpg"
+          alt="The Jade Lorven Show — talk show AVARCAST"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="showcase-gradient"></div>
+        <div class="sc-badge sc-badge--custom">
+          <span data-lang="it">Su commissione</span>
+          <span data-lang="en">Made to order</span>
+        </div>
+        <div class="showcase-content">
+          <div class="sc-tag">
+            <span data-lang="it">Talk show</span>
+            <span data-lang="en">Talk show</span>
+          </div>
+          <div class="sc-title">The Jade Lorven Show</div>
+          <div class="sc-desc">
+            <span data-lang="it">Una conduttrice che intervista altri personaggi AI, con set e ritmo da vera trasmissione televisiva.</span>
+            <span data-lang="en">A host interviewing other AI characters, with the set and pacing of a real television show.</span>
+          </div>
+          <div class="sc-link-hint">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            <span data-lang="it">Guarda su YouTube</span>
+            <span data-lang="en">Watch on YouTube</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Card 3: Elena Vairelli (nessun canale pubblico ancora — non cliccabile) -->
+      <div class="showcase-card">
+        <div class="sc-fallback"></div>
+        <img class="showcase-photo"
+          src="assets/img/showcase/elena-vairelli.jpg"
+          alt="Elena Vairelli — presentazione prodotto AVARCAST"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="showcase-gradient"></div>
+        <div class="sc-badge sc-badge--custom">
+          <span data-lang="it">Su commissione</span>
+          <span data-lang="en">Made to order</span>
+        </div>
+        <div class="showcase-content">
+          <div class="sc-tag">
+            <span data-lang="it">Presentazione prodotto</span>
+            <span data-lang="en">Product presentation</span>
+          </div>
+          <div class="sc-title">Elena Vairelli</div>
+          <div class="sc-desc">
+            <span data-lang="it">Una modella digitale che presenta un prodotto in più scene, con volto, voce e ambientazione sempre coerenti.</span>
+            <span data-lang="en">A digital model presenting a product across multiple scenes, with a consistent face, voice and setting.</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <p class="bespoke-note">
+      <span data-lang="it">Questi progetti si preventivano su misura. Scrivi a <a href="mailto:hello@avarcast.com">hello@avarcast.com</a>.</span>
+      <span data-lang="en">These projects are quoted individually. Write to <a href="mailto:hello@avarcast.com">hello@avarcast.com</a>.</span>
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════ FEATURES ═══════════════════ -->
+<section id="features">
+  <div class="wrap">
+    <div class="ch-header">
+      <div class="sec-label">
+        <span data-lang="it">La piattaforma</span>
+        <span data-lang="en">The platform</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Un avatar.<br>Possibilità infinite.</span>
+        <span data-lang-block="en">One avatar.<br>Infinite possibilities.</span>
+      </h2>
+    </div>
+
+    <div class="ch-grid">
+      <!-- 01 -->
+      <div class="ch-card">
+        <div class="ch-tag"><span class="ch-tag-badge">01</span></div>
+        <div class="ch-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="8" r="4"/>
+            <path d="M6 20v-2a6 6 0 0 1 12 0v2"/>
+          </svg>
+        </div>
+        <div class="ch-title">
+          <span data-lang="it">Avatar Personalizzato</span>
+          <span data-lang="en">Custom Avatar</span>
+        </div>
+        <div class="ch-desc">
+          <span data-lang="it">Carica una tua foto o un breve video. La nostra AI — basata su tecnologia D-ID — genera il tuo avatar digitale: volto realistico, voce clonata, espressioni naturali.</span>
+          <span data-lang="en">Upload a photo or a short video clip. Our AI — powered by D-ID technology — creates your digital avatar: realistic face, cloned voice, natural expressions.</span>
+        </div>
+      </div>
+
+      <!-- 02 -->
+      <div class="ch-card">
+        <div class="ch-tag"><span class="ch-tag-badge">02</span></div>
+        <div class="ch-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+            <polyline points="14 2 14 8 20 8"/>
+            <line x1="16" y1="13" x2="8" y2="13"/>
+            <line x1="16" y1="17" x2="8" y2="17"/>
+          </svg>
+        </div>
+        <div class="ch-title">
+          <span data-lang="it">Testo → Video</span>
+          <span data-lang="en">Text → Video</span>
+        </div>
+        <div class="ch-desc">
+          <span data-lang="it">Scrivi o incolla il tuo script. L'avatar lo legge in video con lip-sync perfetto. Video professionale pronto in pochi minuti — senza riprese, senza montaggio.</span>
+          <span data-lang="en">Write or paste your script. The avatar reads it on video with perfect lip-sync. Professional video ready in minutes — no filming, no editing.</span>
+        </div>
+      </div>
+
+      <!-- 03 -->
+      <div class="ch-card">
+        <div class="ch-tag"><span class="ch-tag-badge">03</span></div>
+        <div class="ch-icon">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="12" cy="12" r="10"/>
+            <line x1="2" y1="12" x2="22" y2="12"/>
+            <path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/>
+          </svg>
+        </div>
+        <div class="ch-title">
+          <span data-lang="it">120+ Lingue</span>
+          <span data-lang="en">120+ Languages</span>
+        </div>
+        <div class="ch-desc">
+          <span data-lang="it">Un avatar, ogni mercato. Il tuo avatar parla italiano, inglese, spagnolo, francese e oltre 120 lingue con lip-sync nativo. Un solo contenuto, localizzazione automatica.</span>
+          <span data-lang="en">One avatar, every market. Your avatar speaks Italian, English, Spanish, French and 120+ languages with native lip-sync. One piece of content, automatic localisation.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ HOW IT WORKS ═══════════════════ -->
+<section id="how">
+  <div class="wrap">
+    <div class="how-layout">
+      <div>
+        <div class="sec-label">
+          <span data-lang="it">Come funziona</span>
+          <span data-lang="en">How it works</span>
+        </div>
+        <h2 class="sec-title" style="margin-bottom:14px;">
+          <span data-lang-block="it">Tre passi.<br>Il tuo avatar è pronto.</span>
+          <span data-lang-block="en">Three steps.<br>Your avatar is ready.</span>
+        </h2>
+        <p class="sec-sub" style="margin-bottom:40px;">
+          <span data-lang="it">Il processo è semplice. Il risultato è professionale.</span>
+          <span data-lang="en">The process is simple. The result is professional.</span>
+        </p>
+
+        <div class="steps">
+          <div class="step">
+            <div class="step-n">01</div>
+            <div>
+              <div class="step-title">
+                <span data-lang="it">Carica</span>
+                <span data-lang="en">Upload</span>
+              </div>
+              <div class="step-desc">
+                <span data-lang="it">Carica una tua foto o un breve video di te stesso. Bastano 30 secondi di ripresa. Niente set, niente luci, niente attrezzatura speciale.</span>
+                <span data-lang="en">Upload a photo or a short video of yourself. Just 30 seconds of footage. No set, no lights, no special equipment.</span>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">02</div>
+            <div>
+              <div class="step-title">
+                <span data-lang="it">Genera il tuo Avatar</span>
+                <span data-lang="en">Generate your Avatar</span>
+              </div>
+              <div class="step-desc">
+                <span data-lang="it">La nostra AI addestra il tuo avatar personalizzato: volto realistico, voce clonata, lip-sync preciso. In pochi minuti il tuo gemello digitale è operativo.</span>
+                <span data-lang="en">Our AI trains your custom avatar: realistic face, cloned voice, precise lip-sync. In minutes your digital twin is ready to work.</span>
+              </div>
+            </div>
+          </div>
+          <div class="step">
+            <div class="step-n">03</div>
+            <div>
+              <div class="step-title">
+                <span data-lang="it">Genera il Video</span>
+                <span data-lang="en">Generate the Video</span>
+              </div>
+              <div class="step-desc">
+                <span data-lang="it">Scrivi o incolla il tuo script. Il tuo avatar genera il video in pochi minuti. Pronto per YouTube, LinkedIn, corsi online, presentazioni aziendali.</span>
+                <span data-lang="en">Write or paste your script. Your avatar generates the video in minutes. Ready for YouTube, LinkedIn, online courses, corporate presentations.</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Avatar generation process visual -->
+      <div class="how-visual">
+        <div class="signal-vis">
+          <div class="sv-ring sv-r1"></div>
+          <div class="sv-ring sv-r2"></div>
+          <div class="sv-ring sv-r3"></div>
+          <div class="sv-ring sv-r4"></div>
+          <div class="sv-core">AI</div>
+          <div class="sv-labels">
+            <div class="sv-lbl sv-lbl-1">VOICE</div>
+            <div class="sv-lbl sv-lbl-2">VIDEO</div>
+            <div class="sv-lbl sv-lbl-3">AVATAR</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ CTA ═══════════════════ -->
+<section id="cta">
+  <div class="wrap">
+    <div class="cta-wrap">
+      <div class="cta-eyebrow">
+        <span data-lang="it">Accesso anticipato</span>
+        <span data-lang="en">Early access</span>
+      </div>
+      <h2 class="cta-title">
+        <span data-lang-block="it">Pronto a creare il tuo<br><em class="gold-text">avatar AI?</em></span>
+        <span data-lang-block="en">Ready to create your<br><em class="gold-text">AI avatar?</em></span>
+      </h2>
+      <p class="cta-sub">
+        <span data-lang="it">Entra in lista d'attesa. Ricevi l'accesso anticipato e genera i tuoi primi video con AVARCAST prima di tutti gli altri.</span>
+        <span data-lang="en">Join the waitlist. Get early access and generate your first videos with AVARCAST before everyone else.</span>
+      </p>
+      <form class="cta-form" id="cta-form" onsubmit="submitWaitlist(event,'cta')">
+        <input class="cta-input" id="cta-email" type="email" required
+          data-placeholder-it="La tua email" data-placeholder-en="Your email"
+          placeholder="La tua email" autocomplete="email" />
+        <button class="cta-btn" type="submit">
+          <span data-lang="it">Entra nella lista</span>
+          <span data-lang="en">Join the list</span>
+        </button>
+      </form>
+      <div class="cta-success" id="cta-success">
+        <div class="cta-success-title">
+          <span data-lang="it">Sei dentro.</span>
+          <span data-lang="en">You're in.</span>
+        </div>
+        <div class="cta-success-sub">
+          <span data-lang="it">Riceverai una notifica non appena AVARCAST sarà disponibile.</span>
+          <span data-lang="en">You'll receive a notification as soon as AVARCAST is available.</span>
+        </div>
+      </div>
+      <div class="cta-note" id="cta-note">
+        <span data-lang="it">Nessun costo · Nessuno spam · Disdici quando vuoi</span>
+        <span data-lang="en">No cost · No spam · Unsubscribe anytime</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-row">
+      <span class="footer-logo">AVAR<span class="sep">·</span>CAST</span>
+      <div class="footer-center">
+        <div class="footer-line">
+          © 2026 AVARCAST — <a href="https://obirieclabs.com" target="_blank" rel="noopener">OBIRIEC LABS</a>
+        </div>
+        <div class="footer-line" style="font-size:0.54rem; letter-spacing:0.12em; margin-top:2px;">
+          AVATAR AI GENERATIVO · POWERED BY D-ID · 2026
+        </div>
+      </div>
+      <div class="footer-right">
+        <a href="mailto:hello@avarcast.com">hello@avarcast.com</a>
+      </div>
+    </div>
+    <div style="text-align:center; font-family:var(--f-mono); font-size:0.52rem; letter-spacing:0.08em; color:var(--t-low); margin-top:16px; padding-top:12px; border-top:1px solid var(--wire);">
+      Obiriec Labs reserves the right to discontinue any service at any time. <a href="https://obirieclabs.com/terms.html" style="color:var(--t-mid);">Terms</a>
+    </div>
+  </div>
+</footer>
+
+<!-- ═══════════════════ SCRIPTS ═══════════════════ -->
+<script>
+  /* ── Language ── */
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+      btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
+    });
+    document.querySelectorAll('[data-placeholder-it]').forEach(el => {
+      el.placeholder = lang === 'it'
+        ? el.getAttribute('data-placeholder-it')
+        : el.getAttribute('data-placeholder-en');
+    });
+    /* ── Swap voice demo video sources on lang change ── */
+    document.querySelectorAll('video[data-src-it]').forEach(vid => {
+      const newSrc = lang === 'it'
+        ? vid.getAttribute('data-src-it')
+        : vid.getAttribute('data-src-en');
+      if (newSrc && vid.currentSrc.indexOf(newSrc) === -1) {
+        const wasMuted = vid.muted;
+        vid.src = newSrc;
+        vid.muted = wasMuted;
+        vid.load();
+        vid.play().catch(() => {});
+      }
+    });
+  }
+
+  (function () {
+    const lang = navigator.language && navigator.language.toLowerCase().startsWith('it') ? 'it' : 'en';
+    setLang(lang);
+  })();
+
+  /* ── Waitlist form ── */
+  async function submitWaitlist(e, id) {
+    e.preventDefault();
+    const email = document.getElementById(id + '-email').value.trim();
+    if (!email) return;
+    const form = document.getElementById(id + '-form');
+    const note = document.getElementById(id + '-note');
+    const succ = document.getElementById(id + '-success');
+    const btn  = form.querySelector('button[type=submit]');
+    btn.disabled = true;
+    try {
+      await fetch('/api/waitlist', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email, lang: document.documentElement.lang })
+      });
+    } catch (_) {}
+    form.style.display = 'none';
+    if (note) note.style.display = 'none';
+    succ.classList.add('visible');
+  }
+
+  /* ── Nav scroll shadow ── */
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 10);
+  }, { passive: true });
+
+  /* ── Hover-to-hear — exclusive audio system ── */
+  (function initVoiceHover() {
+    const allCards = () => document.querySelectorAll('[data-voice-card]');
+
+    function muteAll() {
+      allCards().forEach(card => {
+        const vid = card.querySelector('video');
+        if (vid) vid.muted = true;
+        card.classList.remove('audio-active');
+      });
+    }
+
+    function activateCard(card) {
+      muteAll();
+      const vid = card.querySelector('video');
+      if (!vid) return;
+      vid.muted = false;
+      vid.currentTime = 0;
+      vid.play().catch(() => { vid.muted = true; });
+      card.classList.add('audio-active');
+    }
+
+    function deactivateCard(card) {
+      const vid = card.querySelector('video');
+      if (vid) vid.muted = true;
+      card.classList.remove('audio-active');
+    }
+
+    function attachListeners() {
+      allCards().forEach(card => {
+        /* Desktop hover */
+        card.addEventListener('mouseenter', () => activateCard(card));
+        card.addEventListener('mouseleave', () => deactivateCard(card));
+        /* Mobile tap toggle */
+        card.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          if (card.classList.contains('audio-active')) {
+            deactivateCard(card);
+          } else {
+            activateCard(card);
+          }
+        }, { passive: false });
+      });
+    }
+
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', attachListeners);
+    } else {
+      attachListeners();
+    }
+  })();
+
+  /* ── Lazy-load videos on scroll ── */
+  document.addEventListener('DOMContentLoaded', () => {
+    const lazyVids = document.querySelectorAll('video[preload="none"]');
+    if ('IntersectionObserver' in window) {
+      const obs = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const vid = entry.target;
+            if (!vid.src && vid.querySelector('source')) {
+              const src = vid.querySelector('source').src;
+              vid.src = src;
+              vid.load();
+            }
+            obs.unobserve(vid);
+          }
+        });
+      }, { rootMargin: '200px' });
+      lazyVids.forEach(v => obs.observe(v));
+    } else {
+      // Fallback: load all immediately
+      lazyVids.forEach(v => {
+        if (!v.src && v.querySelector('source')) {
+          v.src = v.querySelector('source').src;
+          v.load();
+        }
+      });
+    }
+  });
+</script>
+
+</body>
+</html>
