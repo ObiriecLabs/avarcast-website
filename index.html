@@ -51,7 +51,7 @@
   /* ╔══════════════════════════════════════════════════════════════╗
      ║  BASE                                                        ║
      ╚══════════════════════════════════════════════════════════════╝ */
-  html { scroll-behavior: smooth; }
+  html { scroll-behavior: smooth; scroll-padding-top: 82px; }
   body {
     background: var(--bg);
     color: var(--t-hi);
@@ -184,6 +184,91 @@
     transition: all var(--tx) var(--ease);
   }
   .nav-waitlist:hover { background: var(--gold-glow); border-color: var(--gold-l); }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 22px;
+  }
+  .nav-link {
+    font-family: var(--f-mono);
+    font-size: 0.72rem;
+    letter-spacing: 0.05em;
+    color: var(--t-mid);
+    white-space: nowrap;
+    transition: color var(--tx) var(--ease);
+  }
+  .nav-link:hover,
+  .nav-link:focus-visible { color: var(--gold-l); }
+
+  .nav-toggle {
+    display: none;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background: transparent;
+    border: 1px solid var(--wire);
+    border-radius: 8px;
+    color: var(--t-hi);
+    cursor: pointer;
+    flex-shrink: 0;
+  }
+  .nav-toggle:hover { border-color: var(--wire-gold); color: var(--gold-l); }
+  .nav-toggle-close { display: none; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-open { display: none; }
+  .nav-toggle[aria-expanded="true"] .nav-toggle-close { display: block; }
+
+  .nav-mobile-panel {
+    display: none;
+    position: fixed;
+    top: 62px;
+    left: 0;
+    right: 0;
+    z-index: 199;
+    flex-direction: column;
+    max-height: calc(100vh - 62px);
+    overflow-y: auto;
+    padding: 10px var(--gutter) 22px;
+    background: var(--bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--wire);
+    transform: translateY(-8px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity var(--tx) var(--ease), transform var(--tx) var(--ease);
+  }
+  .nav-mobile-panel.open {
+    opacity: 1;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+  .nav-mobile-link {
+    padding: 15px 2px;
+    border-top: 1px solid var(--wire);
+    font-family: var(--f-sans);
+    font-size: 0.94rem;
+    font-weight: 600;
+    color: var(--t-hi);
+  }
+  .nav-mobile-link:first-child { border-top: none; }
+  .nav-mobile-link:hover { color: var(--gold-l); }
+  .nav-mobile-link--cta {
+    margin-top: 14px;
+    padding: 13px 18px;
+    border-top: none;
+    text-align: center;
+    background: var(--gold);
+    color: #080808;
+    border-radius: var(--r);
+  }
+
+  @media (max-width: 1140px) {
+    .nav-links { display: none; }
+    .nav-toggle { display: flex; }
+    .nav-mobile-panel { display: flex; }
+  }
 
   .live-dot {
     width: 6px; height: 6px;
@@ -595,43 +680,26 @@
     margin-bottom: 52px;
   }
 
-  .uc-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-  }
-  @media (max-width: 1000px) { .uc-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 660px)  { .uc-grid { grid-template-columns: repeat(2, 1fr); gap: 8px; } }
-  @media (max-width: 420px)  { .uc-grid { grid-template-columns: 1fr; } }
-
-  .uc-card {
-    position: relative;
-    padding: 20px 18px 18px;
-    background: var(--surface2);
-    border: 1px solid var(--wire);
-    border-radius: var(--r);
-    transition: transform var(--tx) var(--ease),
-                border-color var(--tx) var(--ease),
-                box-shadow var(--tx) var(--ease);
-    cursor: default;
-  }
-  .uc-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(200,149,58,0.30);
-    box-shadow: 0 10px 32px rgba(200,149,58,0.10);
+  .uc-index {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    max-width: 920px;
+    margin: 0 auto;
   }
 
-  .uc-num {
-    font-family: var(--f-mono);
-    font-size: 0.52rem;
-    letter-spacing: 0.16em;
-    color: var(--gold);
-    margin-bottom: 12px;
+  .uc-cat-label {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    font-family: var(--f-mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    color: var(--gold-l);
+    margin-bottom: 12px;
+    white-space: nowrap;
   }
-  .uc-num::after {
+  .uc-cat-label::after {
     content: '';
     flex: 1;
     height: 1px;
@@ -639,43 +707,68 @@
     opacity: 0.5;
   }
 
-  .uc-icon {
-    width: 32px;
-    height: 32px;
-    border-radius: 8px;
-    background: var(--surface3);
-    border: 1px solid var(--wire);
+  .uc-chip-row {
     display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .uc-chip {
+    position: relative;
+    display: inline-flex;
     align-items: center;
-    justify-content: center;
-    margin-bottom: 12px;
-    flex-shrink: 0;
-  }
-  .uc-icon svg {
-    width: 16px;
-    height: 16px;
-    fill: var(--gold-l);
-  }
-
-  .uc-title {
+    padding: 9px 15px;
+    background: var(--surface2);
+    border: 1px solid var(--wire);
+    border-radius: var(--r);
     font-family: var(--f-sans);
-    font-weight: 700;
-    font-size: 0.80rem;
+    font-size: 0.82rem;
     color: var(--t-hi);
-    margin-bottom: 6px;
-    line-height: 1.3;
+    cursor: default;
+    transition: border-color var(--tx) var(--ease), background var(--tx) var(--ease);
+  }
+  .uc-chip:hover,
+  .uc-chip:focus-visible {
+    border-color: rgba(200,149,58,0.45);
+    background: var(--gold-glow);
+    outline: none;
   }
 
-  .uc-desc {
+  .uc-chip-tip {
+    position: absolute;
+    left: 0;
+    bottom: calc(100% + 10px);
+    z-index: 20;
+    width: max-content;
+    max-width: 260px;
+    padding: 11px 14px;
+    background: var(--surface3);
+    border: 1px solid var(--wire-gold);
+    border-radius: var(--r);
+    box-shadow: 0 12px 28px rgba(0,0,0,0.45);
     font-family: var(--f-sans);
-    font-size: 0.72rem;
-    color: var(--t-mid);
+    font-size: 0.76rem;
     line-height: 1.55;
+    color: var(--t-mid);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(4px);
+    transition: opacity var(--tx) var(--ease), transform var(--tx) var(--ease), visibility var(--tx);
+    pointer-events: none;
+  }
+  .uc-chip:hover .uc-chip-tip,
+  .uc-chip:focus-visible .uc-chip-tip {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+  @media (max-width: 640px) {
+    .uc-chip-tip { left: auto; right: 0; max-width: 220px; }
   }
 
   .uc-footer-note {
     text-align: center;
-    margin-top: 36px;
+    margin-top: 40px;
     font-family: var(--f-mono);
     font-size: 0.60rem;
     letter-spacing: 0.09em;
@@ -1781,6 +1874,18 @@
 <!-- ═══════════════════ NAV ═══════════════════ -->
 <nav id="nav">
   <span class="nav-logo">AVAR<span class="sep">·</span>CAST</span>
+
+  <div class="nav-links">
+    <a href="#personas" class="nav-link"><span data-lang="it">Avatar</span><span data-lang="en">Avatars</span></a>
+    <a href="#video-demo" class="nav-link"><span data-lang="it">Demo</span><span data-lang="en">Demo</span></a>
+    <a href="#use-cases" class="nav-link"><span data-lang="it">Casi d'uso</span><span data-lang="en">Use cases</span></a>
+    <a href="#showcase" class="nav-link"><span data-lang="it">Chi ci usa</span><span data-lang="en">Who uses us</span></a>
+    <a href="#bespoke" class="nav-link"><span data-lang="it">Produzioni</span><span data-lang="en">Productions</span></a>
+    <a href="#originals" class="nav-link">Originals</a>
+    <a href="#features" class="nav-link"><span data-lang="it">Team</span><span data-lang="en">Team</span></a>
+    <a href="#how" class="nav-link"><span data-lang="it">Processo</span><span data-lang="en">Process</span></a>
+  </div>
+
   <div class="nav-right">
     <div class="lang-switch">
       <button class="lang-btn" onclick="setLang('it')">IT</button>
@@ -1788,6 +1893,25 @@
     </div>
     <a href="#cta" class="nav-waitlist">
       <span class="live-dot"></span>
+      <span data-lang="it">Richiedi preventivo</span>
+      <span data-lang="en">Get a quote</span>
+    </a>
+    <button class="nav-toggle" id="nav-toggle" aria-label="Menu" aria-expanded="false" onclick="toggleNavMenu()">
+      <svg class="nav-toggle-open" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M2 4.5h14M2 9h14M2 13.5h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+      <svg class="nav-toggle-close" width="18" height="18" viewBox="0 0 18 18" fill="none"><path d="M4 4l10 10M14 4L4 14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+    </button>
+  </div>
+
+  <div class="nav-mobile-panel" id="nav-mobile-panel">
+    <a href="#personas" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Avatar</span><span data-lang="en">Avatars</span></a>
+    <a href="#video-demo" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Demo</span><span data-lang="en">Demo</span></a>
+    <a href="#use-cases" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Casi d'uso</span><span data-lang="en">Use cases</span></a>
+    <a href="#showcase" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Chi ci usa</span><span data-lang="en">Who uses us</span></a>
+    <a href="#bespoke" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Produzioni su misura</span><span data-lang="en">Custom productions</span></a>
+    <a href="#originals" class="nav-mobile-link" onclick="closeNavMenu()">Avarcast Originals</a>
+    <a href="#features" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Come lavoriamo</span><span data-lang="en">How we work</span></a>
+    <a href="#how" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Come funziona</span><span data-lang="en">How it works</span></a>
+    <a href="#cta" class="nav-mobile-link nav-mobile-link--cta" onclick="closeNavMenu()">
       <span data-lang="it">Richiedi preventivo</span>
       <span data-lang="en">Get a quote</span>
     </a>
@@ -2348,456 +2472,285 @@
       </h2>
     </div>
 
-    <div class="uc-grid">
+    <div class="uc-index">
 
-      <!-- 01 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">01</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 3c1.66 0 3 1.34 3 3s-1.34 3-3 3-3-1.34-3-3 1.34-3 3-3zm0 14.2c-2.5 0-4.71-1.28-6-3.22.03-1.99 4-3.08 6-3.08 1.99 0 5.97 1.09 6 3.08-1.29 1.94-3.5 3.22-6 3.22z"/></svg>
+      <div class="uc-cat">
+        <div class="uc-cat-label">
+          <span data-lang="it">Brand & comunicazione</span>
+          <span data-lang="en">Brand & communication</span>
         </div>
-        <div class="uc-title">
-          <span data-lang="it">Identità online</span>
-          <span data-lang="en">Online identity</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Rappresentati su siti, community, social, gaming e newsletter con coerenza visiva e continuità di brand.</span>
-          <span data-lang="en">Represent yourself across sites, communities, social, gaming and newsletters with visual coherence and brand continuity.</span>
+        <div class="uc-chip-row">
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Identità online</span>
+            <span class="uc-chip-title" data-lang="en">Online identity</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Rappresentati su siti, community, social, gaming e newsletter con coerenza visiva e continuità di brand.</span>
+              <span data-lang="en">Represent yourself across sites, communities, social, gaming and newsletters with visual coherence and brand continuity.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Personal branding</span>
+            <span class="uc-chip-title" data-lang="en">Personal branding</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Il tuo volto ufficiale su LinkedIn, portfolio, press kit, bio autore, firma email e speaker page.</span>
+              <span data-lang="en">Your official face on LinkedIn, portfolio, press kit, author bio, email signature and speaker page.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Corporate communication</span>
+            <span class="uc-chip-title" data-lang="en">Corporate communication</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Messaggi CEO, briefing interni, policy update, town hall asincroni e annunci HR in più lingue.</span>
+              <span data-lang="en">CEO messages, internal briefings, policy updates, async town halls and HR announcements in multiple languages.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Recruiting & employer branding</span>
+            <span class="uc-chip-title" data-lang="en">Recruiting & employer branding</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Presentazione azienda, spiegazione ruoli aperti, onboarding pre-assunzione e FAQ HR su career page.</span>
+              <span data-lang="en">Company presentation, open role explanation, pre-hire onboarding and HR FAQs on career pages.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Accessibilità e inclusione</span>
+            <span class="uc-chip-title" data-lang="en">Accessibility & inclusion</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Video multilingua, presenza per chi non vuole la telecamera, contenuti on demand per tutti.</span>
+              <span data-lang="en">Multilingual video, presence for those who avoid cameras, on-demand content accessible to everyone.</span>
+            </span>
+          </span>
         </div>
       </div>
 
-      <!-- 02 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">02</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 6h-2.18c.07-.44.18-.88.18-1.25C18 3.2 16.8 2 15.25 2c-1.42 0-2.5.96-3.25 2.08C11.25 2.96 10.17 2 8.75 2 7.2 2 6 3.2 6 4.75c0 .37.11.81.18 1.25H4c-1.11 0-2 .89-2 2v13c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-4.75-2.5c.69 0 1.25.56 1.25 1.25S15.94 6 15.25 6c-.69 0-1.75-1-2.75-2.25.5-.81 1.28-1.25 2.75-1.25zm-6.5 0c1.47 0 2.25.44 2.75 1.25C10.5 6 9.44 7 8.75 7 8.06 7 7.5 6.44 7.5 5.75S7.06 4.5 7.75 4.5zM20 21H4v-2h16v2zm0-5H4V8h5.08L7 10.83 8.62 12 11 8.76l1-1.26 1 1.26L15.38 12 17 10.83 14.92 8H20v8z"/></svg>
+      <div class="uc-cat">
+        <div class="uc-cat-label">
+          <span data-lang="it">Marketing & vendite</span>
+          <span data-lang="en">Marketing & sales</span>
         </div>
-        <div class="uc-title">
-          <span data-lang="it">Personal branding</span>
-          <span data-lang="en">Personal branding</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Il tuo volto ufficiale su LinkedIn, portfolio, press kit, bio autore, firma email e speaker page.</span>
-          <span data-lang="en">Your official face on LinkedIn, portfolio, press kit, author bio, email signature and speaker page.</span>
-        </div>
-      </div>
-
-      <!-- 03 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">03</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 14.5v-9l6 4.5-6 4.5z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Marketing e contenuti</span>
-          <span data-lang="en">Marketing & content</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Spot, ads, demo prodotto, funnel video, FAQ, launch video e contenuti localizzati in più lingue — senza set.</span>
-          <span data-lang="en">Ads, product demos, video funnels, FAQs, launch videos and multilingual content — no studio needed.</span>
-        </div>
-      </div>
-
-      <!-- 04 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">04</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M11.5 2C6.81 2 3 5.81 3 10.5S6.81 19 11.5 19h.5v3c4.86-2.34 8-7 8-11.5C20 5.81 16.19 2 11.5 2zm1 14.5h-2v-2h2v2zm0-4h-2c0-3.25 3-3 3-5 0-1.1-.9-2-2-2s-2 .9-2 2h-2c0-2.21 1.79-4 4-4s4 1.79 4 4c0 2.5-3 2.75-3 5z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Customer support</span>
-          <span data-lang="en">Customer support</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Receptionist virtuale, help desk, guida all'acquisto, assistente prenotazioni e brand ambassador digitale.</span>
-          <span data-lang="en">Virtual receptionist, help desk, shopping guide, booking assistant and digital brand ambassador.</span>
+        <div class="uc-chip-row">
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Marketing e contenuti</span>
+            <span class="uc-chip-title" data-lang="en">Marketing & content</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Spot, ads, demo prodotto, funnel video, FAQ, launch video e contenuti localizzati in più lingue — senza set.</span>
+              <span data-lang="en">Ads, product demos, video funnels, FAQs, launch videos and multilingual content — no studio needed.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Sales e pre-sales</span>
+            <span class="uc-chip-title" data-lang="en">Sales & pre-sales</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Demo personalizzate, presentazioni commerciali, qualificazione lead e follow-up asincroni su misura.</span>
+              <span data-lang="en">Personalised demos, sales presentations, lead qualification and tailored asynchronous follow-ups.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">E-commerce e retail</span>
+            <span class="uc-chip-title" data-lang="en">E-commerce & retail</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Personal shopper, consulente prodotto, host live shopping, guida taglie e commesso virtuale.</span>
+              <span data-lang="en">Personal shopper, product consultant, live shopping host, size guide and virtual sales assistant.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Newsletter → Video</span>
+            <span class="uc-chip-title" data-lang="en">Newsletter → Video</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Ogni newsletter scritta diventa anche un video. L'avatar legge, commenta e distribuisce il contenuto su YouTube, LinkedIn e social — ampliando il pubblico raggiungibile.</span>
+              <span data-lang="en">Every written newsletter becomes a video too. The avatar reads, comments and distributes the content on YouTube, LinkedIn and social — expanding your reachable audience.</span>
+            </span>
+          </span>
         </div>
       </div>
 
-      <!-- 05 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">05</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82zM12 3L1 9l11 6 9-4.91V17h2V9L12 3z"/></svg>
+      <div class="uc-cat">
+        <div class="uc-cat-label">
+          <span data-lang="it">Assistenza & servizi</span>
+          <span data-lang="en">Support & services</span>
         </div>
-        <div class="uc-title">
-          <span data-lang="it">Formazione aziendale</span>
-          <span data-lang="en">Corporate training</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Onboarding, training compliance, corsi HR, SOP video, simulazioni e coaching e-learning a scala.</span>
-          <span data-lang="en">Onboarding, compliance training, HR courses, SOP videos, simulations and e-learning coaching at scale.</span>
-        </div>
-      </div>
-
-      <!-- 06 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">06</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-5 14H7v-2h7v2zm3-4H7v-2h10v2zm0-4H7V7h10v2z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Istruzione</span>
-          <span data-lang="en">Education</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Docente virtuale, tutor 24/7, moduli e-learning, spiegazioni di lezioni e microlearning on demand.</span>
-          <span data-lang="en">Virtual teacher, 24/7 tutor, e-learning modules, lesson explanations and on-demand microlearning.</span>
-        </div>
-      </div>
-
-      <!-- 07 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">07</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Sales e pre-sales</span>
-          <span data-lang="en">Sales & pre-sales</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Demo personalizzate, presentazioni commerciali, qualificazione lead e follow-up asincroni su misura.</span>
-          <span data-lang="en">Personalised demos, sales presentations, lead qualification and tailored asynchronous follow-ups.</span>
+        <div class="uc-chip-row">
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Customer support</span>
+            <span class="uc-chip-title" data-lang="en">Customer support</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Receptionist virtuale, help desk, guida all'acquisto, assistente prenotazioni e brand ambassador digitale.</span>
+              <span data-lang="en">Virtual receptionist, help desk, shopping guide, booking assistant and digital brand ambassador.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Turismo e hospitality</span>
+            <span class="uc-chip-title" data-lang="en">Tourism & hospitality</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Concierge digitale, guida museale, host hotel, receptionist su kiosk e digital signage interattivo.</span>
+              <span data-lang="en">Digital concierge, museum guide, hotel host, kiosk receptionist and interactive digital signage.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Sanità e patient care</span>
+            <span class="uc-chip-title" data-lang="en">Healthcare & patient care</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Prenotazioni, triage informativo, promemoria, orientamento paziente e comunicazioni pre/post visita.</span>
+              <span data-lang="en">Bookings, informational triage, reminders, patient orientation and pre/post-visit communications.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Finanza e servizi regolati</span>
+            <span class="uc-chip-title" data-lang="en">Finance & regulated services</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Accoglienza cliente, spiegazione prodotti finanziari, supporto antifrode e front-office digitale.</span>
+              <span data-lang="en">Client onboarding, financial product explanation, fraud support and digital front-office.</span>
+            </span>
+          </span>
         </div>
       </div>
 
-      <!-- 08 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">08</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 3L1 9l11 6 9-4.91V17h2V9L12 3zM5 13.18v4L12 21l7-3.82v-4L12 17l-7-3.82z"/></svg>
+      <div class="uc-cat">
+        <div class="uc-cat-label">
+          <span data-lang="it">Formazione & eventi</span>
+          <span data-lang="en">Training & events</span>
         </div>
-        <div class="uc-title">
-          <span data-lang="it">Corporate communication</span>
-          <span data-lang="en">Corporate communication</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Messaggi CEO, briefing interni, policy update, town hall asincroni e annunci HR in più lingue.</span>
-          <span data-lang="en">CEO messages, internal briefings, policy updates, async town halls and HR announcements in multiple languages.</span>
-        </div>
-      </div>
-
-      <!-- 09 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">09</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Meeting e spazi immersivi</span>
-          <span data-lang="en">Meetings & immersive spaces</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Partecipazione a meeting, fiere virtuali, networking, eventi enterprise e workshop in ambienti 3D.</span>
-          <span data-lang="en">Participation in meetings, virtual fairs, networking, enterprise events and 3D environment workshops.</span>
-        </div>
-      </div>
-
-      <!-- 10 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">10</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M21 6H3c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm-10 7H8v3H6v-3H3v-2h3V8h2v3h3v2zm4.5 2c-.83 0-1.5-.67-1.5-1.5S14.67 12 15.5 12s1.5.67 1.5 1.5S16.33 15 15.5 15zm3-3c-.83 0-1.5-.67-1.5-1.5S17.67 10 18.5 10s1.5.67 1.5 1.5S19.33 12 18.5 12z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Gaming e metaverse</span>
-          <span data-lang="en">Gaming & metaverse</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">NPC conversazionali, digital humans, VTuber, streamer virtuali, personaggi narrativi e performer.</span>
-          <span data-lang="en">Conversational NPCs, digital humans, VTubers, virtual streamers, narrative characters and performers.</span>
-        </div>
-      </div>
-
-      <!-- 11 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">11</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96C5 16.1 6.9 18 9 18h12v-2H9.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63H19c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">E-commerce e retail</span>
-          <span data-lang="en">E-commerce & retail</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Personal shopper, consulente prodotto, host live shopping, guida taglie e commesso virtuale.</span>
-          <span data-lang="en">Personal shopper, product consultant, live shopping host, size guide and virtual sales assistant.</span>
+        <div class="uc-chip-row">
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Formazione aziendale</span>
+            <span class="uc-chip-title" data-lang="en">Corporate training</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Onboarding, training compliance, corsi HR, SOP video, simulazioni e coaching e-learning a scala.</span>
+              <span data-lang="en">Onboarding, compliance training, HR courses, SOP videos, simulations and e-learning coaching at scale.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Istruzione</span>
+            <span class="uc-chip-title" data-lang="en">Education</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Docente virtuale, tutor 24/7, moduli e-learning, spiegazioni di lezioni e microlearning on demand.</span>
+              <span data-lang="en">Virtual teacher, 24/7 tutor, e-learning modules, lesson explanations and on-demand microlearning.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Simulazione e soft skills</span>
+            <span class="uc-chip-title" data-lang="en">Simulation & soft skills</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Training per vendite, negoziazione, colloqui e customer service con interlocutori simulati e ripetibili.</span>
+              <span data-lang="en">Training for sales, negotiation, interviews and customer service with repeatable simulated counterparts.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Meeting e spazi immersivi</span>
+            <span class="uc-chip-title" data-lang="en">Meetings & immersive spaces</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Partecipazione a meeting, fiere virtuali, networking, eventi enterprise e workshop in ambienti 3D.</span>
+              <span data-lang="en">Participation in meetings, virtual fairs, networking, enterprise events and 3D environment workshops.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Webinar Host</span>
+            <span class="uc-chip-title" data-lang="en">Webinar Host</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Avatar come host professionale di webinar, summit online e virtual event. Apertura, presentazione relatori, chiusura e replay — tutto con faccia e voce coerenti, senza sovraccaricare il team.</span>
+              <span data-lang="en">Avatar as professional host for webinars, online summits and virtual events. Opening, speaker introductions, closing and replay — all with consistent face and voice, without overloading your team.</span>
+            </span>
+          </span>
         </div>
       </div>
 
-      <!-- 12 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">12</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 3c1.93 0 3.5 1.57 3.5 3.5S13.93 13 12 13s-3.5-1.57-3.5-3.5S10.07 6 12 6zm7 13H5v-.23c0-.62.28-1.2.76-1.58C7.47 15.82 9.64 15 12 15s4.53.82 6.24 2.19c.48.38.76.97.76 1.58V19z"/></svg>
+      <div class="uc-cat">
+        <div class="uc-cat-label">
+          <span data-lang="it">Media & serie</span>
+          <span data-lang="en">Media & series</span>
         </div>
-        <div class="uc-title">
-          <span data-lang="it">Sanità e patient care</span>
-          <span data-lang="en">Healthcare & patient care</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Prenotazioni, triage informativo, promemoria, orientamento paziente e comunicazioni pre/post visita.</span>
-          <span data-lang="en">Bookings, informational triage, reminders, patient orientation and pre/post-visit communications.</span>
-        </div>
-      </div>
-
-      <!-- 13 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">13</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Accessibilità e inclusione</span>
-          <span data-lang="en">Accessibility & inclusion</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Video multilingua, presenza per chi non vuole la telecamera, contenuti on demand per tutti.</span>
-          <span data-lang="en">Multilingual video, presence for those who avoid cameras, on-demand content accessible to everyone.</span>
-        </div>
-      </div>
-
-      <!-- 14 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">14</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M4 6H2v14c0 1.1.9 2 2 2h14v-2H4V6zm16-4H8c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-8 12.5v-9l6 4.5-6 4.5z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Creator economy</span>
-          <span data-lang="en">Creator economy</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Host di canale, narratore, testimonial, alter ego digitale e personaggio ricorrente per format in serie.</span>
-          <span data-lang="en">Channel host, narrator, testimonial, digital alter ego and recurring character for serial content formats.</span>
-        </div>
-      </div>
-
-      <!-- 15 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">15</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 3l-1.67 1.67L18.67 3 17 4.67 15.33 3l-1.66 1.67L12 3l-1.67 1.67L8.67 3 7 4.67 5.33 3 3.67 4.67 2 3v16c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V3zM11 17H7v-2h4v2zm6 0h-4v-2h4v2zm1-4H6v-2h12v2zm0-4H6V7h12v2z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Media e informazione</span>
-          <span data-lang="en">Media & news</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Anchor virtuale, presentatore di rubriche, narratore di articoli, host per format e news verticali.</span>
-          <span data-lang="en">Virtual anchor, segment presenter, article narrator, host for vertical news and editorial formats.</span>
+        <div class="uc-chip-row">
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Media e informazione</span>
+            <span class="uc-chip-title" data-lang="en">Media & news</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Anchor virtuale, presentatore di rubriche, narratore di articoli, host per format e news verticali.</span>
+              <span data-lang="en">Virtual anchor, segment presenter, article narrator, host for vertical news and editorial formats.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">News Anchor AI</span>
+            <span class="uc-chip-title" data-lang="en">AI News Anchor</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Avatar come conduttore del tuo notiziario digitale. Flash news, aggiornamenti quotidiani, rassegna stampa — senza redazione video, senza studio, senza costi fissi.</span>
+              <span data-lang="en">Avatar as anchor of your digital newscast. Breaking news, daily updates, press roundups — no video crew, no studio, no fixed costs.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Talk Show e Format Intervista</span>
+            <span class="uc-chip-title" data-lang="en">Talk Show & Interview Format</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Avatar come co-host, moderatore o ospite fisso del tuo format. Intro, domande, commenti: una presenza costante e scalabile senza dipendere da ospiti umani in ogni puntata.</span>
+              <span data-lang="en">Avatar as co-host, moderator or regular guest of your format. Intro, questions, commentary: a consistent, scalable presence that doesn't depend on human guests in every episode.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Documentario e Video-saggio</span>
+            <span class="uc-chip-title" data-lang="en">Documentary & Video Essay</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Avatar come voce narrante e volto di documentari, video-saggi e long-form content. Storytelling approfondito con una presenza visiva costante e riproducibile su qualsiasi piattaforma.</span>
+              <span data-lang="en">Avatar as narrator and face of documentaries, video essays and long-form content. In-depth storytelling with consistent visual presence, reproducible on any platform.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Video Podcast</span>
+            <span class="uc-chip-title" data-lang="en">Video Podcast</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Lancia il tuo podcast video senza camera, studio o luci. L'avatar parla con la tua voce, ogni episodio pubblicabile in ore. Compatibile con YouTube, Spotify, Apple Podcasts.</span>
+              <span data-lang="en">Launch your video podcast without a camera, studio or lighting. The avatar speaks with your voice, every episode publishable in hours. Compatible with YouTube, Spotify, Apple Podcasts.</span>
+            </span>
+          </span>
         </div>
       </div>
 
-      <!-- 16 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">16</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 6h-1V4c0-1.1-.9-2-2-2H3c-1.1 0-2 .9-2 2v13c0 1.1.9 2 2 2h1v1c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zM3 15V4h14v11H3zm17 5H6v-1h11c1.1 0 2-.9 2-2V8h1v12z"/></svg>
+      <div class="uc-cat">
+        <div class="uc-cat-label">
+          <span data-lang="it">Creator & nuovi formati</span>
+          <span data-lang="en">Creator & new formats</span>
         </div>
-        <div class="uc-title">
-          <span data-lang="it">Recruiting & employer branding</span>
-          <span data-lang="en">Recruiting & employer branding</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Presentazione azienda, spiegazione ruoli aperti, onboarding pre-assunzione e FAQ HR su career page.</span>
-          <span data-lang="en">Company presentation, open role explanation, pre-hire onboarding and HR FAQs on career pages.</span>
-        </div>
-      </div>
-
-      <!-- 17 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">17</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Turismo e hospitality</span>
-          <span data-lang="en">Tourism & hospitality</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Concierge digitale, guida museale, host hotel, receptionist su kiosk e digital signage interattivo.</span>
-          <span data-lang="en">Digital concierge, museum guide, hotel host, kiosk receptionist and interactive digital signage.</span>
-        </div>
-      </div>
-
-      <!-- 18 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">18</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M11.8 10.9c-2.27-.59-3-1.2-3-2.15 0-1.09 1.01-1.85 2.7-1.85 1.78 0 2.44.85 2.5 2.1h2.21c-.07-1.72-1.12-3.3-3.21-3.81V3h-3v2.16c-1.94.42-3.5 1.68-3.5 3.61 0 2.31 1.91 3.46 4.7 4.13 2.5.6 3 1.48 3 2.41 0 .69-.49 1.79-2.7 1.79-2.06 0-2.87-.92-2.98-2.1h-2.2c.12 2.19 1.76 3.42 3.68 3.83V21h3v-2.15c1.95-.37 3.5-1.5 3.5-3.55 0-2.84-2.43-3.81-4.7-4.4z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Finanza e servizi regolati</span>
-          <span data-lang="en">Finance & regulated services</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Accoglienza cliente, spiegazione prodotti finanziari, supporto antifrode e front-office digitale.</span>
-          <span data-lang="en">Client onboarding, financial product explanation, fraud support and digital front-office.</span>
-        </div>
-      </div>
-
-      <!-- 19 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">19</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M14.5 2.5c0 1.5-1.5 7-1.5 7h-2C10.5 9.5 9 4 9 2.5 9 1.12 10.12 0 11.5 0S14.5 1.12 14.5 2.5zM11.5 11c-1.38 0-2.5 1.12-2.5 2.5S10.12 16 11.5 16s2.5-1.12 2.5-2.5S12.88 11 11.5 11zM18.85 9l-5.2 3.32c.08.36.15.73.15 1.18 0 2.49-2.01 4.5-4.5 4.5-1.58 0-2.96-.82-3.77-2.06L3 19l1.5 3h14l1.5-3-1.15-10z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Simulazione e soft skills</span>
-          <span data-lang="en">Simulation & soft skills</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Training per vendite, negoziazione, colloqui e customer service con interlocutori simulati e ripetibili.</span>
-          <span data-lang="en">Training for sales, negotiation, interviews and customer service with repeatable simulated counterparts.</span>
+        <div class="uc-chip-row">
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Creator economy</span>
+            <span class="uc-chip-title" data-lang="en">Creator economy</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Host di canale, narratore, testimonial, alter ego digitale e personaggio ricorrente per format in serie.</span>
+              <span data-lang="en">Channel host, narrator, testimonial, digital alter ego and recurring character for serial content formats.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">YouTube Faceless</span>
+            <span class="uc-chip-title" data-lang="en">YouTube Faceless Channel</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Canale YouTube completamente gestito dall'avatar. Zero comparsa in camera. Script → voce clonata → video pubblicato. Monetizzabile dal primo giorno.</span>
+              <span data-lang="en">YouTube channel fully managed by the avatar. Zero on-camera appearance. Script → cloned voice → published video. Monetizable from day one.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Gaming e metaverse</span>
+            <span class="uc-chip-title" data-lang="en">Gaming & metaverse</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">NPC conversazionali, digital humans, VTuber, streamer virtuali, personaggi narrativi e performer.</span>
+              <span data-lang="en">Conversational NPCs, digital humans, VTubers, virtual streamers, narrative characters and performers.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Digital twin della persona</span>
+            <span class="uc-chip-title" data-lang="en">Personal digital twin</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">La tua versione persistente: parla con la tua voce, replica il tuo tono e lavora in modo asincrono.</span>
+              <span data-lang="en">Your persistent version: speaks with your voice, replicates your tone and works asynchronously for you.</span>
+            </span>
+          </span>
+          <span class="uc-chip" tabindex="0">
+            <span class="uc-chip-title" data-lang="it">Live Streaming Avatar</span>
+            <span class="uc-chip-title" data-lang="en">Live Streaming Avatar</span>
+            <span class="uc-chip-tip">
+              <span data-lang="it">Presenza virtuale in stream live su Twitch, YouTube Live, Instagram e TikTok. L'avatar anima la sessione, interagisce con la chat e mantiene il canale attivo anche in assenza del creator.</span>
+              <span data-lang="en">Virtual presence in live streams on Twitch, YouTube Live, Instagram and TikTok. The avatar animates the session, interacts with chat and keeps the channel active even when the creator is away.</span>
+            </span>
+          </span>
         </div>
       </div>
-
-      <!-- 20 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">20</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm0 10.99h7c-.53 4.12-3.28 7.79-7 8.94V12H5V6.3l7-3.11v8.8z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Digital twin della persona</span>
-          <span data-lang="en">Personal digital twin</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">La tua versione persistente: parla con la tua voce, replica il tuo tono e lavora in modo asincrono.</span>
-          <span data-lang="en">Your persistent version: speaks with your voice, replicates your tone and works asynchronously for you.</span>
-        </div>
-      </div>
-
-      <!-- 21 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">21</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 0 1 9 9v7a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h1v-2a7 7 0 1 0-14 0v2h1a2 2 0 0 1 2 2v3a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-7a9 9 0 0 1 9-9z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Video Podcast</span>
-          <span data-lang="en">Video Podcast</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Lancia il tuo podcast video senza camera, studio o luci. L'avatar parla con la tua voce, ogni episodio pubblicabile in ore. Compatibile con YouTube, Spotify, Apple Podcasts.</span>
-          <span data-lang="en">Launch your video podcast without a camera, studio or lighting. The avatar speaks with your voice, every episode publishable in hours. Compatible with YouTube, Spotify, Apple Podcasts.</span>
-        </div>
-      </div>
-
-      <!-- 22 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">22</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M10 15l5.19-3L10 9v6m11.56-7.83c.13.47.22 1.1.28 1.9.07.8.1 1.49.1 2.09L22 12c0 2.19-.16 3.8-.44 4.83-.25.9-.83 1.48-1.73 1.73-.47.13-1.33.22-2.65.28-1.3.07-2.49.1-3.59.1L12 19c-4.19 0-6.8-.16-7.83-.44-.9-.25-1.48-.83-1.73-1.73-.13-.47-.22-1.1-.28-1.9-.07-.8-.1-1.49-.1-2.09L2 12c0-2.19.16-3.8.44-4.83.25-.9.83-1.48 1.73-1.73.47-.13 1.33-.22 2.65-.28 1.3-.07 2.49-.1 3.59-.1L12 5c4.19 0 6.8.16 7.83.44.9.25 1.48.83 1.73 1.73z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">YouTube Faceless</span>
-          <span data-lang="en">YouTube Faceless Channel</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Canale YouTube completamente gestito dall'avatar. Zero comparsa in camera. Script → voce clonata → video pubblicato. Monetizzabile dal primo giorno.</span>
-          <span data-lang="en">YouTube channel fully managed by the avatar. Zero on-camera appearance. Script → cloned voice → published video. Monetizable from day one.</span>
-        </div>
-      </div>
-
-      <!-- 23 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">23</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm-8 2.5c1.03 0 1.87.73 1.98 1.68.04.37-.23.82-.63.82h-.53c-.28 0-.52-.19-.56-.46C12.2 8.25 12.11 8 12 8s-.2.25-.26.54c-.04.27-.28.46-.56.46h-.53c-.4 0-.67-.45-.63-.82C10.13 7.23 10.97 6.5 12 6.5zM19 17H5v-1.5h14V17zm0-3H5v-1.5h14V14zm0-3h-5V9.5h5V11z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Newsletter → Video</span>
-          <span data-lang="en">Newsletter → Video</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Ogni newsletter scritta diventa anche un video. L'avatar legge, commenta e distribuisce il contenuto su YouTube, LinkedIn e social — ampliando il pubblico raggiungibile.</span>
-          <span data-lang="en">Every written newsletter becomes a video too. The avatar reads, comments and distributes the content on YouTube, LinkedIn and social — expanding your reachable audience.</span>
-        </div>
-      </div>
-
-      <!-- 24 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">24</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M22 7l-8.5 8.5-5-5L1 18l1.5 1.5 6-6 5 5L23.5 8.5zM16 4c0 1.1-.9 2-2 2s-2-.9-2-2 .9-2 2-2 2 .9 2 2zM4 8c0 1.1-.9 2-2 2S0 9.1 0 8s.9-2 2-2 2 .9 2 2z"/><path d="M20 2H4v2h16V2zm0 18H4v2h16v-2z"/><path d="M22 7H2v2h20V7z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">News Anchor AI</span>
-          <span data-lang="en">AI News Anchor</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Avatar come conduttore del tuo notiziario digitale. Flash news, aggiornamenti quotidiani, rassegna stampa — senza redazione video, senza studio, senza costi fissi.</span>
-          <span data-lang="en">Avatar as anchor of your digital newscast. Breaking news, daily updates, press roundups — no video crew, no studio, no fixed costs.</span>
-        </div>
-      </div>
-
-      <!-- 25 -->
-      <div class="uc-card fade-up delay-1">
-        <div class="uc-num">25</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M20 2H4c-1.1 0-2 .9-2 2v18l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-9 11H7v-2h4v2zm6 0h-4v-2h4v2zm0-4H7V7h10v2z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Talk Show e Format Intervista</span>
-          <span data-lang="en">Talk Show & Interview Format</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Avatar come co-host, moderatore o ospite fisso del tuo format. Intro, domande, commenti: una presenza costante e scalabile senza dipendere da ospiti umani in ogni puntata.</span>
-          <span data-lang="en">Avatar as co-host, moderator or regular guest of your format. Intro, questions, commentary: a consistent, scalable presence that doesn't depend on human guests in every episode.</span>
-        </div>
-      </div>
-
-      <!-- 26 -->
-      <div class="uc-card fade-up delay-2">
-        <div class="uc-num">26</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 12h-5v5h5v-5zM16 1v2H8V1H6v2H5c-1.11 0-1.99.9-1.99 2L3 19c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2h-1V1h-2zm3 18H5V8h14v11z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Webinar Host</span>
-          <span data-lang="en">Webinar Host</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Avatar come host professionale di webinar, summit online e virtual event. Apertura, presentazione relatori, chiusura e replay — tutto con faccia e voce coerenti, senza sovraccaricare il team.</span>
-          <span data-lang="en">Avatar as professional host for webinars, online summits and virtual events. Opening, speaker introductions, closing and replay — all with consistent face and voice, without overloading your team.</span>
-        </div>
-      </div>
-
-      <!-- 27 -->
-      <div class="uc-card fade-up delay-3">
-        <div class="uc-num">27</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M18 3v2h-2V3H8v2H6V3H4v18h2v-2h2v2h8v-2h2v2h2V3h-2zM8 17H6v-2h2v2zm0-4H6v-2h2v2zm0-4H6V7h2v2zm10 8h-2v-2h2v2zm0-4h-2v-2h2v2zm0-4h-2V7h2v2z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Documentario e Video-saggio</span>
-          <span data-lang="en">Documentary & Video Essay</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Avatar come voce narrante e volto di documentari, video-saggi e long-form content. Storytelling approfondito con una presenza visiva costante e riproducibile su qualsiasi piattaforma.</span>
-          <span data-lang="en">Avatar as narrator and face of documentaries, video essays and long-form content. In-depth storytelling with consistent visual presence, reproducible on any platform.</span>
-        </div>
-      </div>
-
-      <!-- 28 -->
-      <div class="uc-card fade-up delay-4">
-        <div class="uc-num">28</div>
-        <div class="uc-icon">
-          <svg viewBox="0 0 24 24"><path d="M17 10.5V7c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v10c0 .55.45 1 1 1h12c.55 0 1-.45 1-1v-3.5l4 4v-11l-4 4zm-7 6.5c-2.49 0-4.5-2.01-4.5-4.5S7.51 8 10 8s4.5 2.01 4.5 4.5-2.01 4.5-4.5 4.5zm0-7c-1.38 0-2.5 1.12-2.5 2.5S8.62 15 10 15s2.5-1.12 2.5-2.5S11.38 10 10 10z"/></svg>
-        </div>
-        <div class="uc-title">
-          <span data-lang="it">Live Streaming Avatar</span>
-          <span data-lang="en">Live Streaming Avatar</span>
-        </div>
-        <div class="uc-desc">
-          <span data-lang="it">Presenza virtuale in stream live su Twitch, YouTube Live, Instagram e TikTok. L'avatar anima la sessione, interagisce con la chat e mantiene il canale attivo anche in assenza del creator.</span>
-          <span data-lang="en">Virtual presence in live streams on Twitch, YouTube Live, Instagram and TikTok. The avatar animates the session, interacts with chat and keeps the channel active even when the creator is away.</span>
-        </div>
-      </div>
-
     </div>
 
     <p class="uc-footer-note">
@@ -3548,6 +3501,20 @@
   window.addEventListener('scroll', () => {
     nav.classList.toggle('scrolled', window.scrollY > 10);
   }, { passive: true });
+
+  /* ── Nav mobile menu ── */
+  function closeNavMenu() {
+    document.getElementById('nav-mobile-panel').classList.remove('open');
+    document.getElementById('nav-toggle').setAttribute('aria-expanded', 'false');
+  }
+  function toggleNavMenu() {
+    const panel = document.getElementById('nav-mobile-panel');
+    const open = panel.classList.toggle('open');
+    document.getElementById('nav-toggle').setAttribute('aria-expanded', open ? 'true' : 'false');
+  }
+  window.addEventListener('resize', () => {
+    if (window.innerWidth > 1140) closeNavMenu();
+  });
 
   /* ── Hover-to-hear — exclusive audio system ── */
   (function initVoiceHover() {
