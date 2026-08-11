@@ -1,0 +1,377 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Termini di Servizio — AVARCAST</title>
+  <meta name="description" content="Termini di servizio di AVARCAST (Obiriec Labs SRSL Unipersonale): produzioni su commissione, consenso biometrico, contenuti generati con IA, Avarcast Originals." />
+  <meta name="robots" content="noindex" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    a { color: inherit; text-decoration: none; }
+
+    :root {
+      --bg:        #050508;
+      --surface:   #0C0B14;
+      --surface2:  #131121;
+      --wire:      rgba(255,255,255,0.055);
+      --wire-gold: rgba(200,149,58,0.30);
+      --gold:      #C8953A;
+      --gold-l:    #DDA94E;
+      --t-hi:      #EDE7DA;
+      --t-mid:     #7A7390;
+      --t-low:     #36334A;
+      --f-sans:    'Manrope', sans-serif;
+      --f-mono:    'DM Mono', monospace;
+      --r:         10px;
+      --ease:      cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    html { scroll-behavior: smooth; }
+    body {
+      background: var(--bg);
+      color: var(--t-hi);
+      font-family: var(--f-sans);
+      line-height: 1.7;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    [data-lang] { display: none; }
+    body.lang-it [data-lang="it"] { display: unset; }
+    body.lang-en [data-lang="en"] { display: unset; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      height: 62px;
+      padding: 0 24px;
+      background: rgba(5,5,8,0.86);
+      backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--wire);
+    }
+    .nav-logo {
+      font-weight: 800;
+      font-size: 1rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+    }
+    .nav-logo .sep { color: var(--gold-l); }
+    .nav-back {
+      font-family: var(--f-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.05em;
+      color: var(--t-mid);
+      transition: color 0.2s var(--ease);
+    }
+    .nav-back:hover { color: var(--gold-l); }
+
+    .wrap { max-width: 720px; margin: 0 auto; padding: 64px 24px 96px; }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      font-family: var(--f-mono);
+      font-size: 0.67rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 18px;
+    }
+    .eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--gold); }
+
+    h1 {
+      font-size: clamp(1.8rem, 4vw, 2.6rem);
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      line-height: 1.15;
+      margin-bottom: 14px;
+    }
+    .updated {
+      font-size: 0.88rem;
+      color: var(--t-mid);
+      max-width: 560px;
+      margin-bottom: 44px;
+    }
+
+    section {
+      padding: 22px 0;
+      border-top: 1px solid var(--wire);
+    }
+    section:first-of-type { border-top: none; }
+    h2 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--t-hi);
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    h2::before {
+      content: '';
+      width: 3px;
+      height: 14px;
+      background: var(--gold);
+      border-radius: 2px;
+      flex-shrink: 0;
+    }
+    p { font-size: 0.88rem; color: var(--t-mid); margin-bottom: 10px; }
+    p:last-child { margin-bottom: 0; }
+    p strong { color: var(--t-hi); font-weight: 600; }
+    .mono { font-family: var(--f-mono); font-size: 0.82rem; color: var(--gold-l); }
+    a.inline-link { color: var(--gold-l); text-decoration: underline; text-underline-offset: 2px; }
+    ul.rights { list-style: none; padding-left: 0; }
+    ul.rights li {
+      font-size: 0.88rem;
+      color: var(--t-mid);
+      padding-left: 18px;
+      position: relative;
+      margin-bottom: 6px;
+    }
+    ul.rights li::before {
+      content: '·';
+      position: absolute;
+      left: 4px;
+      color: var(--gold);
+    }
+    .callout {
+      margin-top: 14px;
+      padding: 14px 18px;
+      background: rgba(200,149,58,0.08);
+      border: 1px solid var(--wire-gold);
+      border-radius: var(--r);
+    }
+    .callout p { color: var(--t-hi); }
+    .callout p:first-child { margin-bottom: 6px; }
+
+    footer {
+      text-align: center;
+      padding: 24px;
+      font-family: var(--f-mono);
+      font-size: 0.62rem;
+      letter-spacing: 0.06em;
+      color: var(--t-low);
+      border-top: 1px solid var(--wire);
+    }
+
+    .lang-switch { display: flex; gap: 4px; }
+    .lang-btn {
+      background: transparent;
+      border: 1px solid var(--wire);
+      color: var(--t-mid);
+      font-family: var(--f-mono);
+      font-size: 0.68rem;
+      letter-spacing: 0.05em;
+      padding: 4px 9px;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+    .lang-btn.active { color: var(--gold-l); border-color: var(--wire-gold); background: rgba(200,149,58,0.08); }
+  </style>
+</head>
+<body class="lang-it">
+
+<nav>
+  <a href="index.html" class="nav-logo">AVAR<span class="sep">·</span>CAST</a>
+  <div style="display:flex; align-items:center; gap:18px;">
+    <div class="lang-switch">
+      <button class="lang-btn" onclick="setLang('it')">IT</button>
+      <button class="lang-btn" onclick="setLang('en')">EN</button>
+    </div>
+    <a href="index.html" class="nav-back">
+      <span data-lang="it">← Home</span>
+      <span data-lang="en">← Home</span>
+    </a>
+  </div>
+</nav>
+
+<div class="wrap">
+  <div class="eyebrow">
+    <span data-lang="it">Legale</span>
+    <span data-lang="en">Legal</span>
+  </div>
+  <h1>
+    <span data-lang="it">Termini di Servizio</span>
+    <span data-lang="en">Terms of Service</span>
+  </h1>
+  <p class="updated">
+    <span data-lang="it">Ultimo aggiornamento: 11 agosto 2026. Questi termini regolano l'uso di avarcast.com, le produzioni su commissione ("Consumer Professional" e "Broadcast 4K") e i contenuti in abbonamento "Avarcast Originals". Vanno letti insieme alla <a class="inline-link" href="privacy.html">Privacy Policy</a>.</span>
+    <span data-lang="en">Last updated: August 11, 2026. These terms govern the use of avarcast.com, our commissioned productions ("Consumer Professional" and "Broadcast 4K"), and the "Avarcast Originals" subscription content. They should be read together with the <a class="inline-link" href="privacy.html">Privacy Policy</a>.</span>
+  </p>
+
+  <section>
+    <h2>
+      <span data-lang="it">1. Chi siamo</span>
+      <span data-lang="en">1. Who We Are</span>
+    </h2>
+    <p>
+      <span data-lang="it">AVARCAST è un marchio di <strong>Obiriec Labs SRSL Unipersonale</strong>, con sede a Roma, Italia. Realizziamo video con avatar AI parlanti (volto e voce clonati) su commissione per clienti business, e produciamo contenuti narrativi originali con personaggi generati con intelligenza artificiale, distribuiti in parte gratuitamente e in parte in abbonamento.</span>
+      <span data-lang="en">AVARCAST is a brand of <strong>Obiriec Labs SRSL Unipersonale</strong>, based in Rome, Italy. We produce AI talking-avatar videos (cloned face and voice) on commission for business clients, and we produce original narrative content with AI-generated characters, distributed partly for free and partly by subscription.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">2. Le due linee di prodotto</span>
+      <span data-lang="en">2. Our Two Product Lines</span>
+    </h2>
+    <p>
+      <span data-lang="it"><strong>Produzioni su misura</strong> (Consumer Professional, Broadcast 4K): servizio su commissione, mai self-serve. Racconti il progetto, il nostro team lo realizza e lo consegna. Prezzo, tempi e numero di revisioni sono definiti in un preventivo individuale accettato da entrambe le parti prima dell'avvio — questi termini si applicano in aggiunta a quanto concordato nel preventivo, non lo sostituiscono.</span>
+      <span data-lang="en"><strong>Custom productions</strong> (Consumer Professional, Broadcast 4K): a commissioned service, never self-serve. You describe the project, our team builds and delivers it. Price, timeline and number of revisions are set out in an individual quote accepted by both parties before work starts — these terms apply in addition to what's agreed in the quote, not instead of it.</span>
+    </p>
+    <p>
+      <span data-lang="it"><strong>Avarcast Originals</strong>: contenuti narrativi originali (es. Jonah Drevane) che scriviamo, produciamo e pubblichiamo noi. Trailer e primo episodio sono sempre gratuiti; gli episodi successivi richiedono un abbonamento mensile a pagamento. <strong>L'abbonamento a pagamento non è ancora attivo</strong> — finché non lo è, i termini di fatturazione, rinnovo automatico e cancellazione specifici verranno pubblicati qui prima dell'attivazione, con notifica a chi si è già iscritto per essere avvisato.</span>
+      <span data-lang="en"><strong>Avarcast Originals</strong>: original narrative content (e.g. Jonah Drevane) that we write, produce and publish ourselves. The trailer and first episode are always free; later episodes require a paid monthly subscription. <strong>The paid subscription is not yet active</strong> — until it is, the specific billing, auto-renewal and cancellation terms will be published here before launch, with notice to anyone already signed up to be notified.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">3. Materiale che ci fornisci e consenso biometrico</span>
+      <span data-lang="en">3. Material You Provide and Biometric Consent</span>
+    </h2>
+    <p>
+      <span data-lang="it">Per realizzare un avatar ci fornisci fotografie e/o campioni vocali della persona da riprodurre. Questo materiale è <strong>dato biometrico</strong> ai sensi dell'art. 9 del GDPR: il suo trattamento richiede il consenso esplicito della persona ritratta, non del solo cliente committente.</span>
+      <span data-lang="en">To build an avatar, you provide us with photographs and/or voice samples of the person to be reproduced. This material is <strong>biometric data</strong> under GDPR Article 9: processing it requires the explicit consent of the person depicted, not just of the commissioning client.</span>
+    </p>
+    <div class="callout">
+      <p>
+        <span data-lang="it"><strong>Dichiari e garantisci</strong>, inviandoci il materiale, di essere tu stesso la persona ritratta, oppure di aver ottenuto il consenso esplicito, informato e documentato di quella persona a farne clonare volto e/o voce tramite intelligenza artificiale — e di poter esibire quel consenso su nostra richiesta in qualsiasi momento, anche dopo la consegna del progetto.</span>
+        <span data-lang="en"><strong>By sending us the material, you represent and warrant</strong> that you are the person depicted yourself, or that you have obtained that person's explicit, informed and documented consent to have their face and/or voice cloned via artificial intelligence — and that you can produce that consent on our request at any time, including after project delivery.</span>
+      </p>
+      <p>
+        <span data-lang="it">Se questa garanzia risulta falsa, tieni Obiriec Labs indenne da qualsiasi pretesa, sanzione o danno derivante — inclusi i rischi ex art. 9 GDPR e art. 612-quater del codice penale italiano (diffusione non consensuale di contenuti generati o alterati con IA, introdotto dalla L. 132/2025, punito con la reclusione da 1 a 5 anni). Ci riserviamo il diritto di sospendere o rifiutare un progetto se abbiamo motivo di dubitare del consenso.</span>
+        <span data-lang="en">If this warranty proves false, you will indemnify Obiriec Labs against any claim, penalty or damage arising from it — including the risks under GDPR Art. 9 and Article 612-quater of the Italian Criminal Code (non-consensual distribution of AI-generated or altered content, introduced by Law 132/2025, punishable by 1 to 5 years' imprisonment). We reserve the right to suspend or decline a project if we have reason to doubt consent.</span>
+      </p>
+    </div>
+    <p>
+      <span data-lang="it">Usiamo il materiale biometrico esclusivamente per il progetto commissionato — mai per addestrare modelli generali né per scopi diversi. Dettagli su conservazione e cancellazione nella <a class="inline-link" href="privacy.html">Privacy Policy</a>, sezione 3bis.</span>
+      <span data-lang="en">We use biometric material exclusively for the commissioned project — never to train general-purpose models or for any other purpose. Details on retention and deletion are in the <a class="inline-link" href="privacy.html">Privacy Policy</a>, section 3bis.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">4. Contenuti generati con intelligenza artificiale</span>
+      <span data-lang="en">4. AI-Generated Content</span>
+    </h2>
+    <p>
+      <span data-lang="it">Ai sensi dell'art. 50 del Regolamento UE 2024/1689 (AI Act), ogni video, immagine o voce prodotti da Avarcast — su commissione o come Avarcast Originals — è generato o manipolato con intelligenza artificiale e va identificato come tale nel punto in cui viene mostrato al pubblico.</span>
+      <span data-lang="en">Under Article 50 of Regulation (EU) 2024/1689 (the AI Act), every video, image or voice produced by Avarcast — whether commissioned or released as Avarcast Originals — is generated or manipulated using artificial intelligence and must be identified as such at the point where it is shown to the public.</span>
+    </p>
+    <p>
+      <span data-lang="it">Su avarcast.com questa indicazione è già presente in ogni sezione del sito. <strong>Se pubblichi altrove il video che ti consegniamo</strong> (sito, social, canali interni), sei tu responsabile di mantenere visibile un'indicazione equivalente sul canale di destinazione, salvo che il contenuto rientri nelle eccezioni dell'art. 50 (opera evidentemente artistica, satirica o di finzione) — in quel caso resta comunque preferibile una dicitura minima e non invasiva. Su richiesta ti forniamo un testo standard da usare.</span>
+      <span data-lang="en"><strong>If you publish the delivered video elsewhere</strong> (your own site, social channels, internal channels), you are responsible for keeping an equivalent notice visible on the destination channel, unless the content falls under the Art. 50 exceptions (evidently artistic, satirical or fictional work) — in which case a minimal, non-intrusive notice is still advisable. On request, we can provide standard wording for you to use.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">5. Proprietà intellettuale</span>
+      <span data-lang="en">5. Intellectual Property</span>
+    </h2>
+    <p>
+      <span data-lang="it">Per le produzioni su commissione, il video finale consegnato è di tua proprietà per gli usi concordati nel preventivo. Obiriec Labs mantiene la proprietà degli strumenti, dei processi, delle tecniche e del materiale di lavorazione (script intermedi, generazioni scartate, prompt) usati per realizzarlo, e può usare il progetto nel proprio portfolio salvo diverso accordo scritto con te.</span>
+      <span data-lang="en">For commissioned productions, the final delivered video is yours to use as agreed in the quote. Obiriec Labs retains ownership of the tools, processes, techniques and working material (intermediate scripts, discarded generations, prompts) used to make it, and may use the project in its own portfolio unless otherwise agreed with you in writing.</span>
+    </p>
+    <p>
+      <span data-lang="it">I personaggi e i contenuti "Avarcast Originals" (Jonah Drevane e le produzioni future), così come Professor Kairos Chronopóros, The Jade Lorven Show ed Elena Vairelli, sono proprietà esclusiva di Obiriec Labs. Non è consentito riprodurli, ridistribuirli o crearne opere derivate senza autorizzazione scritta.</span>
+      <span data-lang="en">The "Avarcast Originals" characters and content (Jonah Drevane and future productions), as well as Professor Kairos Chronopóros, The Jade Lorven Show and Elena Vairelli, are the exclusive property of Obiriec Labs. Reproducing, redistributing, or creating derivative works from them without written authorization is not permitted.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">6. Prezzi, pagamento e consegna</span>
+      <span data-lang="en">6. Pricing, Payment and Delivery</span>
+    </h2>
+    <p>
+      <span data-lang="it">Per le produzioni su commissione, prezzo, modalità di pagamento, tempi di consegna e numero di revisioni incluse sono definiti nel preventivo individuale — non pubblichiamo un listino fisso sul sito. Per Avarcast Originals, i termini di fatturazione dell'abbonamento saranno pubblicati qui al momento dell'attivazione (vedi sezione 2).</span>
+      <span data-lang="en">For commissioned productions, price, payment method, delivery time and the number of included revisions are set out in the individual quote — we don't publish a fixed price list on the site. For Avarcast Originals, the subscription's billing terms will be published here once the subscription launches (see section 2).</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">7. Limitazione di responsabilità</span>
+      <span data-lang="en">7. Limitation of Liability</span>
+    </h2>
+    <p>
+      <span data-lang="it">Obiriec Labs realizza le produzioni con cura professionale ma non garantisce risultati specifici di performance, engagement o conversione derivanti dall'uso dei video consegnati. Nei limiti consentiti dalla legge italiana, la responsabilità complessiva di Obiriec Labs verso il cliente è limitata all'importo effettivamente pagato per il progetto in questione. Restano esclusi da questa limitazione i casi di dolo o colpa grave.</span>
+      <span data-lang="en">Obiriec Labs delivers productions with professional care but does not guarantee specific performance, engagement or conversion results from the use of delivered videos. To the extent permitted by Italian law, Obiriec Labs' total liability to the client is limited to the amount actually paid for the project in question. Cases of willful misconduct or gross negligence are excluded from this limitation.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">8. Sospensione e cessazione</span>
+      <span data-lang="en">8. Suspension and Termination</span>
+    </h2>
+    <p>
+      <span data-lang="it">Obiriec Labs si riserva il diritto di sospendere o interrompere un servizio in qualsiasi momento, in particolare in caso di dubbio fondato sulla legittimità del consenso biometrico fornito (sezione 3) o di violazione di questi termini.</span>
+      <span data-lang="en">Obiriec Labs reserves the right to suspend or discontinue a service at any time, in particular where there is reasonable doubt about the legitimacy of the biometric consent provided (section 3) or a breach of these terms.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">9. Legge applicabile e foro competente</span>
+      <span data-lang="en">9. Governing Law and Jurisdiction</span>
+    </h2>
+    <p>
+      <span data-lang="it">Questi termini sono regolati dalla legge italiana. Per qualsiasi controversia è competente in via esclusiva il Foro di Roma, salvo diversa previsione inderogabile di legge (es. foro del consumatore, ove applicabile).</span>
+      <span data-lang="en">These terms are governed by Italian law. Any dispute is subject to the exclusive jurisdiction of the Court of Rome, unless a different mandatory legal provision applies (e.g. consumer forum, where applicable).</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">10. Modifiche a questi termini</span>
+      <span data-lang="en">10. Changes to These Terms</span>
+    </h2>
+    <p>
+      <span data-lang="it">Possiamo aggiornare questi termini, in particolare per adeguarli a nuovi obblighi normativi. La data in cima alla pagina indica l'ultimo aggiornamento. Per i progetti già in corso, valgono i termini in vigore al momento dell'accettazione del preventivo, salvo modifiche di legge con effetto immediato.</span>
+      <span data-lang="en">We may update these terms, in particular to reflect new regulatory obligations. The date at the top of the page shows the last update. For projects already underway, the terms in force when the quote was accepted apply, unless a change in the law takes immediate effect.</span>
+    </p>
+  </section>
+
+  <section>
+    <h2>
+      <span data-lang="it">11. Contatti</span>
+      <span data-lang="en">11. Contact</span>
+    </h2>
+    <p>
+      <span data-lang="it">Per domande su questi termini: <span class="mono">hello@avarcast.com</span><br />Per domande sulla privacy: <span class="mono">privacy@obirieclabs.com</span><br />Obiriec Labs SRSL Unipersonale — Roma, Italia</span>
+      <span data-lang="en">For questions about these terms: <span class="mono">hello@avarcast.com</span><br />For privacy questions: <span class="mono">privacy@obirieclabs.com</span><br />Obiriec Labs SRSL Unipersonale — Rome, Italy</span>
+    </p>
+  </section>
+</div>
+
+<footer>
+  <span data-lang="it">© 2026 AVARCAST — OBIRIEC LABS</span>
+  <span data-lang="en">© 2026 AVARCAST — OBIRIEC LABS</span>
+</footer>
+
+<script>
+  function setLang(lang) {
+    document.body.className = 'lang-' + lang;
+    document.documentElement.lang = lang;
+    document.querySelectorAll('.lang-btn').forEach(function (btn) {
+      btn.classList.toggle('active', btn.textContent.trim() === lang.toUpperCase());
+    });
+  }
+  (function () {
+    var lang = navigator.language && navigator.language.toLowerCase().startsWith('it') ? 'it' : 'en';
+    setLang(lang);
+  })();
+</script>
+</body>
+</html>
