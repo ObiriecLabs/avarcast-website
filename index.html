@@ -201,6 +201,16 @@
   .nav-link:hover,
   .nav-link:focus-visible { color: var(--gold-l); }
 
+  .nav-link--highlight {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    color: var(--gold-l);
+    font-weight: 700;
+  }
+  .nav-link--highlight:hover,
+  .nav-link--highlight:focus-visible { color: var(--gold-xl); }
+
   .nav-toggle {
     display: none;
     align-items: center;
@@ -254,6 +264,13 @@
   }
   .nav-mobile-link:first-child { border-top: none; }
   .nav-mobile-link:hover { color: var(--gold-l); }
+  .nav-mobile-link--highlight {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    color: var(--gold-l);
+  }
+  .nav-mobile-link--highlight:hover { color: var(--gold-xl); }
   .nav-mobile-link--cta {
     margin-top: 14px;
     padding: 13px 18px;
@@ -1868,12 +1885,12 @@
   <span class="nav-logo">AVAR<span class="sep">·</span>CAST</span>
 
   <div class="nav-links">
+    <a href="#originals" class="nav-link nav-link--highlight"><span class="live-dot"></span>Originals</a>
     <a href="#personas" class="nav-link"><span data-lang="it">Avatar</span><span data-lang="en">Avatars</span></a>
     <a href="#video-demo" class="nav-link"><span data-lang="it">Demo</span><span data-lang="en">Demo</span></a>
     <a href="#use-cases" class="nav-link"><span data-lang="it">Casi d'uso</span><span data-lang="en">Use cases</span></a>
     <a href="#showcase" class="nav-link"><span data-lang="it">Chi ci usa</span><span data-lang="en">Who uses us</span></a>
     <a href="#bespoke" class="nav-link"><span data-lang="it">Produzioni</span><span data-lang="en">Productions</span></a>
-    <a href="#originals" class="nav-link">Originals</a>
     <a href="#features" class="nav-link"><span data-lang="it">Team</span><span data-lang="en">Team</span></a>
     <a href="#how" class="nav-link"><span data-lang="it">Processo</span><span data-lang="en">Process</span></a>
   </div>
@@ -1895,12 +1912,12 @@
   </div>
 
   <div class="nav-mobile-panel" id="nav-mobile-panel">
+    <a href="#originals" class="nav-mobile-link nav-mobile-link--highlight" onclick="closeNavMenu()"><span class="live-dot"></span>Avarcast Originals</a>
     <a href="#personas" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Avatar</span><span data-lang="en">Avatars</span></a>
     <a href="#video-demo" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Demo</span><span data-lang="en">Demo</span></a>
     <a href="#use-cases" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Casi d'uso</span><span data-lang="en">Use cases</span></a>
     <a href="#showcase" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Chi ci usa</span><span data-lang="en">Who uses us</span></a>
     <a href="#bespoke" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Produzioni su misura</span><span data-lang="en">Custom productions</span></a>
-    <a href="#originals" class="nav-mobile-link" onclick="closeNavMenu()">Avarcast Originals</a>
     <a href="#features" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Come lavoriamo</span><span data-lang="en">How we work</span></a>
     <a href="#how" class="nav-mobile-link" onclick="closeNavMenu()"><span data-lang="it">Come funziona</span><span data-lang="en">How it works</span></a>
     <a href="#cta" class="nav-mobile-link nav-mobile-link--cta" onclick="closeNavMenu()">
@@ -2055,6 +2072,143 @@
     </div>
   </div>
 </div>
+
+<!-- ═══════════════════ ORIGINALS ═══════════════════ -->
+<section id="originals">
+  <div class="wrap">
+    <div class="originals-header">
+      <div class="sec-label">
+        <span>Avarcast Originals</span>
+      </div>
+      <h2 class="sec-title">
+        <span data-lang-block="it">Le nostre serie.<br>Le guardi <em class="gold-text">tu</em>.</span>
+        <span data-lang-block="en">Our own series.<br><em class="gold-text">You</em> watch them.</span>
+      </h2>
+      <p class="sec-sub">
+        <span data-lang="it">A differenza dei servizi su commissione per i nostri clienti (li trovi più sotto), questi sono contenuti che scriviamo, produciamo e pubblichiamo noi — disponibili in abbonamento per chi vuole seguirli.</span>
+        <span data-lang="en">Unlike the services we make on commission for our clients (further down the page), this is content we write, produce and publish ourselves — available by subscription for anyone who wants to follow it.</span>
+      </p>
+    </div>
+
+    <div class="orig-hero">
+      <div class="orig-tag">
+        <span data-lang="it">Serie originale · Western</span>
+        <span data-lang="en">Original series · Western</span>
+      </div>
+      <h3 class="orig-title">Jonah Drevane</h3>
+      <div class="orig-subtitle">
+        <span data-lang="it">Cronache del Meridiano Nero</span>
+        <span data-lang="en">Chronicles of the Black Meridian</span>
+      </div>
+      <p class="orig-desc">
+        <span data-lang="it">Un cacciatore di taglie, una bussola che non punta a nord, e un confine nel deserto che nessuna mappa segna. Jonah Drevane insegue una verità che il West preferirebbe restasse sepolta.</span>
+        <span data-lang="en">A bounty hunter, a compass that won't point north, and a border in the desert no map marks. Jonah Drevane is chasing a truth the West would rather keep buried.</span>
+      </p>
+    </div>
+
+    <div class="orig-video-grid">
+      <div class="orig-media" data-yt-id="piwc3KQtKQ8" data-title="Jonah Drevane — Trailer">
+        <div class="orig-media-fallback"></div>
+        <img class="orig-poster"
+          src="assets/img/originals/jonah-drevane-cover.jpg"
+          alt="Jonah Drevane — Cronache del Meridiano Nero, locandina"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="orig-media-gradient"></div>
+        <a class="orig-play" aria-label="Guarda il trailer su YouTube" style="display:none;" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </a>
+        <div class="orig-media-badge">
+          <span data-lang="it">Prossimamente</span>
+          <span data-lang="en">Coming soon</span>
+        </div>
+        <div class="orig-media-label">Trailer</div>
+      </div>
+
+      <div class="orig-media" data-yt-id="" data-title="Jonah Drevane — Episodio 1">
+        <div class="orig-media-fallback"></div>
+        <img class="orig-poster"
+          src="assets/img/originals/jonah-drevane-ep1.jpg"
+          alt="Jonah Drevane — Episodio 1"
+          loading="lazy"
+          onerror="this.style.display='none'" />
+        <div class="orig-media-gradient"></div>
+        <a class="orig-play" aria-label="Guarda l'episodio 1 su YouTube" style="display:none;" target="_blank" rel="noopener noreferrer">
+          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+        </a>
+        <div class="orig-media-badge">
+          <span data-lang="it">Prossimamente</span>
+          <span data-lang="en">Coming soon</span>
+        </div>
+        <div class="orig-media-label">
+          <span data-lang="it">Episodio 1 · Gratis</span>
+          <span data-lang="en">Episode 1 · Free</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="orig-price-panel">
+      <div>
+        <div>
+          <span class="orig-price-amount">€4,99</span><span class="orig-price-period"><span data-lang="it">/mese</span><span data-lang="en">/month</span></span>
+        </div>
+        <p class="orig-price-note">
+          <span data-lang="it">Trailer ed episodio 1 sempre gratis. Dall'episodio 2, abbonamento mensile per continuare a seguire la serie — nuovi episodi quando sono pronti, nessuna cadenza garantita.</span>
+          <span data-lang="en">Trailer and episode 1 are always free. From episode 2, a monthly subscription to keep following the series — new episodes when they're ready, no fixed schedule.</span>
+        </p>
+      </div>
+
+      <div>
+        <form class="waitlist-form" id="originals-form" onsubmit="submitWaitlist(event,'originals')">
+          <input class="wl-input" id="originals-email" type="email" required
+            data-placeholder-it="La tua email" data-placeholder-en="Your email"
+            placeholder="La tua email" autocomplete="email" />
+          <button class="wl-btn" type="submit">
+            <span data-lang="it">Avvisami all'uscita</span>
+            <span data-lang="en">Notify me at launch</span>
+          </button>
+          <div class="wl-consent">
+            <input type="checkbox" id="originals-consent" required />
+            <label for="originals-consent">
+              <span data-lang="it">Ho letto e accetto la <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+              <span data-lang="en">I have read and accept the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
+            </label>
+          </div>
+        </form>
+
+        <div class="form-success" id="originals-success">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+            <polyline points="5,8.5 7,10.5 11,6" stroke="currentColor" stroke-width="1.5"
+              stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <span class="form-success-text">
+            <span data-lang="it">Fatto. Ti scriviamo appena trailer ed episodio 1 sono online.</span>
+            <span data-lang="en">Done. We'll email you as soon as the trailer and episode 1 are live.</span>
+          </span>
+        </div>
+
+        <div class="form-error" id="originals-error">
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
+            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
+            <line x1="8" y1="5" x2="8" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+            <circle cx="8" cy="11.2" r="0.9" fill="currentColor"/>
+          </svg>
+          <span class="form-error-text">
+            <span data-lang="it">Qualcosa è andato storto. Riprova o scrivi a hello@avarcast.com.</span>
+            <span data-lang="en">Something went wrong. Try again or email hello@avarcast.com.</span>
+          </span>
+        </div>
+
+        <p class="form-note" id="originals-note">
+          <span data-lang="it">Zero spam, solo l'avviso di uscita.</span>
+          <span data-lang="en">No spam, just the launch notice.</span>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
 
 <!-- ═══════════════════ PERSONAS GALLERY ═══════════════════ -->
 <section id="personas">
@@ -2993,142 +3147,6 @@
       <span data-lang="it">Questi progetti si preventivano su misura. Scrivi a <a href="mailto:hello@avarcast.com">hello@avarcast.com</a>.</span>
       <span data-lang="en">These projects are quoted individually. Write to <a href="mailto:hello@avarcast.com">hello@avarcast.com</a>.</span>
     </p>
-  </div>
-</section>
-
-<!-- ═══════════════════ ORIGINALS ═══════════════════ -->
-<section id="originals">
-  <div class="wrap">
-    <div class="originals-header">
-      <div class="sec-label">
-        <span>Avarcast Originals</span>
-      </div>
-      <h2 class="sec-title">
-        <span data-lang-block="it">Le nostre serie.<br>Le guardi <em class="gold-text">tu</em>.</span>
-        <span data-lang-block="en">Our own series.<br><em class="gold-text">You</em> watch them.</span>
-      </h2>
-      <p class="sec-sub">
-        <span data-lang="it">A differenza delle produzioni qui sopra, realizzate su commissione per i nostri clienti, questi sono contenuti che scriviamo, produciamo e pubblichiamo noi — disponibili in abbonamento per chi vuole seguirli.</span>
-        <span data-lang="en">Unlike the productions above, made on commission for our clients, this is content we write, produce and publish ourselves — available by subscription for anyone who wants to follow it.</span>
-      </p>
-    </div>
-
-    <div class="orig-hero">
-      <div class="orig-tag">
-        <span data-lang="it">Serie originale · Western</span>
-        <span data-lang="en">Original series · Western</span>
-      </div>
-      <h3 class="orig-title">Jonah Drevane</h3>
-      <div class="orig-subtitle">
-        <span data-lang="it">Cronache del Meridiano Nero</span>
-        <span data-lang="en">Chronicles of the Black Meridian</span>
-      </div>
-      <p class="orig-desc">
-        <span data-lang="it">Un cacciatore di taglie, una bussola che non punta a nord, e un confine nel deserto che nessuna mappa segna. Jonah Drevane insegue una verità che il West preferirebbe restasse sepolta.</span>
-        <span data-lang="en">A bounty hunter, a compass that won't point north, and a border in the desert no map marks. Jonah Drevane is chasing a truth the West would rather keep buried.</span>
-      </p>
-    </div>
-
-    <div class="orig-video-grid">
-      <div class="orig-media" data-yt-id="piwc3KQtKQ8" data-title="Jonah Drevane — Trailer">
-        <div class="orig-media-fallback"></div>
-        <img class="orig-poster"
-          src="assets/img/originals/jonah-drevane-cover.jpg"
-          alt="Jonah Drevane — Cronache del Meridiano Nero, locandina"
-          loading="lazy"
-          onerror="this.style.display='none'" />
-        <div class="orig-media-gradient"></div>
-        <a class="orig-play" aria-label="Guarda il trailer su YouTube" style="display:none;" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </a>
-        <div class="orig-media-badge">
-          <span data-lang="it">Prossimamente</span>
-          <span data-lang="en">Coming soon</span>
-        </div>
-        <div class="orig-media-label">Trailer</div>
-      </div>
-
-      <div class="orig-media" data-yt-id="" data-title="Jonah Drevane — Episodio 1">
-        <div class="orig-media-fallback"></div>
-        <img class="orig-poster"
-          src="assets/img/originals/jonah-drevane-ep1.jpg"
-          alt="Jonah Drevane — Episodio 1"
-          loading="lazy"
-          onerror="this.style.display='none'" />
-        <div class="orig-media-gradient"></div>
-        <a class="orig-play" aria-label="Guarda l'episodio 1 su YouTube" style="display:none;" target="_blank" rel="noopener noreferrer">
-          <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </a>
-        <div class="orig-media-badge">
-          <span data-lang="it">Prossimamente</span>
-          <span data-lang="en">Coming soon</span>
-        </div>
-        <div class="orig-media-label">
-          <span data-lang="it">Episodio 1 · Gratis</span>
-          <span data-lang="en">Episode 1 · Free</span>
-        </div>
-      </div>
-    </div>
-
-    <div class="orig-price-panel">
-      <div>
-        <div>
-          <span class="orig-price-amount">€4,99</span><span class="orig-price-period"><span data-lang="it">/mese</span><span data-lang="en">/month</span></span>
-        </div>
-        <p class="orig-price-note">
-          <span data-lang="it">Trailer ed episodio 1 sempre gratis. Dall'episodio 2, abbonamento mensile per continuare a seguire la serie — nuovi episodi quando sono pronti, nessuna cadenza garantita.</span>
-          <span data-lang="en">Trailer and episode 1 are always free. From episode 2, a monthly subscription to keep following the series — new episodes when they're ready, no fixed schedule.</span>
-        </p>
-      </div>
-
-      <div>
-        <form class="waitlist-form" id="originals-form" onsubmit="submitWaitlist(event,'originals')">
-          <input class="wl-input" id="originals-email" type="email" required
-            data-placeholder-it="La tua email" data-placeholder-en="Your email"
-            placeholder="La tua email" autocomplete="email" />
-          <button class="wl-btn" type="submit">
-            <span data-lang="it">Avvisami all'uscita</span>
-            <span data-lang="en">Notify me at launch</span>
-          </button>
-          <div class="wl-consent">
-            <input type="checkbox" id="originals-consent" required />
-            <label for="originals-consent">
-              <span data-lang="it">Ho letto e accetto la <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
-              <span data-lang="en">I have read and accept the <a href="privacy.html" target="_blank" rel="noopener">Privacy Policy</a>.</span>
-            </label>
-          </div>
-        </form>
-
-        <div class="form-success" id="originals-success">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
-            <polyline points="5,8.5 7,10.5 11,6" stroke="currentColor" stroke-width="1.5"
-              stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          <span class="form-success-text">
-            <span data-lang="it">Fatto. Ti scriviamo appena trailer ed episodio 1 sono online.</span>
-            <span data-lang="en">Done. We'll email you as soon as the trailer and episode 1 are live.</span>
-          </span>
-        </div>
-
-        <div class="form-error" id="originals-error">
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-            <circle cx="8" cy="8" r="7" stroke="currentColor" stroke-width="1.4"/>
-            <line x1="8" y1="5" x2="8" y2="9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
-            <circle cx="8" cy="11.2" r="0.9" fill="currentColor"/>
-          </svg>
-          <span class="form-error-text">
-            <span data-lang="it">Qualcosa è andato storto. Riprova o scrivi a hello@avarcast.com.</span>
-            <span data-lang="en">Something went wrong. Try again or email hello@avarcast.com.</span>
-          </span>
-        </div>
-
-        <p class="form-note" id="originals-note">
-          <span data-lang="it">Zero spam, solo l'avviso di uscita.</span>
-          <span data-lang="en">No spam, just the launch notice.</span>
-        </p>
-      </div>
-    </div>
   </div>
 </section>
 
