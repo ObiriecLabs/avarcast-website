@@ -1119,14 +1119,6 @@
   .orig-play:hover svg { transform: scale(1.08); color: var(--gold-l); }
   .orig-play:focus-visible { outline: 2px solid var(--gold-l); outline-offset: -4px; }
 
-  .orig-iframe {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    border: 0;
-  }
-
   /* Prezzo + form iscrizione */
   .orig-price-panel {
     display: grid;
@@ -3046,9 +3038,9 @@
           loading="lazy"
           onerror="this.style.display='none'" />
         <div class="orig-media-gradient"></div>
-        <button class="orig-play" type="button" aria-label="Guarda il trailer" style="display:none;">
+        <a class="orig-play" aria-label="Guarda il trailer su YouTube" style="display:none;" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+        </a>
         <div class="orig-media-badge">
           <span data-lang="it">Prossimamente</span>
           <span data-lang="en">Coming soon</span>
@@ -3064,9 +3056,9 @@
           loading="lazy"
           onerror="this.style.display='none'" />
         <div class="orig-media-gradient"></div>
-        <button class="orig-play" type="button" aria-label="Guarda l'episodio 1" style="display:none;">
+        <a class="orig-play" aria-label="Guarda l'episodio 1 su YouTube" style="display:none;" target="_blank" rel="noopener noreferrer">
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
-        </button>
+        </a>
         <div class="orig-media-badge">
           <span data-lang="it">Prossimamente</span>
           <span data-lang="en">Coming soon</span>
@@ -3468,31 +3460,24 @@
     }
   }
 
-  /* ── Originals: facade YouTube embed ──
+  /* ── Originals: link a YouTube ──
      Ogni .orig-media parte con data-yt-id="" (nessun video ancora pubblicato):
      mostra solo la locandina + badge "Prossimamente". Quando trailer/episodio 1
      sono online, basta scrivere l'ID del video YouTube nell'attributo
-     data-yt-id="..." di quel blocco — questa funzione fa apparire il play button
-     e, al click, inietta l'iframe (nessun'altra modifica richiesta). */
+     data-yt-id="..." di quel blocco — questa funzione fa apparire il link
+     "play" e lo punta al video reale su youtube.com (si apre in una nuova
+     scheda, non incorporato nella pagina — l'obiettivo è portare persone sul
+     canale, non trattenerle solo sul sito). */
   (function initOriginalsMedia() {
     document.querySelectorAll('.orig-media[data-yt-id]').forEach(media => {
       const ytId = media.getAttribute('data-yt-id');
       if (!ytId) return;
       const badge = media.querySelector('.orig-media-badge');
-      const playBtn = media.querySelector('.orig-play');
+      const playLink = media.querySelector('.orig-play');
       if (badge) badge.style.display = 'none';
-      if (!playBtn) return;
-      playBtn.style.display = 'flex';
-      playBtn.addEventListener('click', () => {
-        const iframe = document.createElement('iframe');
-        iframe.src = 'https://www.youtube-nocookie.com/embed/' + ytId + '?autoplay=1&rel=0';
-        iframe.title = media.getAttribute('data-title') || 'Jonah Drevane';
-        iframe.setAttribute('allow', 'autoplay; encrypted-media; picture-in-picture');
-        iframe.allowFullscreen = true;
-        iframe.className = 'orig-iframe';
-        media.appendChild(iframe);
-        playBtn.style.display = 'none';
-      }, { once: true });
+      if (!playLink) return;
+      playLink.href = 'https://youtu.be/' + ytId;
+      playLink.style.display = 'flex';
     });
   })();
 
