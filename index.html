@@ -338,6 +338,15 @@
     margin-bottom: 30px;
   }
 
+  .hero-intro {
+    font-family: var(--f-sans);
+    font-size: 0.92rem;
+    line-height: 1.6;
+    color: var(--t-mid);
+    max-width: 46ch;
+    margin-bottom: 22px;
+  }
+
   .hero-h1 {
     font-family: var(--f-sans);
     font-weight: 800;
@@ -991,101 +1000,6 @@
     text-decoration: underline;
     text-underline-offset: 2px;
   }
-
-  /* ╔══════════════════════════════════════════════════════════════╗
-     ║  OFFERINGS — Panoramica dei due servizi                       ║
-     ╚══════════════════════════════════════════════════════════════╝ */
-  #offerings { padding: var(--gap) 0 0; }
-
-  .off-header { text-align: center; margin-bottom: 40px; }
-
-  .off-split {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 18px;
-  }
-  @media (max-width: 780px) { .off-split { grid-template-columns: 1fr; } }
-
-  .off-panel {
-    position: relative;
-    display: block;
-    aspect-ratio: 4/3;
-    border-radius: var(--r-lg);
-    overflow: hidden;
-    background: var(--surface2);
-  }
-
-  .off-fallback {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(160deg, var(--surface3) 0%, var(--surface2) 100%);
-  }
-
-  .off-photo {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    filter: brightness(0.62) contrast(1.05) saturate(0.9);
-    transition: transform 0.6s var(--ease), filter 0.4s var(--ease);
-  }
-  .off-panel:hover .off-photo { transform: scale(1.04); filter: brightness(0.52) contrast(1.05) saturate(0.9); }
-
-  .off-gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(0deg, rgba(5,5,8,0.94) 0%, rgba(5,5,8,0.45) 55%, rgba(5,5,8,0.08) 100%);
-    z-index: 1;
-  }
-
-  .off-content {
-    position: absolute;
-    left: 0; right: 0; bottom: 0;
-    padding: 32px;
-    z-index: 2;
-  }
-
-  .off-tag {
-    font-family: var(--f-mono);
-    font-size: 0.62rem;
-    letter-spacing: 0.12em;
-    text-transform: uppercase;
-    color: var(--gold-l);
-    margin-bottom: 10px;
-  }
-
-  .off-title {
-    font-family: var(--f-sans);
-    font-weight: 800;
-    font-size: clamp(1.3rem, 2.4vw, 1.8rem);
-    letter-spacing: -0.01em;
-    color: #fff;
-    margin-bottom: 10px;
-  }
-
-  .off-desc {
-    font-size: 0.88rem;
-    color: rgba(255,255,255,0.72);
-    line-height: 1.6;
-    max-width: 42ch;
-    margin-bottom: 16px;
-  }
-
-  .off-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-family: var(--f-mono);
-    font-size: 0.75rem;
-    letter-spacing: 0.03em;
-    color: var(--gold-l);
-    transition: gap var(--tx) var(--ease), color var(--tx) var(--ease);
-  }
-  .off-link svg { width: 14px; height: 14px; flex-shrink: 0; }
-  .off-panel:hover .off-link,
-  .off-panel:focus-visible .off-link { gap: 10px; color: var(--gold-xl); }
-  .off-panel:focus-visible { outline: 2px solid var(--gold-l); outline-offset: 3px; }
 
   /* ╔══════════════════════════════════════════════════════════════╗
      ║  ORIGINALS — Contenuti proprietari in abbonamento             ║
@@ -2032,6 +1946,11 @@
       <span data-lang="en">Now accepting new projects</span>
     </div>
 
+    <p class="hero-intro fade-up">
+      <span data-lang="it">AVARCAST è lo studio di Obiriec Labs specializzato in avatar AI parlanti. Realizziamo produzioni video su commissione per aziende e professionisti, e pubblichiamo serie e personaggi originali — come Avarcast Originals — disponibili in abbonamento.</span>
+      <span data-lang="en">AVARCAST is the Obiriec Labs studio specialized in talking AI avatars. We produce commissioned videos for businesses and professionals, and publish original series and characters — like Avarcast Originals — available by subscription.</span>
+    </p>
+
     <h1 class="hero-h1 fade-up delay-1">
       <span data-lang-block="it">Il tuo avatar AI.<br><em class="gold-text">Realizzato per te.</em><br>Zero riprese.</span>
       <span data-lang-block="en">Your AI avatar.<br><em class="gold-text">Made for you.</em><br>Zero filming.</span>
@@ -2167,79 +2086,6 @@
     </div>
   </div>
 </div>
-
-<!-- ═══════════════════ OFFERINGS OVERVIEW ═══════════════════ -->
-<section id="offerings">
-  <div class="wrap">
-    <div class="off-header">
-      <div class="sec-label">
-        <span data-lang="it">Cosa facciamo</span>
-        <span data-lang="en">What we do</span>
-      </div>
-      <h2 class="sec-title">
-        <span data-lang-block="it">Due modi<br>di lavorare con noi.</span>
-        <span data-lang-block="en">Two ways<br>to work with us.</span>
-      </h2>
-    </div>
-
-    <div class="off-split">
-      <a href="#bespoke" class="off-panel">
-        <div class="off-fallback"></div>
-        <img class="off-photo"
-          src="assets/img/Foto/M/Pers8.jpg"
-          alt="Produzioni su misura AVARCAST"
-          loading="lazy"
-          onerror="this.style.display='none'" />
-        <div class="off-gradient"></div>
-        <div class="off-content">
-          <div class="off-tag">
-            <span data-lang="it">Servizio su commissione</span>
-            <span data-lang="en">Made-to-order service</span>
-          </div>
-          <h3 class="off-title">
-            <span data-lang="it">Produzioni su misura</span>
-            <span data-lang="en">Custom productions</span>
-          </h3>
-          <p class="off-desc">
-            <span data-lang="it">Realizziamo il tuo avatar AI: video professionali per aziende, corsi, presentazioni — sceneggiatura, generazione e post-produzione a cura del nostro team.</span>
-            <span data-lang="en">We build your AI avatar: professional videos for businesses, courses, presentations — script, generation and post-production handled by our team.</span>
-          </p>
-          <div class="off-link">
-            <span data-lang="it">Scopri le produzioni</span>
-            <span data-lang="en">See our productions</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-
-      <a href="#originals" class="off-panel">
-        <div class="off-fallback"></div>
-        <img class="off-photo"
-          src="assets/img/originals/jonah-drevane-cover.jpg"
-          alt="Avarcast Originals — Jonah Drevane"
-          loading="lazy"
-          onerror="this.style.display='none'" />
-        <div class="off-gradient"></div>
-        <div class="off-content">
-          <div class="off-tag">
-            <span data-lang="it">Contenuti in abbonamento</span>
-            <span data-lang="en">Subscription content</span>
-          </div>
-          <h3 class="off-title">Avarcast Originals</h3>
-          <p class="off-desc">
-            <span data-lang="it">Serie e personaggi originali che scriviamo, produciamo e pubblichiamo noi — trailer ed episodio 1 sempre gratis.</span>
-            <span data-lang="en">Original series and characters we write, produce and publish ourselves — trailer and episode 1 always free.</span>
-          </p>
-          <div class="off-link">
-            <span data-lang="it">Guarda Originals</span>
-            <span data-lang="en">Watch Originals</span>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
-          </div>
-        </div>
-      </a>
-    </div>
-  </div>
-</section>
 
 <!-- ═══════════════════ ORIGINALS ═══════════════════ -->
 <section id="originals">
