@@ -1121,6 +1121,14 @@
     color: rgba(255,255,255,0.65);
     backdrop-filter: blur(8px);
   }
+  .orig-media-badge .omb-live { display: none; }
+  .orig-media-badge--live {
+    background: rgba(200,149,58,0.16);
+    border-color: rgba(200,149,58,0.38);
+    color: var(--gold-xl);
+  }
+  .orig-media-badge--live .omb-soon { display: none; }
+  .orig-media-badge--live .omb-live { display: inline; }
 
   .orig-play {
     position: absolute;
@@ -2106,8 +2114,8 @@
 
     <div class="orig-hero">
       <div class="orig-tag">
-        <span data-lang="it">Serie originale · Western</span>
-        <span data-lang="en">Original series · Western</span>
+        <span data-lang="it">Serie originale · Western mystery · Graphic novel cinematico</span>
+        <span data-lang="en">Original series · Western mystery · Cinematic graphic novel</span>
       </div>
       <h3 class="orig-title">Jonah Drevane</h3>
       <div class="orig-subtitle">
@@ -2115,8 +2123,8 @@
         <span data-lang="en">Chronicles of the Black Meridian</span>
       </div>
       <p class="orig-desc">
-        <span data-lang="it">Un cacciatore di taglie, una bussola che non punta a nord, e un confine nel deserto che nessuna mappa segna. Jonah Drevane insegue una verità che il West preferirebbe restasse sepolta.</span>
-        <span data-lang="en">A bounty hunter, a compass that won't point north, and a border in the desert no map marks. Jonah Drevane is chasing a truth the West would rather keep buried.</span>
+        <span data-lang="it">Jonah Drevane è un cartografo che ha imparato a diffidare delle mappe. Una bussola incrinata che, vicino a certi luoghi, smette di indicare nord. Tracce che conducono dove non dovrebbe esserci alcun passaggio. Luoghi lontanissimi che sembrano confinare con la stessa geografia impossibile. Con Nathaniel Fox, Izel ed Ezra Hastings, Jonah indaga i casi in cui storia, testimonianze e territorio smettono di coincidere. Ogni Cronaca ha un mistero da risolvere. Ma ai margini della carta, il Meridiano Nero resta.</span>
+        <span data-lang="en">Jonah Drevane is a cartographer who learned to distrust maps. A cracked compass that, near certain places, stops pointing north. Tracks leading where no passage should exist. Places worlds apart that seem to border the same impossible geography. With Nathaniel Fox, Izel and Ezra Hastings, Jonah investigates the cases where history, testimony and territory stop lining up. Every Chronicle has a mystery to solve. But at the edges of the map, the Black Meridian remains.</span>
       </p>
     </div>
 
@@ -2133,8 +2141,14 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </a>
         <div class="orig-media-badge">
-          <span data-lang="it">Prossimamente</span>
-          <span data-lang="en">Coming soon</span>
+          <span class="omb-soon">
+            <span data-lang="it">Prossimamente</span>
+            <span data-lang="en">Coming soon</span>
+          </span>
+          <span class="omb-live">
+            <span data-lang="it">Disponibile ora</span>
+            <span data-lang="en">Now available</span>
+          </span>
         </div>
         <div class="orig-media-label">Trailer</div>
       </div>
@@ -2151,12 +2165,18 @@
           <svg viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
         </a>
         <div class="orig-media-badge">
-          <span data-lang="it">Prossimamente</span>
-          <span data-lang="en">Coming soon</span>
+          <span class="omb-soon">
+            <span data-lang="it">Prossimamente</span>
+            <span data-lang="en">Coming soon</span>
+          </span>
+          <span class="omb-live">
+            <span data-lang="it">Disponibile ora</span>
+            <span data-lang="en">Now available</span>
+          </span>
         </div>
         <div class="orig-media-label">
-          <span data-lang="it">Episodio 1 · Gratis</span>
-          <span data-lang="en">Episode 1 · Free</span>
+          <span data-lang="it">Il Quinto Cavallo · Gratis</span>
+          <span data-lang="en">The Fifth Horse · Free</span>
         </div>
       </div>
     </div>
@@ -2167,8 +2187,8 @@
           <span class="orig-price-amount">€4,99</span><span class="orig-price-period"><span data-lang="it">/mese</span><span data-lang="en">/month</span></span>
         </div>
         <p class="orig-price-note">
-          <span data-lang="it">Trailer ed episodio 1 sempre gratis. Dall'episodio 2, abbonamento mensile per continuare a seguire la serie: nuovi episodi quando sono pronti, nessuna cadenza garantita.</span>
-          <span data-lang="en">Trailer and episode 1 are always free. From episode 2, a monthly subscription to keep following the series: new episodes when they're ready, no fixed schedule.</span>
+          <span data-lang="it">Trailer ed Episodio 1 sono gratuiti. Dall'Episodio 2, le nuove Cronache saranno disponibili agli abbonati Avarcast Originals: attivazione dall'uscita della prima Cronaca riservata. Nuovi episodi vengono pubblicati quando storia, immagini, interpretazione e suono sono pronti, senza sacrificare scrittura e qualità.</span>
+          <span data-lang="en">Trailer and Episode 1 are free. From Episode 2, new Chronicles will be available to Avarcast Originals subscribers: activation starts once the first subscriber-only Chronicle is released. New episodes are published when story, visuals, performance and sound are ready, without sacrificing writing or quality.</span>
         </p>
       </div>
 
@@ -2197,8 +2217,8 @@
               stroke-linecap="round" stroke-linejoin="round"/>
           </svg>
           <span class="form-success-text">
-            <span data-lang="it">Fatto. Ti scriviamo appena trailer ed episodio 1 sono online.</span>
-            <span data-lang="en">Done. We'll email you as soon as the trailer and episode 1 are live.</span>
+            <span data-lang="it">Fatto. Ti avvisiamo appena l'Episodio 1 sarà disponibile.</span>
+            <span data-lang="en">Done. We'll let you know as soon as Episode 1 is available.</span>
           </span>
         </div>
 
@@ -3497,16 +3517,17 @@
      mostra solo la locandina + badge "Prossimamente". Quando trailer/episodio 1
      sono online, basta scrivere l'ID del video YouTube nell'attributo
      data-yt-id="..." di quel blocco: questa funzione fa apparire il link
-     "play" e lo punta al video reale su youtube.com (si apre in una nuova
+     "play", lo punta al video reale su youtube.com (si apre in una nuova
      scheda, non incorporato nella pagina; l'obiettivo è portare persone sul
-     canale, non trattenerle solo sul sito). */
+     canale, non trattenerle solo sul sito) e passa il badge da "Prossimamente"
+     a "Disponibile ora" (vedi .orig-media-badge--live in CSS). */
   (function initOriginalsMedia() {
     document.querySelectorAll('.orig-media[data-yt-id]').forEach(media => {
       const ytId = media.getAttribute('data-yt-id');
       if (!ytId) return;
       const badge = media.querySelector('.orig-media-badge');
       const playLink = media.querySelector('.orig-play');
-      if (badge) badge.style.display = 'none';
+      if (badge) badge.classList.add('orig-media-badge--live');
       if (!playLink) return;
       playLink.href = 'https://youtu.be/' + ytId;
       playLink.style.display = 'flex';
