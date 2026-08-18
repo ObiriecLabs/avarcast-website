@@ -105,8 +105,23 @@
 
     /* ── Header ── */
     header.hero {
+      position: relative;
+      overflow: hidden;
       padding: clamp(64px, 10vw, 120px) 0 var(--gap);
       text-align: center;
+    }
+    .hero-seal {
+      position: absolute;
+      top: clamp(18px, 4vw, 44px);
+      right: clamp(-10px, 3vw, 60px);
+      width: clamp(110px, 12vw, 190px);
+      transform: rotate(8deg);
+      filter: drop-shadow(0 12px 30px rgba(200,149,58,0.22));
+      pointer-events: none;
+    }
+    .hero-seal img { width: 100%; height: auto; display: block; }
+    @media (max-width: 760px) {
+      .hero-seal { width: 76px; top: 6px; right: 2px; opacity: 0.85; }
     }
     .eyebrow {
       display: inline-flex;
@@ -303,6 +318,9 @@
 </nav>
 
 <header class="hero">
+  <div class="hero-seal" aria-hidden="true">
+    <img src="../assets/img/originals/avarcast-originals-seal.png" alt="" loading="lazy" />
+  </div>
   <div class="wrap">
     <div class="eyebrow">Avarcast Originals</div>
     <h1>
