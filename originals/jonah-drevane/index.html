@@ -9,6 +9,9 @@
   <meta property="og:description" content="Un cartografo che ha imparato a diffidare delle mappe. Western mystery, graphic novel cinematico. Un'opera Avarcast Originals." />
   <meta property="og:image" content="../../assets/img/originals/jonah-drevane-cover.jpg" />
   <meta property="og:type" content="video.other" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../../assets/img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="../../assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="../../assets/img/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -70,6 +73,9 @@
       border-bottom: 1px solid var(--wire);
     }
     .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
       font-family: var(--f-sans);
       font-weight: 800;
       font-size: 1rem;
@@ -77,6 +83,7 @@
       text-transform: uppercase;
     }
     .nav-logo .sep { color: var(--gold-l); }
+    .nav-logo-icon { width: 30px; height: 30px; flex-shrink: 0; display: block; }
     .nav-right { display: flex; align-items: center; gap: 18px; }
     .nav-back {
       font-family: var(--f-mono);
@@ -269,7 +276,10 @@
 <body class="lang-it">
 
 <nav>
-  <a href="../../index.html" class="nav-logo">AVAR<span class="sep">·</span>CAST</a>
+  <a href="../../index.html" class="nav-logo">
+    <img class="nav-logo-icon" src="../../assets/img/avarcast-coin-icon.png" alt="" loading="eager" />
+    AVAR<span class="sep">·</span>CAST
+  </a>
   <div class="nav-right">
     <div class="lang-switch">
       <button class="lang-btn" onclick="setLang('it')">IT</button>

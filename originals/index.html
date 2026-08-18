@@ -9,6 +9,9 @@
   <meta property="og:description" content="Storie originali. Mondi originali. Produzioni Avarcast." />
   <meta property="og:image" content="../assets/img/originals/jonah-drevane-cover.jpg" />
   <meta property="og:type" content="website" />
+  <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png" />
+  <link rel="icon" type="image/png" sizes="512x512" href="../assets/img/favicon.png" />
+  <link rel="apple-touch-icon" href="../assets/img/apple-touch-icon.png" />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&family=DM+Mono:wght@300;400&display=swap" rel="stylesheet" />
@@ -73,6 +76,9 @@
       border-bottom: 1px solid var(--wire);
     }
     .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 9px;
       font-family: var(--f-sans);
       font-weight: 800;
       font-size: 1rem;
@@ -80,6 +86,7 @@
       text-transform: uppercase;
     }
     .nav-logo .sep { color: var(--gold-l); }
+    .nav-logo-icon { width: 30px; height: 30px; flex-shrink: 0; display: block; }
     .nav-right { display: flex; align-items: center; gap: 18px; }
     .nav-back {
       font-family: var(--f-mono);
@@ -105,35 +112,18 @@
 
     /* ── Header ── */
     header.hero {
-      position: relative;
-      overflow: hidden;
       padding: clamp(64px, 10vw, 120px) 0 var(--gap);
       text-align: center;
     }
-    .hero-seal {
-      position: absolute;
-      top: clamp(18px, 4vw, 44px);
-      right: clamp(-10px, 3vw, 60px);
-      width: clamp(110px, 12vw, 190px);
-      filter: drop-shadow(0 12px 30px rgba(200,149,58,0.22));
-      pointer-events: none;
+    .hero-lockup {
+      display: block;
+      width: min(100%, 460px);
+      height: auto;
+      margin: 0 auto 28px;
     }
-    .hero-seal img { width: 100%; height: auto; display: block; }
-    @media (max-width: 760px) {
-      .hero-seal { width: 76px; top: 6px; right: 2px; opacity: 0.85; }
+    @media (max-width: 560px) {
+      .hero-lockup { width: min(100%, 340px); }
     }
-    .eyebrow {
-      display: inline-flex;
-      align-items: center;
-      gap: 10px;
-      font-family: var(--f-mono);
-      font-size: 0.68rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: var(--gold);
-      margin-bottom: 22px;
-    }
-    .eyebrow::before, .eyebrow::after { content: ''; width: 22px; height: 1px; background: var(--gold); }
     h1 {
       font-family: var(--f-sans);
       font-weight: 800;
@@ -303,7 +293,10 @@
 <body class="lang-it">
 
 <nav>
-  <a href="../index.html" class="nav-logo">AVAR<span class="sep">·</span>CAST</a>
+  <a href="../index.html" class="nav-logo">
+    <img class="nav-logo-icon" src="../assets/img/avarcast-coin-icon.png" alt="" loading="eager" />
+    AVAR<span class="sep">·</span>CAST
+  </a>
   <div class="nav-right">
     <div class="lang-switch">
       <button class="lang-btn" onclick="setLang('it')">IT</button>
@@ -317,11 +310,8 @@
 </nav>
 
 <header class="hero">
-  <div class="hero-seal" aria-hidden="true">
-    <img src="../assets/img/originals/avarcast-originals-seal.png" alt="" loading="lazy" />
-  </div>
   <div class="wrap">
-    <div class="eyebrow">Avarcast Originals</div>
+    <img class="hero-lockup" src="../assets/img/originals/avarcast-originals-lockup.png" alt="Avarcast Originals" loading="eager" />
     <h1>
       <span data-lang-block="it">Storie originali.<br>Mondi <em class="gold-text">originali</em>.</span>
       <span data-lang-block="en">Original stories.<br>Original <em class="gold-text">worlds</em>.</span>
