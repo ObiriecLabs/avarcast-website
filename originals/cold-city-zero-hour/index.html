@@ -227,6 +227,7 @@
     }
     .notify-title { font-family: var(--f-sans); font-weight: 800; font-size: clamp(1.4rem, 2.6vw, 1.9rem); letter-spacing: -0.01em; margin-bottom: 12px; }
     .notify-desc { font-size: 0.92rem; color: var(--t-mid); max-width: 50ch; margin: 0 auto 30px; line-height: 1.7; }
+    .notify-desc a { color: var(--gold-l); text-decoration: underline; text-underline-offset: 2px; }
 
     .waitlist-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 430px; margin: 0 auto; }
     @media (max-width: 480px) { .waitlist-form { flex-direction: column; } }
@@ -397,8 +398,8 @@
       <span data-lang="en">Don't miss the release</span>
     </h2>
     <p class="notify-desc">
-      <span data-lang="it">Ti avvisiamo appena trailer e prima uscita di Cold City: Zero Hour saranno online su YouTube. Fa parte del catalogo Avarcast Originals: le uscite riservate agli abbonati saranno accessibili tramite il nostro profilo Patreon, prezzo pubblicato lì.</span>
-      <span data-lang="en">We'll let you know as soon as the trailer and first release of Cold City: Zero Hour are online on YouTube. It's part of the Avarcast Originals catalog: subscriber-only releases will be accessible through our Patreon page, price published there.</span>
+      <span data-lang="it">Ti avvisiamo appena trailer e prima uscita di Cold City: Zero Hour saranno online su YouTube. Fa parte del catalogo Avarcast Originals: le uscite riservate agli abbonati saranno accessibili tramite il nostro <a href="https://patreon.com/AvarCast" target="_blank" rel="noopener noreferrer">profilo Patreon</a>, prezzo pubblicato lì.</span>
+      <span data-lang="en">We'll let you know as soon as the trailer and first release of Cold City: Zero Hour are online on YouTube. It's part of the Avarcast Originals catalog: subscriber-only releases will be accessible through our <a href="https://patreon.com/AvarCast" target="_blank" rel="noopener noreferrer">Patreon page</a>, price published there.</span>
     </p>
 
     <form class="waitlist-form" id="cold-city-form" onsubmit="submitWaitlist(event,'cold-city-zero-hour')">

@@ -226,6 +226,7 @@
     }
     .notify-title { font-family: var(--f-sans); font-weight: 800; font-size: clamp(1.4rem, 2.6vw, 1.9rem); letter-spacing: -0.01em; margin-bottom: 12px; }
     .notify-desc { font-size: 0.92rem; color: var(--t-mid); max-width: 50ch; margin: 0 auto 30px; line-height: 1.7; }
+    .notify-desc a { color: var(--gold-l); text-decoration: underline; text-underline-offset: 2px; }
 
     .waitlist-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 430px; margin: 0 auto; }
     @media (max-width: 480px) { .waitlist-form { flex-direction: column; } }
@@ -376,8 +377,8 @@
       <span data-lang="en">Don't miss the next episode</span>
     </h2>
     <p class="notify-desc">
-      <span data-lang="it">Ti avvisiamo appena l'Episodio 1 sarà disponibile su YouTube. Dall'Episodio 2, le nuove Cronache saranno riservate agli abbonati: iscrizione tramite il nostro profilo Patreon, prezzo pubblicato lì.</span>
-      <span data-lang="en">We'll let you know as soon as Episode 1 is available on YouTube. From Episode 2, new Chronicles will be reserved for subscribers: sign up through our Patreon page, price published there.</span>
+      <span data-lang="it">Ti avvisiamo appena l'Episodio 1 sarà disponibile su YouTube. Dall'Episodio 2, le nuove Cronache saranno riservate agli abbonati: iscrizione tramite il nostro <a href="https://patreon.com/AvarCast" target="_blank" rel="noopener noreferrer">profilo Patreon</a>, prezzo pubblicato lì.</span>
+      <span data-lang="en">We'll let you know as soon as Episode 1 is available on YouTube. From Episode 2, new Chronicles will be reserved for subscribers: sign up through our <a href="https://patreon.com/AvarCast" target="_blank" rel="noopener noreferrer">Patreon page</a>, price published there.</span>
     </p>
 
     <form class="waitlist-form" id="jonah-form" onsubmit="submitWaitlist(event,'jonah-drevane')">
