@@ -140,6 +140,7 @@
       -webkit-text-fill-color: transparent;
       font-style: italic;
     }
+    .hero-sub a { color: var(--gold-l); text-decoration: underline; text-underline-offset: 2px; }
     .hero-sub {
       font-size: 1.02rem;
       color: var(--t-mid);
@@ -207,9 +208,7 @@
     .access-tag { font-family: var(--f-mono); font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--gold-l); margin-bottom: 16px; }
     .access-title { font-family: var(--f-sans); font-weight: 800; font-size: clamp(1.6rem, 3vw, 2.2rem); letter-spacing: -0.01em; margin-bottom: 16px; }
     .access-desc { font-size: 0.96rem; color: var(--t-mid); line-height: 1.7; margin-bottom: 8px; }
-    .access-price { font-family: var(--f-sans); font-weight: 800; font-size: 2rem; color: var(--gold-xl); margin: 22px 0 4px; }
-    .access-price span { font-family: var(--f-mono); font-size: 0.8rem; color: var(--t-mid); font-weight: 400; }
-    .access-note { font-size: 0.82rem; color: var(--t-mid); max-width: 46ch; margin: 0 auto 30px; line-height: 1.65; }
+    .access-note { font-size: 0.82rem; color: var(--t-mid); max-width: 46ch; margin: 22px auto 30px; line-height: 1.65; }
 
     .waitlist-form { display: flex; flex-wrap: wrap; justify-content: center; gap: 10px; max-width: 430px; margin: 0 auto; }
     @media (max-width: 480px) { .waitlist-form { flex-direction: column; } }
@@ -317,8 +316,12 @@
       <span data-lang-block="en">Original stories.<br>Original <em class="gold-text">worlds</em>.</span>
     </h1>
     <p class="hero-sub">
-      <span data-lang="it">Storie create e prodotte da Avarcast. Serie, cortometraggi e progetti narrativi originali sviluppati come produzioni autonome, con particolare attenzione a scrittura, regia, immagine e sound design.</span>
-      <span data-lang="en">Stories created and produced by Avarcast. Original series, short films and narrative projects developed as independent productions, with particular attention to writing, direction, image and sound design.</span>
+      <span data-lang="it">Serie, cortometraggi e progetti narrativi che scriviamo, produciamo e pubblichiamo noi, anche su commissione: produzioni autonome, con cura su scrittura, regia, immagine e sound design.</span>
+      <span data-lang="en">Series, short films and narrative projects we write, produce and publish ourselves, including on commission: independent productions, with care given to writing, direction, image and sound design.</span>
+    </p>
+    <p class="hero-sub" style="margin-top:10px;">
+      <span data-lang="it">Hai un'idea o un progetto in linea con Avarcast Originals? Scrivi a <a href="mailto:hello@avarcast.com?subject=Avarcast%20Originals%20%C2%B7%20Nuovo%20progetto">hello@avarcast.com</a>.</span>
+      <span data-lang="en">Have an idea or a project that fits Avarcast Originals? Write to <a href="mailto:hello@avarcast.com?subject=Avarcast%20Originals%20%C2%B7%20New%20project">hello@avarcast.com</a>.</span>
     </p>
   </div>
 </header>
@@ -410,21 +413,20 @@
 <section id="access">
   <div class="wrap access-inner">
     <div class="access-tag">
-      <span data-lang="it">Avarcast Originals · Access</span>
-      <span data-lang="en">Avarcast Originals · Access</span>
+      <span data-lang="it">Avarcast Originals · Patreon</span>
+      <span data-lang="en">Avarcast Originals · Patreon</span>
     </div>
     <h2 class="access-title">
-      <span data-lang="it">Un abbonamento, tutte le produzioni.</span>
-      <span data-lang="en">One subscription, every production.</span>
+      <span data-lang="it">Gli episodi in abbonamento saranno su Patreon.</span>
+      <span data-lang="en">Subscriber episodes will be on Patreon.</span>
     </h2>
     <p class="access-desc">
-      <span data-lang="it">Accesso alle nuove produzioni Originals riservate agli abbonati: episodi, cortometraggi e contenuti narrativi esclusivi, man mano che il catalogo cresce.</span>
-      <span data-lang="en">Access to new Originals productions reserved for subscribers: episodes, short films and exclusive narrative content, as the catalog grows.</span>
+      <span data-lang="it">Trailer ed episodi gratuiti restano su YouTube. Le uscite riservate agli abbonati, per tutte le produzioni Originals, saranno disponibili tramite il nostro profilo Patreon: prezzo e dettagli dell'abbonamento pubblicati lì.</span>
+      <span data-lang="en">Free trailers and episodes stay on YouTube. Subscriber-only releases, across every Originals production, will be available through our Patreon page: subscription price and details published there.</span>
     </p>
-    <div class="access-price">€4,99<span data-lang="it">/mese</span><span data-lang="en">/month</span></div>
     <p class="access-note">
-      <span data-lang="it">Il primo episodio di ogni serie è sempre gratuito. Pubblichiamo quando una produzione è pronta, senza sacrificare scrittura e qualità per rispettare un calendario.</span>
-      <span data-lang="en">Every series' first episode is always free. We publish when a production is ready, without sacrificing writing or quality to meet a schedule.</span>
+      <span data-lang="it">Il primo episodio di ogni serie resta sempre gratuito su YouTube. Il canale Patreon è in preparazione: lascia la tua email per essere avvisato appena è attivo.</span>
+      <span data-lang="en">Every series' first episode always stays free on YouTube. Our Patreon channel is in the works: leave your email to be notified as soon as it's live.</span>
     </p>
 
     <form class="waitlist-form" id="access-form" onsubmit="submitWaitlist(event,'access')">
@@ -450,8 +452,8 @@
         <polyline points="5,8.5 7,10.5 11,6" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
       </svg>
       <span class="form-success-text">
-        <span data-lang="it">Fatto. Ti avvisiamo alle prossime uscite Originals.</span>
-        <span data-lang="en">Done. We'll let you know about upcoming Originals releases.</span>
+        <span data-lang="it">Fatto. Ti avvisiamo appena il canale Patreon è pronto.</span>
+        <span data-lang="en">Done. We'll let you know as soon as our Patreon channel is live.</span>
       </span>
     </div>
 
